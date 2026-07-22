@@ -1,0 +1,18 @@
+# Virtual environment
+.venv/
+
+# Python-generated files
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Local datasets
+data/*
+!data/.gitkeep
+
+# Editor and operating-system files
+.vscode/
+.DS_Store
+Thumbs.db
