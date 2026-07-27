@@ -52,7 +52,9 @@
 1. Training converges (val loss plateaus, no collapse: check embedding-space rank / similarity histograms).
 2. Soft-mAP@10 pattern reproduces: SUSHI-queries high (>0.8), TRUCE-queries lower, joint in between.
 3. Strict Recall@k/MRR computed and frozen with config + seed + checkpoint → this tuple is **the baseline** every probe measures against.
-4. Record everything in `results/baseline_clasp.json` + a one-page baseline report.
+4. Record everything in `results/experiments/baseline_clasp.json` + a one-page baseline report.
+
+**GATE MET 2026-07-27.** Seeds 42/43/44 trained; early stopping at epochs 21/26/24; best val loss 3.203/3.187/3.254. Frozen baseline (mean ± SD over seeds, strict pair-level, pool 386): **R@1 0.049 ± 0.006 · R@5 0.221 ± 0.010 · R@10 0.331 ± 0.012 · MRR 0.141 ± 0.008**. Soft mAP@10 (SBERT ts=0.5): TRUCE 0.448 ± 0.020 (paper 0.458, inside range), SUSHI 0.853 ± 0.016. Untrained control and four-protocol fidelity study complete.
 
 ## 6. Known open items
 

@@ -7,7 +7,7 @@ Master's thesis (TU/e DS&AI): a **diagnostic evaluation framework for time-serie
 
 ## Authoritative documents (read before designing anything)
 - `docs/REIMPLEMENTATION_SPEC.md` — CLaSP architecture per paper + our documented default choices. **Do not silently change any "OUR CHOICE" default**; changes must be flagged to the user and recorded in the spec.
-- `docs/thesis_state_document_final2.md` — full project state, corrected facts, probe designs, evaluation matrix. If anything conflicts with older notes, this file wins.
+- `docs/thesis_state_document_final3.md` — full project state, corrected facts, probe designs, evaluation matrix. If anything conflicts with older notes, this file wins.
 
 ## Current phase
 Phase 1: CLaSP reimplementation. Data validated (TRUCE 2,460 series × 3 captions; SUSHI Tiny 1,400 signals, len 2048, 140 classes × 10). Next: `dataset.py` loaders → `model.py` → `evaluate.py` (two harnesses: paper-protocol soft mAP@10 AND strict Recall@k/MRR) → `train.py` → baseline gate.
