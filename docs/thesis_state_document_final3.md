@@ -1,6 +1,6 @@
 # Thesis State Document — v3
 **Project:** Diagnostic Evaluation Framework for Time-Series–Text Alignment (TU/e DS&AI Master's Thesis, Ranyi/Ranee)
-**Last updated:** 2026-07-27 (rev. 2 — three-seed baseline, untrained control, probe-metric decisions)
+**Last updated:** 2026-07-29 (rev. 3 — Probe 1 built and run on CLaSP; findings recorded)
 **Supersedes:** `thesis_state_document_final2.md` (v2), which is superseded in §2 (status), §4 (probe metric decision), §5 (baseline values), §6 (new verified facts), §7 (compute) and §8 (phase status). **If v2 and v3 conflict, v3 is correct.**
 
 ---
@@ -51,12 +51,27 @@ A diagnostic evaluation framework that audits **representative** TS–text align
 
 **Open logistics:** GPU access for ChatTS — supervisor asked, no reply yet; Colab Pro purchased and sufficient for CLaSP-scale work, but **not** for ChatTS (needs guaranteed A100 → rented pod). Author email to Hitachi (CLaSP code / SUSHI Base / which SUSHI version) sent, no reply yet.
 
-**Not started:** three remaining target models; all three probes.
+**Probe 1 (component swap) — built, and run on CLaSP only.** Component grammar derived and validated from SUSHI labels; 5,540 forced-choice items over 279 held-out signals; evaluated on all three checkpoints; difficulty control and statistics complete. See `docs/probe1_findings_clasp.md`.
+
+| component | acc random | acc swap | gap (mean ± sd over seeds) |
+|---|---|---|---|
+| C5 signal regime | 0.953 | 0.984 | −0.031 ± 0.006 |
+| C2 trend family | 0.987 | 0.951 | +0.036 ± 0.007 |
+| C1 trend direction | 0.985 | 0.911 | +0.075 ± 0.017 |
+| C3 periodic waveform | 0.925 | 0.743 | +0.182 ± 0.006 |
+| C4 fluctuation type | 0.969 | **0.599** | **+0.371 ± 0.007** |
+
+Chance = 0.500. All Holm-significant in all three seeds. Difficulty control: 16 hand-written features separate the same pairs at 0.919–0.988 across *all* components (SD 0.030) while CLaSP spans 0.599–0.984 (SD 0.164) — the flat baseline is what closes the "this distinction is just hard" objection. Headline: **global shape is encoded, local fluctuation texture is not.**
+
+**Not started:** Probe 1 on TRUCE substrate; Probe 1 on the other three models; Probes 2 and 3.
 
 **Immediate next steps, in order:**
-1. Probe 1 construction, model-independent part: SUSHI class-label grammar + swap generator.
-2. Model adapters in parallel: text-embedding-3-large (≈1 day) → TRACE (≈ few days) → ChatTS (blocked on GPU).
-3. Optional: consolidated one-page baseline report (data already in `baseline_clasp.json`).
+1. **text-embedding-3-large adapter** (≈1 day) — turns Probe 1 into a two-model comparison, which is the smallest step that makes the finding paradigm-relevant rather than model-specific.
+2. **TRACE adapter** (≈ few days) — the scientifically most interesting comparison: it was trained with hard negatives, so if it resists the C4 swap where CLaSP fails, that is a positive finding about hard-negative training.
+3. **ChatTS** (blocked on GPU access) — MCQ reformulation.
+4. Strengthening items listed in `docs/probe1_findings_clasp.md` §7: per-pair cross-analysis, manual validation of ~50 items, control restricted to probe signals, TRUCE substrate.
+
+The item set, difficulty control and statistics script are **model-independent** — each new model needs only an encode-signal / encode-text adapter.
 
 ---
 
@@ -72,6 +87,8 @@ A diagnostic evaluation framework that audits **representative** TS–text align
 ## 4. The three probes (final designs)
 
 **Red thread:** never read absolute numbers; always relative degradation Δ = (baseline − probe)/baseline against each model's own unperturbed baseline.
+
+**Equivalence margin (binding, ±0.05):** justified by the Phase-1a seed noise floor (R@10 3.5%, MRR 5.6%) recorded before any probe existed. It must be stated in the thesis that the margin was fixed *after* the gap point estimates were seen; it certified no component that would otherwise have failed, and CIs are reported throughout so readers may apply their own threshold. Do not revise the margin retrospectively.
 
 **Probe-facing metric decision (binding):** all probe measurements use **strict pair-level retrieval** (Recall@k, MRR against the ground-truth pairing). The paper's soft judge-based mAP@10 is retained **only** for reproduction comparison. Rationale: the soft protocol saturates — one published configuration accepts 99.7% of all candidate pairs, and a randomly initialised model scores 0.999 under it — so it cannot register degradation, producing false negatives indistinguishable from genuine model robustness. See `docs/finding_metric_saturation.md`.
 
@@ -164,7 +181,7 @@ Cross-model synthesis uses **relative degradation only**. No shared test items a
 - **Phase 0 — Paperwork:** ✅ complete.
 - **Phase 1a — CLaSP baseline:** ✅ **complete.** Three seeds trained and aggregated, fidelity validated across four protocols, untrained control run. Optional remainder: a one-page baseline report.
 - **Phase 1b — Remaining model baselines:** ⬜ text-embedding-3-large, TRACE, ChatTS.
-- **Phase 2 — Probe 1 (component swap):** ⬜ next. Start with the model-independent part (SUSHI grammar + swap generator), which is not blocked by 1b.
+- **Phase 2 — Probe 1 (component swap):** 🟨 **in progress.** Machinery built and validated; CLaSP arm complete with difficulty control and statistics. Remaining: three models + TRUCE substrate. Do **not** describe Phase 2 as complete until the cross-model matrix exists — the paradigm-level claim depends on it.
 - **Phase 3 — Probe 2 (shuffle):** ⬜ reuses Phase 2 pipeline.
 - **Phase 4 — Probe 3 (summary-stats):** ⬜ includes the ChatTS A100 job.
 - **Phase 5 — Analysis and writing:** ⬜ statistics, cross-probe synthesis matrix, thesis text. Background and methods chapters can be drafted during Phases 2–4; `clasp_reimplementation_validation.md` and `finding_metric_saturation.md` are already thesis-ready material.

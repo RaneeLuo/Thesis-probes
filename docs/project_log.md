@@ -104,6 +104,19 @@ This file records major implementation and research milestones for the thesis pr
 - Confirmed that under the saturating configuration the untrained model marginally exceeds the trained model (0.999 against 0.997), establishing by measurement that the configuration cannot distinguish a trained retriever from a random one.
 - Confirmed that the untrained model's score under each configuration tracks that judge's acceptance rate, indicating the metric reports a property of the judge rather than of the model.
 
+## 2026-07-28/29: Probe 1 construction and CLaSP evaluation
+
+- Derived the component grammar from the SUSHI class labels: two slots (`<fluctuation>; <shape>`), 7 x 20 = 140 classes, a complete product so every single-component swap lands on a class that exists.
+- Established the clause attribution rule after one failed revision: for classes with a fluctuation, the last sentence is the fluctuation clause and everything before it is the shape clause; for the 'clean' class all sentences are shape. The first attempt anchored on the first sentence and misfiled the second sentence of cubic shape descriptions.
+- Validated the declared decomposition of the 20 shape values into 15 trend and 5 periodic values, with direction assignments checked by pair-relative comparison of caption wording rather than absolute word counts.
+- Defined five swap components with 8, 16, 10, 15 and 75 legal value pairs, plus a secondary presence/absence component excluded from the primary analysis because it alters caption length.
+- Generated 5,540 binary forced-choice items over 279 held-out signals, each swap item paired with a matched random-distractor control; sentence count preserved in every swap; zero validation failures.
+- Measured the residual caption-length difference per component: negligible for C1, C3 and C4 (0.17-0.32 words), substantial for C5 and C2 (2.46 and 5.11), retained and reported rather than eliminated.
+- Evaluated all items against the three baseline checkpoints. Forced-choice accuracy under swapped distractors: signal regime 0.984, trend family 0.951, trend direction 0.911, periodic waveform 0.743, fluctuation type 0.599 against a chance floor of 0.500.
+- Ran an information-availability control: a logistic regression on sixteen hand-written statistical features, computed on the same z-normalised signals, separates the same value pairs at 0.919-0.988 across all five components. The first version of this control contained only local-texture features and returned chance-level accuracy on the direction component; six global-shape features were added.
+- Ran the statistical analysis with bootstrap resampling over signals rather than items, paired within-signal tests, Holm-Bonferroni correction across components, and equivalence testing against a margin of 0.05 taken from the Phase-1a seed noise floor. All five components significant in all three seeds.
+- Recorded the findings, interpretation and threats to validity in `docs/probe1_findings_clasp.md`.
+
 ## Current status
 
 - Workspace setup: complete.
@@ -116,9 +129,11 @@ This file records major implementation and research milestones for the thesis pr
 - CLaSP baseline over three seeds, with noise floor: complete.
 - CLaSP reproduction validation, including untrained negative control: complete.
 - Phase 1a: complete.
+- Probe 1 (component swap) on CLaSP, SUSHI substrate: complete, with difficulty control and statistics.
+- Probe 1 on the TRUCE substrate: not yet started.
 - Remaining target models (text-embedding-3-large, TRACE, ChatTS): not yet started.
-- Diagnostic probes: not yet started.
+- Probes 2 and 3: not yet started.
 
 ## Next milestone
 
-Begin Phase 2 with the model-independent component of the first probe: derive the component grammar from the SUSHI class labels and implement the single-component swap generator. In parallel, integrate the remaining target models, beginning with text-embedding-3-large.
+Integrate the remaining target models so that Probe 1 becomes a cross-model comparison, beginning with text-embedding-3-large, then TRACE, then ChatTS. The item set, difficulty control and statistical analysis are model-independent and require no regeneration.
