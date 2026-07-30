@@ -22,3 +22,7 @@ results/checkpoints/
 CLAUDE.md
 
 CLAUDE.md
+
+results/experiments/probe1_clasp_per_item.jsonl
+
+.cache/

@@ -1,6 +1,6 @@
 # Thesis State Document — v3
 **Project:** Diagnostic Evaluation Framework for Time-Series–Text Alignment (TU/e DS&AI Master's Thesis, Ranyi/Ranee)
-**Last updated:** 2026-07-29 (rev. 3 — Probe 1 built and run on CLaSP; findings recorded)
+**Last updated:** 2026-07-30 (rev. 4 — floor baseline complete; item-set audit added)
 **Supersedes:** `thesis_state_document_final2.md` (v2), which is superseded in §2 (status), §4 (probe metric decision), §5 (baseline values), §6 (new verified facts), §7 (compute) and §8 (phase status). **If v2 and v3 conflict, v3 is correct.**
 
 ---
@@ -12,6 +12,8 @@
    - `docs/REIMPLEMENTATION_SPEC.md` — CLaSP architecture per paper vs. our documented choices. Do not silently change an "OUR CHOICE" default.
    - `docs/clasp_reimplementation_validation.md` — the fidelity argument for the reimplementation (thesis + defense material).
    - `docs/finding_metric_saturation.md` — the metric-saturation finding (thesis motivation + methodology justification).
+   - `docs/probe1_findings_clasp.md` — Probe 1 on CLaSP: results, interpretation, threats to validity, open items.
+   - `docs/probe1_findings_embedding_floor.md` — Probe 1 on text-embedding-3-large: the floor baseline, its VOID verdict, and the item-set length audit.
    - `docs/project_log.md` — chronological record of what was done and when.
    - `docs/correction_and_hardening_sheet.md`, `docs/revised_sections_paste_pack.md` — proposal correction record (applied).
 3. **Provenance warning:** the archival files (`论文解读.docx`, `论文解读.xlsx`, `history_conversation_with_claude4_7.docx`, `在formulate_proposal过程中的一些思路和reference.docx`) contain known drift errors. They are kept as historical record only. Never import facts from them without checking §6 below.
@@ -63,13 +65,20 @@ A diagnostic evaluation framework that audits **representative** TS–text align
 
 Chance = 0.500. All Holm-significant in all three seeds. Difficulty control: 16 hand-written features separate the same pairs at 0.919–0.988 across *all* components (SD 0.030) while CLaSP spans 0.599–0.984 (SD 0.164) — the flat baseline is what closes the "this distinction is just hard" objection. Headline: **global shape is encoded, local fluctuation texture is not.**
 
-**Not started:** Probe 1 on TRUCE substrate; Probe 1 on the other three models; Probes 2 and 3.
+**Probe 1 on text-embedding-3-large (floor baseline) — complete.** Same items, same statistics; serialisation documented (z-normalised, ×10, clipped ±99, all 2,048 points, 4,096 tokens/signal). Result: **at or below chance on every component**, swap margins 0.001–0.007 vs CLaSP's 0.02–0.50. Choices correlate with caption length (r ≈ +0.13/+0.17), falling below chance where correct captions are shorter.
+
+**Its verdict is VOID, not "degraded".** With both conditions near chance there is no capability for a perturbation to degrade, so its gaps are *not* shortcut evidence. It contributes (a) a measured floor showing CLaSP's shape performance is bought by contrastive training, and (b) a negative control demonstrating the diagnostic does not manufacture false shortcut claims — a shortcut requires *high* random-condition accuracy, which this model never reaches.
+
+**Item-set audit (applies to all models).** `scripts/audit_item_balance.py` reports the accuracy of an oracle that always picks the longer caption: **all swap conditions within 0.017 of chance** (0.495–0.517), so length is unexploitable where every shortcut finding comes from. Random condition deviates mildly (0.421 on C3 to 0.559 on C4) — report alongside random accuracies; it cannot account for CLaSP's 0.92–0.99.
+
+**Not started:** Probe 1 on TRUCE substrate; Probe 1 on TRACE and ChatTS; Probes 2 and 3.
 
 **Immediate next steps, in order:**
-1. **text-embedding-3-large adapter** (≈1 day) — turns Probe 1 into a two-model comparison, which is the smallest step that makes the finding paradigm-relevant rather than model-specific.
-2. **TRACE adapter** (≈ few days) — the scientifically most interesting comparison: it was trained with hard negatives, so if it resists the C4 swap where CLaSP fails, that is a positive finding about hard-negative training.
-3. **ChatTS** (blocked on GPU access) — MCQ reformulation.
-4. Strengthening items listed in `docs/probe1_findings_clasp.md` §7: per-pair cross-analysis, manual validation of ~50 items, control restricted to probe signals, TRUCE substrate.
+1. **TRACE adapter** (≈ few days) — now the critical model. Trained with hard negatives specifically to resist this kind of confusion, so either outcome is a finding: resistance validates hard-negative training; failure shows the weakness survives the obvious remedy. It is also the only remaining model that can *corroborate or contradict* the CLaSP result — the floor baseline cannot, being void.
+2. **ChatTS** (blocked on GPU access) — MCQ reformulation.
+3. Strengthening items listed in `docs/probe1_findings_clasp.md` §7: per-pair cross-analysis, manual validation of ~50 items, control restricted to probe signals, TRUCE substrate.
+
+**Statistics script is now model-agnostic:** `--per-item` and `--out` flags; single-run inputs handled without implying replication; components with both conditions near chance labelled **VOID** rather than degraded.
 
 The item set, difficulty control and statistics script are **model-independent** — each new model needs only an encode-signal / encode-text adapter.
 

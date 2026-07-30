@@ -117,6 +117,20 @@ This file records major implementation and research milestones for the thesis pr
 - Ran the statistical analysis with bootstrap resampling over signals rather than items, paired within-signal tests, Holm-Bonferroni correction across components, and equivalence testing against a margin of 0.05 taken from the Phase-1a seed noise floor. All five components significant in all three seeds.
 - Recorded the findings, interpretation and threats to validity in `docs/probe1_findings_clasp.md`.
 
+## 2026-07-30: Probe 1 floor baseline and item-set audit
+
+- Implemented the text-embedding-3-large adapter. The series is serialised as text: z-normalised, scaled by 10, rounded to integers, clipped to +/-99, all 2,048 points retained, comma-joined at 4,096 tokens per signal.
+- Inspected the serialisation before use at two quantisation scales, confirming that spikes survive as isolated large values among small ones and that the noisy class produces a visibly distinct textual signature. Clipping affects three to five values per signal and removes magnitude but not presence, sign or position.
+- Embedded 279 signals and 2,922 captions with caching, at a cost of approximately 0.16 USD.
+- Result: accuracy at or below chance on every component, with swap margins of 0.001 to 0.007 against the reimplementation's 0.02 to 0.50. Cosine similarity to correct and to distractor captions is indistinguishable, at 0.166 in both cases.
+- Diagnosed the below-chance results: the model's choices correlate with caption length, and accuracy falls below chance precisely for those components whose correct captions are shorter. Length explains the direction but not the full magnitude of the effect.
+- Recorded the verdict as void rather than degraded: with both conditions near chance there is no capability for a perturbation to degrade, so the model's gaps are not evidence of shortcuts. Its contribution is a measured floor and a negative control for the diagnostic itself.
+- Closed a gap in the generator's own reporting by auditing caption-length balance for the random condition as well as the swap condition. All swap conditions lie within 0.017 of chance for an oracle that always selects the longer caption; the random condition deviates by at most 0.079.
+- Made the statistical analysis model-agnostic, with configurable input and output paths, explicit handling of single-run inputs, and a void verdict for components where both conditions are near chance.
+- Found and fixed a fault in the statistical analysis exposed by this run: the replication section printed a single-run warning banner and then reported "degradation replicated in all seeds" beneath it, writing that claim into the output file as well. The warning had been added without updating the claim logic underneath it. Claims are now conditioned on the number of runs and on the void verdict, and the gap standard deviation is recorded as null rather than NaN for single-run inputs.
+- Extended the item-set audit to correlate each model's decision margin against the caption-length difference, with per-model output paths so that one model's run cannot overwrite another's. The floor baseline returns +0.174 in the swap condition and +0.127 in the random condition, whereas the reimplementation returns +0.023 and -0.062 over the identical items. The reimplementation is therefore not using the length heuristic, and its fluctuation result in particular carries a correlation of -0.078, indicating a genuine encoding gap rather than a surface artefact.
+- Recorded the findings in `docs/probe1_findings_embedding_floor.md`.
+
 ## Current status
 
 - Workspace setup: complete.
@@ -130,10 +144,11 @@ This file records major implementation and research milestones for the thesis pr
 - CLaSP reproduction validation, including untrained negative control: complete.
 - Phase 1a: complete.
 - Probe 1 (component swap) on CLaSP, SUSHI substrate: complete, with difficulty control and statistics.
+- Probe 1 on text-embedding-3-large (floor baseline): complete, with serialisation inspection and item-set audit.
 - Probe 1 on the TRUCE substrate: not yet started.
-- Remaining target models (text-embedding-3-large, TRACE, ChatTS): not yet started.
+- Remaining target models (TRACE, ChatTS): not yet started.
 - Probes 2 and 3: not yet started.
 
 ## Next milestone
 
-Integrate the remaining target models so that Probe 1 becomes a cross-model comparison, beginning with text-embedding-3-large, then TRACE, then ChatTS. The item set, difficulty control and statistical analysis are model-independent and require no regeneration.
+Integrate TRACE, the only remaining model able to corroborate or contradict the reimplementation's result, having been trained with hard negatives specifically to resist this form of confusion. ChatTS follows once GPU access is resolved. The item set, difficulty control and statistical analysis are model-independent and require no regeneration.

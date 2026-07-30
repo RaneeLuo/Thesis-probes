@@ -12,6 +12,7 @@ Master's thesis (TU/e DS&AI): a **diagnostic evaluation framework for time-serie
 - `docs/REIMPLEMENTATION_SPEC.md` — CLaSP architecture per paper vs. our documented choices. **Do not silently change an "OUR CHOICE" default**; flag it and record it.
 - `docs/clasp_reimplementation_validation.md` — why the reimplementation is valid (thesis + defence material).
 - `docs/probe1_findings_clasp.md` — Probe 1 results on CLaSP: interpretation, threats to validity, open items.
+- `docs/probe1_findings_embedding_floor.md` — Probe 1 on text-embedding-3-large: the floor baseline, its VOID verdict, and the item-set length audit.
 - `docs/finding_metric_saturation.md` — the metric-saturation finding.
 - `docs/phase1a_report.md` — narrative account of Phase 1a.
 - `docs/project_log.md` — chronological record; append milestones here.
@@ -26,6 +27,8 @@ Master's thesis (TU/e DS&AI): a **diagnostic evaluation framework for time-serie
 - **Bootstrap resamples SIGNALS, not items.** Probe items share signals (~20 items per signal); resampling items would shrink intervals several-fold and manufacture significance.
 - **Equivalence margin ±0.05** for claiming absence of degradation, justified by the Phase-1a seed noise floor. It was fixed *after* the Probe-1 point estimates were seen; that must be stated in the thesis. Do not revise it retrospectively.
 - **Probe 1 items are binary forced choice** with a matched random-distractor control per item. Binary because component pools differ in size, so a k-way pool would give each component a different chance level.
+- **A shortcut claim requires high random-condition accuracy.** Where both conditions sit near chance the verdict is **VOID**, not "degraded" — there is no capability for a perturbation to degrade. Encoded in `analyze_probe1_stats.py`; the threshold (interval lower bound < 0.60) is a convention, so borderline cases must be argued rather than read off the label.
+- **Every model's results get the length-vs-margin diagnostic** (`audit_item_balance.py --results ...`). It is what turned the caption-length confound from bounded into closed: CLaSP +0.023 in the swap condition against the floor baseline's +0.174 over identical items.
 - **Probe 1 substrate:** SUSHI primary (rule-based parse of class labels); TRUCE secondary (report parse-coverage rate, state selection bias as a limitation).
 
 ## Repository conventions

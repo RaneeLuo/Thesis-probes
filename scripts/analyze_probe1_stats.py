@@ -47,9 +47,9 @@ OUT = Path("results/experiments/probe1_statistics.json")
 CHANCE = 0.5
 
 
-def load():
+def load(path=PER_ITEM):
     recs = []
-    with open(PER_ITEM, encoding="utf-8") as f:
+    with open(path, encoding="utf-8") as f:
         for line in f:
             recs.append(json.loads(line))
     return recs
@@ -124,6 +124,9 @@ def main():
                     help="pre-registered equivalence margin for TOST")
     ap.add_argument("--alpha", type=float, default=0.05)
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--per-item", default=str(PER_ITEM),
+                    help="per-item JSONL from any model's Probe-1 runner")
+    ap.add_argument("--out", default=str(OUT))
     args = ap.parse_args()
 
     try:
@@ -131,7 +134,7 @@ def main():
     except ImportError:
         wilcoxon = None
 
-    recs = load()
+    recs = load(args.per_item)
     seeds = sorted({r["seed"] for r in recs})
     comps = sorted({r["component"] for r in recs})
     print(f"records: {len(recs)}   seeds: {seeds}   components: {len(comps)}")
@@ -190,7 +193,12 @@ def main():
             st = results[f"seed{seed}|{comp}"]
             cs = f"[{st['acc_swap_ci95'][0]:.3f},{st['acc_swap_ci95'][1]:.3f}]"
             cg = f"[{st['gap_ci95'][0]:+.3f},{st['gap_ci95'][1]:+.3f}]"
-            if st["significant"] and st["gap"] > 0:
+            near_chance = (st["acc_random_ci95"][0] < 0.60
+                           and st["acc_swap_ci95"][0] < 0.60)
+            st["void"] = bool(near_chance)
+            if near_chance:
+                verdict = "VOID"          # no capability to degrade from
+            elif st["significant"] and st["gap"] > 0:
                 verdict = "DEGRADED"
             elif st["equivalent_to_zero"]:
                 verdict = "equivalent"
@@ -215,32 +223,53 @@ def main():
 
     # replication
     print("\n" + "=" * 100)
-    print("REPLICATION ACROSS SEEDS")
-    print("=" * 100)
+    if len(seeds) == 1:
+        print("SINGLE RUN — NO REPLICATION AVAILABLE")
+        print("=" * 100)
+        print(f"Only one run ({seeds[0]}) is present. API models have no random")
+        print("seed, so cross-seed replication does not apply and must not be")
+        print("claimed. Confidence intervals below still hold: they quantify")
+        print("uncertainty over SIGNALS, which is the dominant source here.")
+    else:
+        print("REPLICATION ACROSS SEEDS")
+        print("=" * 100)
     summary = {}
+    single = len(seeds) == 1
     for comp in comps:
         sig = [results[f"seed{s}|{comp}"]["significant"] for s in seeds]
         eq = [results[f"seed{s}|{comp}"]["equivalent_to_zero"] for s in seeds]
+        void = [results[f"seed{s}|{comp}"].get("void", False) for s in seeds]
         gaps = [results[f"seed{s}|{comp}"]["gap"] for s in seeds]
-        if all(sig) and np.mean(gaps) > 0:
-            claim = "degradation replicated in all seeds"
+        suffix = "" if single else " in all seeds"
+
+        if all(void):
+            claim = ("VOID — both conditions near chance; the gap carries no "
+                     "information about shortcuts")
+        elif all(sig) and np.mean(gaps) > 0:
+            claim = "degradation" + (" (single run, not replicated)" if single else suffix)
         elif all(eq):
-            claim = f"equivalent to zero within +/-{args.margin} in all seeds"
+            claim = f"equivalent to zero within +/-{args.margin}" + \
+                    (" (single run)" if single else suffix)
         elif all(sig):
-            claim = "significant improvement in all seeds"
+            claim = "gap significantly negative" + \
+                    (" (single run, not replicated)" if single else suffix)
         else:
-            claim = "mixed across seeds — report as inconclusive"
-        print(f"{comp:<24}gap {np.mean(gaps):+.3f} +/- {np.std(gaps, ddof=1):.3f}   {claim}")
-        summary[comp] = {"gap_mean": float(np.mean(gaps)),
-                         "gap_sd": float(np.std(gaps, ddof=1)),
+            claim = "inconclusive" + ("" if single else " — mixed across seeds")
+
+        sd = float(np.std(gaps, ddof=1)) if len(gaps) > 1 else None
+        sd_txt = f"+/- {sd:.3f}" if sd is not None else "(single run)"
+        print(f"{comp:<24}gap {np.mean(gaps):+.3f} {sd_txt}   {claim}")
+        summary[comp] = {"gap_mean": float(np.mean(gaps)), "gap_sd": sd,
+                         "n_runs": len(seeds), "void": bool(all(void)),
                          "claim": claim}
 
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    with open(OUT, "w", encoding="utf-8") as f:
+    out_path = Path(args.out)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(out_path, "w", encoding="utf-8") as f:
         json.dump({"n_boot": args.n_boot, "equivalence_margin": args.margin,
                    "alpha": args.alpha, "unit_of_resampling": "signal",
                    "per_seed_component": results, "replication": summary}, f, indent=2)
-    print(f"\nsaved -> {OUT}")
+    print(f"\nsaved -> {out_path}")
 
     print("\n" + "=" * 100)
     print("READING THE VERDICT COLUMN")
@@ -253,6 +282,9 @@ def main():
     print("             where the swap is a larger semantic change than the average")
     print("             random distractor)")
     print("inconclusive neither significant nor equivalent -> underpowered; say so")
+    print("VOID         BOTH conditions near chance -> the model cannot do the task")
+    print("             at all, so its gap carries no information about shortcuts.")
+    print("             A shortcut claim REQUIRES high random-condition accuracy.")
 
 
 if __name__ == "__main__":

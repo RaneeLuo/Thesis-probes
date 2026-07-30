@@ -33,7 +33,8 @@
       "equivalence_margin": 0.05,
       "equivalent_to_zero": false,
       "p_gap_holm": 0.0,
-      "significant": true
+      "significant": true,
+      "void": false
     },
     "seed42|C2_trend_family": {
       "n_signals": 177,
@@ -64,7 +65,8 @@
       "equivalence_margin": 0.05,
       "equivalent_to_zero": false,
       "p_gap_holm": 0.001,
-      "significant": true
+      "significant": true,
+      "void": false
     },
     "seed42|C3_periodic_waveform": {
       "n_signals": 70,
@@ -95,7 +97,8 @@
       "equivalence_margin": 0.05,
       "equivalent_to_zero": false,
       "p_gap_holm": 0.0,
-      "significant": true
+      "significant": true,
+      "void": false
     },
     "seed42|C4_fluctuation_type": {
       "n_signals": 240,
@@ -126,7 +129,8 @@
       "equivalence_margin": 0.05,
       "equivalent_to_zero": false,
       "p_gap_holm": 0.0,
-      "significant": true
+      "significant": true,
+      "void": false
     },
     "seed42|C5_signal_regime": {
       "n_signals": 248,
@@ -157,7 +161,8 @@
       "equivalence_margin": 0.05,
       "equivalent_to_zero": false,
       "p_gap_holm": 0.0,
-      "significant": true
+      "significant": true,
+      "void": false
     },
     "seed43|C1_trend_direction": {
       "n_signals": 205,
@@ -188,7 +193,8 @@
       "equivalence_margin": 0.05,
       "equivalent_to_zero": false,
       "p_gap_holm": 0.0,
-      "significant": true
+      "significant": true,
+      "void": false
     },
     "seed43|C2_trend_family": {
       "n_signals": 177,
@@ -219,7 +225,8 @@
       "equivalence_margin": 0.05,
       "equivalent_to_zero": false,
       "p_gap_holm": 0.0062,
-      "significant": true
+      "significant": true,
+      "void": false
     },
     "seed43|C3_periodic_waveform": {
       "n_signals": 70,
@@ -250,7 +257,8 @@
       "equivalence_margin": 0.05,
       "equivalent_to_zero": false,
       "p_gap_holm": 0.0,
-      "significant": true
+      "significant": true,
+      "void": false
     },
     "seed43|C4_fluctuation_type": {
       "n_signals": 240,
@@ -281,7 +289,8 @@
       "equivalence_margin": 0.05,
       "equivalent_to_zero": false,
       "p_gap_holm": 0.0,
-      "significant": true
+      "significant": true,
+      "void": false
     },
     "seed43|C5_signal_regime": {
       "n_signals": 248,
@@ -312,7 +321,8 @@
       "equivalence_margin": 0.05,
       "equivalent_to_zero": true,
       "p_gap_holm": 0.0,
-      "significant": true
+      "significant": true,
+      "void": false
     },
     "seed44|C1_trend_direction": {
       "n_signals": 205,
@@ -343,7 +353,8 @@
       "equivalence_margin": 0.05,
       "equivalent_to_zero": false,
       "p_gap_holm": 0.0006000000000000001,
-      "significant": true
+      "significant": true,
+      "void": false
     },
     "seed44|C2_trend_family": {
       "n_signals": 177,
@@ -374,7 +385,8 @@
       "equivalence_margin": 0.05,
       "equivalent_to_zero": false,
       "p_gap_holm": 0.0136,
-      "significant": true
+      "significant": true,
+      "void": false
     },
     "seed44|C3_periodic_waveform": {
       "n_signals": 70,
@@ -405,7 +417,8 @@
       "equivalence_margin": 0.05,
       "equivalent_to_zero": false,
       "p_gap_holm": 0.0,
-      "significant": true
+      "significant": true,
+      "void": false
     },
     "seed44|C4_fluctuation_type": {
       "n_signals": 240,
@@ -436,7 +449,8 @@
       "equivalence_margin": 0.05,
       "equivalent_to_zero": false,
       "p_gap_holm": 0.0,
-      "significant": true
+      "significant": true,
+      "void": false
     },
     "seed44|C5_signal_regime": {
       "n_signals": 248,
@@ -467,34 +481,45 @@
       "equivalence_margin": 0.05,
       "equivalent_to_zero": true,
       "p_gap_holm": 0.0136,
-      "significant": true
+      "significant": true,
+      "void": false
     }
   },
   "replication": {
     "C1_trend_direction": {
       "gap_mean": 0.07479674796747963,
       "gap_sd": 0.017131144313581703,
-      "claim": "degradation replicated in all seeds"
+      "n_runs": 3,
+      "void": false,
+      "claim": "degradation in all seeds"
     },
     "C2_trend_family": {
       "gap_mean": 0.03577235772357723,
       "gap_sd": 0.007451342593424076,
-      "claim": "degradation replicated in all seeds"
+      "n_runs": 3,
+      "void": false,
+      "claim": "degradation in all seeds"
     },
     "C3_periodic_waveform": {
       "gap_mean": 0.18214285714285716,
       "gap_sd": 0.006185895741317397,
-      "claim": "degradation replicated in all seeds"
+      "n_runs": 3,
+      "void": false,
+      "claim": "degradation in all seeds"
     },
     "C4_fluctuation_type": {
       "gap_mean": 0.37070707070707076,
       "gap_sd": 0.007070707070707061,
-      "claim": "degradation replicated in all seeds"
+      "n_runs": 3,
+      "void": false,
+      "claim": "degradation in all seeds"
     },
     "C5_signal_regime": {
       "gap_mean": -0.031261770244821095,
       "gap_sd": 0.005687257578358332,
-      "claim": "significant improvement in all seeds"
+      "n_runs": 3,
+      "void": false,
+      "claim": "gap significantly negative in all seeds"
     }
   }
 }
