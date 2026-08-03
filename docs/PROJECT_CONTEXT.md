@@ -8,6 +8,7 @@ Master's thesis (TU/e DS&AI): a **diagnostic evaluation framework for time-serie
 **Core principle:** never read absolute metric values. Every probe result is *relative degradation vs. the same model's unperturbed baseline*, with paired statistics (bootstrap CIs, Wilcoxon/McNemar, Holm–Bonferroni across Probe-1's five components, TOST equivalence tests when claiming absence of degradation).
 
 ## Authoritative documents (read before designing anything)
+- `docs/SESSION_HANDOFF.md` — start-up protocol, reproduce-everything commands, unresolved design questions for the next task.
 - `docs/thesis_state_document_final3.md` — full project state, corrected facts, probe designs, evaluation matrix. **If anything conflicts with older notes, this wins.**
 - `docs/REIMPLEMENTATION_SPEC.md` — CLaSP architecture per paper vs. our documented choices. **Do not silently change an "OUR CHOICE" default**; flag it and record it.
 - `docs/clasp_reimplementation_validation.md` — why the reimplementation is valid (thesis + defence material).
@@ -18,7 +19,7 @@ Master's thesis (TU/e DS&AI): a **diagnostic evaluation framework for time-serie
 - `docs/project_log.md` — chronological record; append milestones here.
 
 ## Where the project currently stands
-**Read `docs/thesis_state_document_final3.md` first.** It carries current status, results so far, and the ordered next steps. Do not rely on this file for status.
+**Read `docs/SESSION_HANDOFF.md` first**, then `docs/thesis_state_document_final3.md`. The handoff gives the start-up protocol, the command list that reproduces every result, and the open design questions for the next task; the state document carries status, results and corrected facts. Do not rely on *this* file for status.
 
 ## Binding decisions (do not reopen without explicit discussion)
 - **Probe-facing metric is strict pair-level retrieval** (Recall@k, MRR against the ground-truth pairing). The paper's soft judge-based mAP@10 is used **only** for reproduction comparison — it saturates (one published configuration accepts 99.7% of candidate pairs; a random-init model scores 0.999 under it) and therefore cannot register degradation.
