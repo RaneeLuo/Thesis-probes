@@ -1,6 +1,6 @@
 # Thesis State Document — v3
 **Project:** Diagnostic Evaluation Framework for Time-Series–Text Alignment (TU/e DS&AI Master's Thesis, Ranyi/Ranee)
-**Last updated:** 2026-07-30 (rev. 4 — floor baseline complete; item-set audit added)
+**Last updated:** 2026-08-06 (rev. 5 — Probe 1 hardening complete: per-pair cross-analysis, 279-restricted control, full C4 item census; C4 headline now census-certified 0.603)
 **Supersedes:** `thesis_state_document_final2.md` (v2), which is superseded in §2 (status), §4 (probe metric decision), §5 (baseline values), §6 (new verified facts), §7 (compute) and §8 (phase status). **If v2 and v3 conflict, v3 is correct.**
 
 ---
@@ -14,6 +14,9 @@
    - `docs/finding_metric_saturation.md` — the metric-saturation finding (thesis motivation + methodology justification).
    - `docs/probe1_findings_clasp.md` — Probe 1 on CLaSP: results, interpretation, threats to validity, open items.
    - `docs/probe1_findings_embedding_floor.md` — Probe 1 on text-embedding-3-large: the floor baseline, its VOID verdict, and the item-set length audit.
+   - `docs/probe1_per_pair_cross_analysis.md` — per-pair CLaSP-vs-features analysis (closes findings §7 item 1; §10 adds the 279-restriction sensitivity, closing item 3).
+   - `docs/probe1_manual_validation_findings.md` — the full item-validation arc: 50-item sample, mechanical audits, complete 863-item C4 census, cleaned headline (closes findings §7 item 2).
+   - `docs/pinning_spotcheck_judging_rules.md` — the census judging protocol (rules R1–R5, conventions, criterion).
    - `docs/project_log.md` — chronological record of what was done and when.
    - `docs/correction_and_hardening_sheet.md`, `docs/revised_sections_paste_pack.md` — proposal correction record (applied).
 3. **Provenance warning:** the archival files (`论文解读.docx`, `论文解读.xlsx`, `history_conversation_with_claude4_7.docx`, `在formulate_proposal过程中的一些思路和reference.docx`) contain known drift errors. They are kept as historical record only. Never import facts from them without checking §6 below.
@@ -32,7 +35,7 @@ A diagnostic evaluation framework that audits **representative** TS–text align
 
 ---
 
-## 2. Current status (2026-07-27)
+## 2. Current status (2026-08-06)
 
 **Paperwork — complete.** Proposal revised (19 edits applied: citation corrections, scope-of-claims reframe, statistical-analysis subsection, compute plan, Probe-1 protocol) and sent to the supervisor. Supervisor's four feedback points all addressed (§3).
 
@@ -65,6 +68,12 @@ A diagnostic evaluation framework that audits **representative** TS–text align
 
 Chance = 0.500. All Holm-significant in all three seeds. Difficulty control: 16 hand-written features separate the same pairs at 0.919–0.988 across *all* components (SD 0.030) while CLaSP spans 0.599–0.984 (SD 0.164) — the flat baseline is what closes the "this distinction is just hard" objection. Headline: **global shape is encoded, local fluctuation texture is not.**
 
+**Probe 1 hardening (2026-08-02 → 08-06) — complete.** All three strengthening items from `probe1_findings_clasp.md` §7 closed; details in the two new findings docs (§0.2):
+
+1. **Per-pair cross-analysis** (item 1): CLaSP's 19 failing pairs (<0.70) have *median feature accuracy 0.950*; within-component correlations null in C3/C4; the only feature-hard pair (`sinusoidal|triangle`, 0.507) is one CLaSP beats (0.655). Refinements: C1's degradation is entirely one collapsed pair (`rev-sawtooth|sawtooth` 0.440, with a replicated directional inversion — model prefers "reverse sawtooth" captions for true sawtooth signals); C3's degradation concentrates in ramp-orientation confusions while square-wave pairs are intact. Blind-spot outcome, as pre-registered.
+2. **279-restricted feature control** (item 3): identical protocol re-scored on exactly the 279 probe signals, gated on exact reproduction of all 124 committed accuracies (passed); deltas within sampling noise; re-running the per-pair analysis under restricted accuracies changes no conclusion. The population asymmetry is retired.
+3. **Item-validation arc** (item 2): automated structural gates 2,770/2,770; 50-item human sample 46/50 (strict plain-language convention; 48/50 under corpus semantics, both disclosed); mechanical audit of all 990 C4 items; then a **complete human census of the 863 lexically-explicit C4 items: 738 valid (85.5%)**, five defect mechanisms fully characterised (subset 66, non-pervasive noise 42, bare clauses 3, "Large part," truncation 10, reverse overlap 4), zero mixed verdicts across repeated clauses. Re-grading CLaSP's stored answers on the certified items: **C4 = 0.603 [0.567, 0.641] (signal-level bootstrap)** vs features 0.929/0.931 and CLaSP's own 0.969 on random distractors over the same signals. **0.603 is the C4 headline; 0.599 is retained as the all-items figure.** Durable caveats: pn-spike pairs footnoted in both directions; random-condition distractors not human-validated; registered predictions missed twice and recorded as misses.
+
 **Probe 1 on text-embedding-3-large (floor baseline) — complete.** Same items, same statistics; serialisation documented (z-normalised, ×10, clipped ±99, all 2,048 points, 4,096 tokens/signal). Result: **at or below chance on every component**, swap margins 0.001–0.007 vs CLaSP's 0.02–0.50. Choices correlate with caption length (r ≈ +0.13/+0.17), falling below chance where correct captions are shorter.
 
 **Its verdict is VOID, not "degraded".** With both conditions near chance there is no capability for a perturbation to degrade, so its gaps are *not* shortcut evidence. It contributes (a) a measured floor showing CLaSP's shape performance is bought by contrastive training, and (b) a negative control demonstrating the diagnostic does not manufacture false shortcut claims — a shortcut requires *high* random-condition accuracy, which this model never reaches.
@@ -74,9 +83,9 @@ Chance = 0.500. All Holm-significant in all three seeds. Difficulty control: 16 
 **Not started:** Probe 1 on TRUCE substrate; Probe 1 on TRACE and ChatTS; Probes 2 and 3.
 
 **Immediate next steps, in order:**
-1. **TRACE adapter** (≈ few days) — now the critical model. Trained with hard negatives specifically to resist this kind of confusion, so either outcome is a finding: resistance validates hard-negative training; failure shows the weakness survives the obvious remedy. It is also the only remaining model that can *corroborate or contradict* the CLaSP result — the floor baseline cannot, being void.
+1. **TRACE adapter** (≈ few days) — now the critical model and the sole open front. Trained with hard negatives specifically to resist this kind of confusion, so either outcome is a finding: resistance validates hard-negative training; failure shows the weakness survives the obvious remedy. It is also the only remaining model that can *corroborate or contradict* the CLaSP result — the floor baseline cannot, being void. First moves: run the authors' own demo against `retriever_demo.pt`; read the checkpoint's stored `args` (text-encoder identity, hard-negative status); then the §4.1 substrate decision via the cheap unperturbed-retrieval baseline.
 2. **ChatTS** (blocked on GPU access) — MCQ reformulation.
-3. Strengthening items listed in `docs/probe1_findings_clasp.md` §7: per-pair cross-analysis, manual validation of ~50 items, control restricted to probe signals, TRUCE substrate.
+3. TRUCE substrate with parse-coverage reported (the only remaining §7 strengthening item; optional).
 
 **Statistics script is now model-agnostic:** `--per-item` and `--out` flags; single-run inputs handled without implying replication; components with both conditions near chance labelled **VOID** rather than degraded.
 
@@ -173,6 +182,9 @@ Cross-model synthesis uses **relative degradation only**. No shared test items a
 - **Fidelity result:** on TRUCE (identical data), our reimplementation matches the paper across all four protocols within 0.059 (deviations −0.018, −0.031, −0.003, +0.059), reproducing both the strict-threshold collapse and the DistilBERT saturation. Over three seeds the published TRUCE value (0.458) **falls inside** our observed range (0.433–0.470).
 - **Untrained control (2026-07-27):** a randomly initialised model scores 0.246 / 0.015 / **0.999** / 0.326 under the four protocols. Under the saturating protocol it marginally *exceeds* the trained model (0.997) — training changes that published number by nothing. Its score under each protocol closely tracks that judge's acceptance rate (29.4%→0.246, 2.6%→0.015, 99.7%→0.999, 37.7%→0.326).
 - **SUSHI gap prediction confirmed:** gap widens with judge strictness (0.128 → 0.265), as predicted by Tiny-vs-Base test-pool composition.
+- **C4 census-certified headline (2026-08-06):** on the 738 fluctuation-swap items individually certified as fair by a complete human census, CLaSP scores **0.603 [0.567–0.641]** vs 0.929–0.931 for the feature control and 0.969 for CLaSP on random distractors. Invalid items (125) score 0.531 — chance-like, confirming the census carved at a real joint.
+- **SUSHI caption defect (2026-08-05/06):** a truncated "Large part," opener recurs in the smooth clause pool (12 instances found across sample + census) — a dataset caption-generation flaw; one limitations sentence.
+- **SUSHI fluctuation vocabulary is class-exclusive** (e.g. "step" in 0/234 non-step sawtooth/square captions, 90% of step-class captions); probe items inherit a corpus-vs-plain-language semantics ambiguity wherever class terms have broader everyday readings. The stricter plain-language standard governed all validation judgments.
 
 ---
 
@@ -190,7 +202,7 @@ Cross-model synthesis uses **relative degradation only**. No shared test items a
 - **Phase 0 — Paperwork:** ✅ complete.
 - **Phase 1a — CLaSP baseline:** ✅ **complete.** Three seeds trained and aggregated, fidelity validated across four protocols, untrained control run. Optional remainder: a one-page baseline report.
 - **Phase 1b — Remaining model baselines:** ⬜ text-embedding-3-large, TRACE, ChatTS.
-- **Phase 2 — Probe 1 (component swap):** 🟨 **in progress.** Machinery built and validated; CLaSP arm complete with difficulty control and statistics. Remaining: three models + TRUCE substrate. Do **not** describe Phase 2 as complete until the cross-model matrix exists — the paradigm-level claim depends on it.
+- **Phase 2 — Probe 1 (component swap):** 🟨 **in progress.** Machinery built and validated; **CLaSP arm complete and fully hardened** (per-pair analysis, restricted control, complete item census — C4 headline 0.603 census-certified); floor baseline complete (VOID). Remaining: TRACE, ChatTS, TRUCE substrate. Do **not** describe Phase 2 as complete until the cross-model matrix exists — the paradigm-level claim depends on it.
 - **Phase 3 — Probe 2 (shuffle):** ⬜ reuses Phase 2 pipeline.
 - **Phase 4 — Probe 3 (summary-stats):** ⬜ includes the ChatTS A100 job.
 - **Phase 5 — Analysis and writing:** ⬜ statistics, cross-probe synthesis matrix, thesis text. Background and methods chapters can be drafted during Phases 2–4; `clasp_reimplementation_validation.md` and `finding_metric_saturation.md` are already thesis-ready material.

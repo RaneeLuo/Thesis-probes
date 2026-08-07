@@ -131,6 +131,32 @@ This file records major implementation and research milestones for the thesis pr
 - Extended the item-set audit to correlate each model's decision margin against the caption-length difference, with per-model output paths so that one model's run cannot overwrite another's. The floor baseline returns +0.174 in the swap condition and +0.127 in the random condition, whereas the reimplementation returns +0.023 and -0.062 over the identical items. The reimplementation is therefore not using the length heuristic, and its fluctuation result in particular carries a correlation of -0.078, indicating a genuine encoding gap rather than a surface artefact.
 - Recorded the findings in `docs/probe1_findings_embedding_floor.md`.
 
+## 2026-08-02/03: Per-pair cross-analysis and repository access
+
+- Ran the per-pair cross-analysis specified in the session handoff: CLaSP swap accuracy per value pair (pooled directions and seeds) joined against the feature control's per-pair accuracies, with five reconciliation gates tying both inputs to the documented results.
+- Pre-registered the blind-spot prediction and a minimum of 10 signals per pair before computation; both sub-predictions confirmed.
+- Result: CLaSP's 19 failing pairs (below 0.70) have median feature accuracy 0.950; within-component correlations null in C3 and C4; the single feature-hard pair (sinusoidal vs triangle, 0.507) is one CLaSP handles better than the control.
+- Refined the component story: C1's degradation is one collapsed pair (reverse-sawtooth vs sawtooth at 0.440) with a directional inversion replicated across two independent item sets; C3's degradation concentrates in ramp-orientation confusions while square-wave pairs are intact.
+- Verified the swap_from convention from the generator source: swap_from is the signal's true class value, confirmed exhaustively for all 2,770 swap items.
+- Made the repository public and established Claude clone access; verified repo docs byte-identical to project-file copies; committed the analysis with the per-item results file un-ignored for reproducibility.
+
+## 2026-08-04: Hardening — restricted control and sensitivity
+
+- Re-scored the feature control on exactly the 279 probe signals under a protocol identical to the committed control, gated on exact reproduction of all 124 per-pair accuracies and both multiclass accuracies (tolerance 1e-9); the gate passed on the local run.
+- Restriction changed component means by at most 0.010 and single pairs by at most 0.079, consistent with sampling noise at the reduced counts; no pair was one-sided in the restricted population.
+- Re-ran the per-pair cross-analysis against the restricted accuracies: no conclusion-bearing quantity changed; the population-asymmetry threat is retired.
+
+## 2026-08-05/06: Item-validation arc and the census-certified C4 headline
+
+- Automated structural gates on all 2,770 swap items: every distractor is exactly its correct caption with the one recorded clause substituted; all passed.
+- Human validation of a 50-item stratified sample: 46/50 under the strict plain-language convention (48/50 under corpus semantics; both reported, the convention question disclosed as post-hoc). Criterion of 47 missed by one; the mandated escalation followed.
+- Mechanical audit of all 990 C4 items: 89.2% of replacement clauses lexically pin their target; CLaSP scores 0.593 on the explicit items against 0.645 on the generic ones, establishing that weak items do not drive the C4 result.
+- Expanded the planned 20-item spot-check, before any judging, into a sequential design and ultimately a complete census: all 863 eligible explicit items human-judged in one seeded stratified order across nine batches, under decision rules fixed at the first batch boundary.
+- Census result: 738 valid (85.5%); the 125 failures decompose completely into five mechanisms (subset 66, non-pervasive noise 42, bare clauses 3, truncated "Large part," opener 10, reverse overlap 4); zero clause-contexts received mixed verdicts across the nine batches.
+- Re-graded CLaSP's stored per-item answers on the certified items: C4 accuracy 0.603 with signal-bootstrap CI [0.567, 0.641], against 0.929-0.931 for the feature control and 0.969 for CLaSP itself on random distractors over the same signals. Invalid items score 0.531, chance-like, confirming the partition.
+- Recorded two registered-prediction misses as misses: the expected census failure rate (about 1%) was wrong by an order of magnitude, and the cleaned accuracy did not rise noticeably (0.599 to 0.603).
+- Adopted 0.603 as the C4 headline with 0.599 retained as the all-items figure; footnoted the positive-and-negative-spike pairs in both directions; noted that random-condition distractors were not human-validated.
+
 ## Current status
 
 - Workspace setup: complete.
@@ -144,6 +170,7 @@ This file records major implementation and research milestones for the thesis pr
 - CLaSP reproduction validation, including untrained negative control: complete.
 - Phase 1a: complete.
 - Probe 1 (component swap) on CLaSP, SUSHI substrate: complete, with difficulty control and statistics.
+- Probe 1 hardening (per-pair cross-analysis, 279-restricted control, full C4 item census with cleaned headline 0.603): complete.
 - Probe 1 on text-embedding-3-large (floor baseline): complete, with serialisation inspection and item-set audit.
 - Probe 1 on the TRUCE substrate: not yet started.
 - Remaining target models (TRACE, ChatTS): not yet started.
@@ -151,4 +178,4 @@ This file records major implementation and research milestones for the thesis pr
 
 ## Next milestone
 
-Integrate TRACE, the only remaining model able to corroborate or contradict the reimplementation's result, having been trained with hard negatives specifically to resist this form of confusion. ChatTS follows once GPU access is resolved. The item set, difficulty control and statistical analysis are model-independent and require no regeneration.
+Integrate TRACE, the only remaining model able to corroborate or contradict the reimplementation's result, having been trained with hard negatives specifically to resist this form of confusion. First moves: run the authors' demo against the released checkpoint and read its stored args (text-encoder identity, hard-negative status), then decide the substrate via the cheap unperturbed-retrieval baseline. ChatTS follows once GPU access is resolved. The item set, difficulty control and statistical analysis are model-independent and require no regeneration.

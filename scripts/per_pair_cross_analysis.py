@@ -125,7 +125,7 @@ def boot_ci(x, y, fn, rng, n_boot):
     return float(np.percentile(vals, 2.5)), float(np.percentile(vals, 97.5))
 
 
-def make_figure(out_pairs, path):
+def make_figure(out_pairs, path, xlabel):
     try:
         import matplotlib
         matplotlib.use("Agg")
@@ -167,8 +167,7 @@ def make_figure(out_pairs, path):
             p = hits[0]
             ax.annotate(lab, (p["feature_acc"], p["clasp_swap_acc"]),
                         textcoords="offset points", xytext=off, fontsize=8)
-    ax.set_xlabel("16-feature logistic regression accuracy "
-                  "(per pair, 5-fold CV, 1400 signals)")
+    ax.set_xlabel(xlabel)
     ax.set_ylabel("CLaSP swap accuracy "
                   "(per pair, pooled directions & 3 seeds, 279 signals)")
     ax.set_title("Probe 1 per-pair cross-analysis: CLaSP vs "
@@ -269,11 +268,19 @@ def main():
     print("G3 pass — 1:1 pair match, counts 8/16/10/15/75")
 
     # ---------------------------------------------------------------- G5
+    # The four documented values are FULL-population accuracies. A restricted
+    # variant file (information_availability_279.json) carries them in
+    # acc_full while acc holds the restricted number; validate against
+    # whichever field represents the full population.
     for pk, want in DOC_PAIRS.items():
-        found = [fdet[c][pk]["acc"] for c in comps if pk in fdet[c]]
+        found = [fdet[c][pk].get("acc_full", fdet[c][pk]["acc"])
+                 for c in comps if pk in fdet[c]]
         if not found or abs(found[0] - want) > 0.001:
             die(f"G5 {sorted(pk)}: {found} vs documented {want}")
-    print("G5 pass — documented feature values reconcile")
+    print("G5 pass — documented feature values reconcile"
+          + (" (via acc_full: restricted-variant features file)"
+             if any("acc_full" in p for c in comps for p in fdet[c].values())
+             else ""))
 
     # ---------------------------------------------------------------- table
     print("\n" + "=" * 108)
@@ -394,7 +401,15 @@ def main():
     print(f"\nsaved -> {out_path}")
 
     if not args.no_fig:
-        make_figure(out_pairs, Path(args.fig))
+        # label the x-axis for the population the features file was scored on:
+        # restricted-variant files carry acc_full per pair (see G5)
+        restricted = any("acc_full" in p_ for c in comps
+                         for p_ in fdet[c].values())
+        xlabel = ("16-feature logistic regression accuracy "
+                  + ("(per pair, 5-fold CV predictions scored on the 279 "
+                     "probe signals)" if restricted
+                     else "(per pair, 5-fold CV, 1400 signals)"))
+        make_figure(out_pairs, Path(args.fig), xlabel)
 
     print("\n" + "=" * 108)
     print("HOW TO READ THIS")
