@@ -70,3 +70,13 @@ The aggregate control argued from flatness: features 0.919–0.988 while CLaSP s
 `project_log.md`: "2026-08-02: Per-pair cross-analysis (handoff §4.4 item 1) complete. CLaSP's 19 failing pairs (<0.70) have median feature accuracy 0.950; within-component correlations null in C3/C4; C1's degradation traced to a single collapsed pair (rev-sawtooth|sawtooth, 0.440, with a replicated directional inversion); C3's degradation concentrated in ramp-orientation pairs. Blind-spot outcome, as pre-registered."
 
 `thesis_state_document_final3.md` §2: mark strengthening item "per-pair cross-analysis" done; remaining §7 items: manual validation of ~50 items, control restricted to 279 signals, TRUCE substrate.
+
+---
+
+## 10. Addendum (2026-08-04): sensitivity under the 279-restricted control
+
+Open item 3 of `probe1_findings_clasp.md` §7 (the control-population asymmetry) is closed. `scripts/information_availability_control_restricted.py` re-scored the identical feature protocol on exactly the 279 probe signals, gated on exact reproduction (tol 1e-9) of all 124 committed full-population accuracies and both multiclass accuracies before trusting any restricted number — the gate passed, so the protocol is provably identical and only the scoring population changed. The pre-registered expectation (no material change) held: component means moved by at most 0.010, the largest single-pair change was 0.079 (`C2`), consistent with binomial noise at n≈28–80, and no pair was one-sided in the 279 subset.
+
+Re-running this analysis with the restricted accuracies (`--features results/analysis/information_availability_279.json`) changes **no conclusion-bearing quantity**: still 19 failing pairs with median feature accuracy 0.950 on them; C3/C4 within-component correlations still null (−0.134, +0.417, CIs spanning zero); the feature-hard set shrinks from four pairs to three (`negative spike|positive-and-negative spike` crosses just above 0.85), and the single hardest pair for the features, `sinusoidal|triangle`, gets *harder* under restriction (0.507 → 0.464) while CLaSP's 0.655 is unchanged — marginally strengthening the observation that the one feature-hard discrimination is one CLaSP handles better than the control. Artefacts: `results/analysis/information_availability_279.json`, `per_pair_cross_analysis_279.json`, `per_pair_scatter_279.png`. §8's third threat (control asymmetry) is hereby retired.
+
+Item 2 status for the record: the automated structural layer passed on all 2,770 swap items (`manual_validation_gate.json` — every distractor is exactly the correct caption with one recorded clause substituted; no garbled or identity edits). The human judgment layer (50-item sheet, criterion ≥47/50) is sampled but not yet filled in.
