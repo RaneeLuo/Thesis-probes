@@ -1,0 +1,16 @@
+# N3 excision list — human-certified defective swap items, 2026-08-09
+# Round-2 flag N3|461 -> mechanical audit of all 400 N3 swap items ->
+# 15 temporal-peak suspects -> human judgment: 11 defective, 4 kept.
+# NOTE: N3|1542|swap is included per the filled sheet; if the final human
+# verdict on that item is 'keep' (see chat discussion), delete its line.
+N3|1151|swap
+N3|1350|swap
+N3|1401|swap
+N3|1542|swap
+N3|1605|swap
+N3|1774|swap
+N3|1777|swap
+N3|1959|swap
+N3|321|swap
+N3|443|swap
+N3|461|swap

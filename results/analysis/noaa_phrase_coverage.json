@@ -1,0 +1,125 @@
+{
+  "n_rows": 2006,
+  "duration_phrases": {
+    "past six months": 688,
+    "past week": 596,
+    "past 28 days": 679
+  },
+  "duration_unrecognised": 43,
+  "N3_trend": {
+    "per_field": {
+      "temperature": {
+        "pos": 1372,
+        "neg": 587,
+        "both": 206
+      },
+      "precipitation": {
+        "pos": 47,
+        "neg": 2
+      },
+      "relative_humidity": {
+        "pos": 458,
+        "neg": 696,
+        "both": 221
+      },
+      "visibility": {
+        "neg": 1058,
+        "pos": 21,
+        "both": 13
+      },
+      "wind_u": {},
+      "wind_v": {
+        "pos": 14,
+        "neg": 6,
+        "both": 2
+      },
+      "sky_code": {
+        "pos": 32,
+        "neg": 1
+      }
+    },
+    "rows_pos": 1502,
+    "rows_neg": 1558,
+    "rows_both_same_field": 396,
+    "rows_neither": 80,
+    "phrase_freq": {
+      "+\\brising\\b": 39,
+      "-\\bdeclin\\w*": 201,
+      "-\\bdropp?\\w*": 1674,
+      "+\\bincreas\\w*": 726,
+      "-\\bdecreas\\w*": 523,
+      "+\\bupward\\b": 436,
+      "+\\bwarming\\b": 779,
+      "-\\bcooling\\b": 136,
+      "-\\bdownward\\b": 96,
+      "+\\brose\\b": 83,
+      "-\\bfalling\\b": 1,
+      "-\\bfell\\b": 6
+    }
+  },
+  "N4_flux": {
+    "per_field": {
+      "temperature": {
+        "pos": 1540,
+        "neg": 14,
+        "both": 9
+      },
+      "precipitation": {
+        "pos": 797,
+        "neg": 637,
+        "both": 426
+      },
+      "relative_humidity": {
+        "pos": 1814,
+        "neg": 59,
+        "both": 20
+      },
+      "visibility": {
+        "neg": 1762,
+        "pos": 147,
+        "both": 68
+      },
+      "wind_u": {
+        "pos": 1933,
+        "neg": 298,
+        "both": 260
+      },
+      "wind_v": {
+        "pos": 1979,
+        "neg": 617,
+        "both": 601
+      },
+      "sky_code": {
+        "pos": 803,
+        "neg": 20,
+        "both": 1
+      }
+    },
+    "rows_pos": 2006,
+    "rows_neg": 1926,
+    "rows_both_same_field": 1090,
+    "rows_neither": 0,
+    "phrase_freq": {
+      "+\\bfluctuat\\w*": 2801,
+      "+\\boutlier\\w*": 759,
+      "+\\bspike\\w*": 544,
+      "-\\bstable\\b": 396,
+      "-\\bremained\\b": 1940,
+      "+\\bvariab\\w*": 2112,
+      "+\\bgust\\w*": 1709,
+      "+\\bvaried\\b": 3246,
+      "-\\bcalm\\b": 763,
+      "-\\bconsistent\\w*": 1152,
+      "+\\bvolatil\\w*": 438,
+      "+\\bvarying\\b": 15,
+      "-\\bsteady\\b": 20,
+      "-\\bconstant\\w*": 7
+    }
+  },
+  "N3_temperature_exclusive": {
+    "up_only": 1166,
+    "down_only": 381,
+    "both": 206,
+    "neither": 253
+  }
+}

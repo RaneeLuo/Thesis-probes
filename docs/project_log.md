@@ -157,6 +157,37 @@ This file records major implementation and research milestones for the thesis pr
 - Recorded two registered-prediction misses as misses: the expected census failure rate (about 1%) was wrong by an order of magnitude, and the cleaned accuracy did not rise noticeably (0.599 to 0.603).
 - Adopted 0.603 as the C4 headline with 0.599 retained as the all-items figure; footnoted the positive-and-negative-spike pairs in both directions; noted that random-condition distractors were not human-validated.
 
+## 2026-08-07/08: TRACE task zero — checkpoint interrogation and demo reproduction
+
+- Read the released checkpoint's stored args with a gated reader script: text encoder nomic-ai/nomic-embed-text-v1.5, hard-negative mining ON with 32 negatives, cross-attention on, seq_len_channel 186, 11,551,959 parameters reconciling with the 46.3 MB file. No training bookkeeping (epoch, loss, metrics) is stored.
+- Recorded a registered-prediction miss: num_negatives is 32, matching neither the config file's 64 nor the CLI default of 10, proving the authors trained with custom flags rather than either documented configuration.
+- Found and catalogued five defects in the published TRACE artifacts, none ours, all caught by gates: the authors' demo notebook reads a field (sample_id) that does not exist in the published code; the model constructor demands a Stage-1 checkpoint that was never released; the stored model name CATSEncoder is unimplemented in the public code; that name is architecture-changing (it controls whether the channel-identity tokens are built); and the code reads a nested data layout while the README documents and the dataset zip ships a flat one.
+- Repaired all five in models/trace/run_authors_demo_eval.py with the rename hypothesis (CATSEncoder is the pre-publication name of TraceEncoder) tested rather than assumed: the strict state-dict load passed with zero missing and zero unexpected keys, confirming it.
+- Ran the reproduction on the released test split (2,006 rows, full pool, ground truth included): P@1 0.4167 text-to-ts and 0.4282 ts-to-text, P@10 about 0.79 both directions, MRR about 0.55, median rank 2 of 2,006, chance 0.0005. Within about two points of the paper's 44.10%, whose split, direction and pool remain unpinned — recorded as orientation, not exact reproduction. Canonical record results/experiments/trace_demo_repro_test.json.
+- Both task-zero caveats from the handoff are closed. New constraint flagged for the substrate decision: the 186-step input limit implies an ~11x downsample of SUSHI's 2,048-point signals, so option (a) now carries a mandatory feature-survival gate before any embedding.
+- Runtime note: about 65 minutes on CPU, almost entirely one-time Nomic text embedding, now cached; re-runs about 4 minutes.
+
+## 2026-08-08: TRACE substrate decision and narrative item set
+
+- Ran the pre-registered downsampling survival gate: C4 feature separability collapses from 0.929 to 0.773 when SUSHI signals shrink from 2,048 to 186 points, with every spike-polarity pair falling to near chance (negative-vs-positive spike 0.525) while global-shape components are untouched. Robust across interpolation, decimation and window treatments. Verdict FAIL under the rule fixed before running; two registered predictions missed and recorded (C4 was predicted to survive; decimation was predicted worse than interpolation).
+- Resolved the substrate decision to option (b), the narrative-level probe on NOAA — option (a) is dead for C4 because substrate loss and model blindness would be confounded. Option (b)'s viability was already established by the demo reproduction.
+- Read the authors' description serializer from source: the retrieved text is a fixed template over ten fields. Two consequences recorded: the "human narratives" framing in the evaluation matrix is unimplementable (the retrieved text is largely LLM-generated channel prose; the human text is event narratives on the signal side, 659 of 2,006 rows); and a text-overlap validity threat is registered before any run — channel prose appears verbatim on both retrieval sides, so high accuracy on prose components is ambiguous between alignment and text matching. The header-vs-prose component comparison is the built-in diagnostic.
+- Ran field and phrase-coverage inspections over all 2,006 descriptions; ratified a five-component grammar (labels antonym, temporal extent, trend direction, fluctuation-stability, location negative control) with per-component exclusion rules in the Probe-1 style: drop what cannot be swapped cleanly and report the count.
+- Generated the item set: 4,000 items (400 swap plus 400 matched random per component, seed 42), 1,346 unique signals at 3.0 items per signal, length deltas at most 0.5 words. All generation gates passed; skip arithmetic closes on every component. Two pool-size predictions missed and recorded (N1 at 665, half the prediction, because 1,341 rows carry internal antonym pairs; N4 at 1,851).
+- Two implementation bugs were caught by synthetic smoke tests before delivery (a year-arithmetic error in the date rewrite and lost capitalisation in stem swaps) — both fixed and verified.
+- Open gate: the 50-row human validation sheet must be judged before any model runs; thresholds fixed in advance (two or more defects per component per column force regeneration of that component).
+
+## 2026-08-09: Item-set certification — validation rounds, N4 drop, excision
+
+- Regenerated the item set (v2) with the rule fixes from round-1 validation: the extended N1 contradiction gate (applied post-swap) removed 199 of 661 previously-eligible rows — 30%, against a 1-in-10 sample rate, the concrete demonstration that small samples find mechanisms but do not estimate rates. N3 gained checkable-reference and trend-pinned-to-value exclusions (pool 1,386 to 777).
+- N4 was dropped under the rule pre-committed before regeneration: after evidence-clause blocks, only 33 of 2,006 rows swap cleanly (threshold 100). In this corpus, fluctuation claims are essentially never made without citing evidence, so the caption-side flip is unbuildable by minimal edit. Combined with the downsampling failure, the C4 question cannot be posed to TRACE in either direction — recorded as a two-walled finding, not a method gap.
+- Round-2 validation (20 items, N1/N3): N1 clean 10/10; N3 one flag — a temporal-peak clause surviving an up-to-down swap.
+- Mechanical audits over the full populations: N1 zero contradictions in all 400 swapped label sets; an N3 census found peak-family words in 32 of 400 items, 15 of them temporal suspects.
+- Human certification of the 15 suspects: 11 defective, 4 kept (untimed peaks read as bumpiness, not directional evidence). One borderline item (N3|1542) was explicitly re-argued in both directions and certified defective as the human's considered, stricter call. The 11 plus matched random twins were excised.
+- Certified set: narrative_probe_items_certified.jsonl, 3,178 items (N1/N2/N5 at 400 per condition; N3 at 389). Original retained; excision record kept; both counts to be reported, as with the C4 census.
+- Pre-commitment recorded: before any narrative-probe number is quoted as a thesis claim, the load-bearing component receives a ~100-item human sample with a confidence interval, and a full census if it carries a headline.
+- Process note: one delivery error (a kept item initially included in the excision list) was caught by a verification check before use.
+
 ## Current status
 
 - Workspace setup: complete.
@@ -173,9 +204,12 @@ This file records major implementation and research milestones for the thesis pr
 - Probe 1 hardening (per-pair cross-analysis, 279-restricted control, full C4 item census with cleaned headline 0.603): complete.
 - Probe 1 on text-embedding-3-large (floor baseline): complete, with serialisation inspection and item-set audit.
 - Probe 1 on the TRUCE substrate: not yet started.
-- Remaining target models (TRACE, ChatTS): not yet started.
+- TRACE task zero (checkpoint interrogation and demo reproduction): complete.
+- TRACE substrate decision (downsampling gate, serializer read, grammar): complete.
+- TRACE narrative item set: certified (3,178 items; two validation rounds, population audits, human-certified excision; N4 dropped as unbuildable-clean).
+- Remaining target models (TRACE narrative runner, ChatTS): not yet started.
 - Probes 2 and 3: not yet started.
 
 ## Next milestone
 
-Integrate TRACE, the only remaining model able to corroborate or contradict the reimplementation's result, having been trained with hard negatives specifically to resist this form of confusion. First moves: run the authors' demo against the released checkpoint and read its stored args (text-encoder identity, hard-negative status), then decide the substrate via the cheap unperturbed-retrieval baseline. ChatTS follows once GPU access is resolved. The item set, difficulty control and statistical analysis are model-independent and require no regeneration.
+Build the TRACE narrative runner on the certified item set. First move: read the forward pass in mm_encoder.py from source to settle whether the description side is an independent projection — if so, the runner embeds the 1,589 swap texts once and compares against the signal embeddings already cached from the demo reproduction; scoring and statistics reuse the Probe-1 machinery unchanged. Design questions and analysis slices are listed in handoff §4.5. ChatTS follows once GPU access is resolved.

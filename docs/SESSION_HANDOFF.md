@@ -1,6 +1,6 @@
 # Session Handoff — start here
 
-*Rewritten 2026-08-06 after the session arc that fully hardened the CLaSP Probe-1 result (per-pair analysis, restricted control, complete item census). Its purpose is to let a new session resume without re-deriving anything. It contains only what is **not** already recorded elsewhere: the start-up protocol, the reproduce-everything command list, and the unresolved TRACE design questions. Everything else is delegated — do not duplicate it here, or the copies will drift. This file must be committed to the repository (it previously existed only in the Claude project files).*
+*Rewritten 2026-08-06 after the session arc that fully hardened the CLaSP Probe-1 result (per-pair analysis, restricted control, complete item census). Updated 2026-08-08 (i): TRACE task zero executed and closed — §4.0 rewritten with the checkpoint's decisive stored args, the demo-reproduction result, and the five-defect catalogue of the published TRACE artifacts. Updated 2026-08-08 (ii): the §4.1 substrate decision is RESOLVED — gate (i) failed, option (b) chosen, the narrative grammar designed from source. Updated 2026-08-09: the item set is CERTIFIED after the full validation arc (two human rounds, v2 regeneration with N4 dropped under a pre-committed rule, population audits, 11-item human-certified excision) — §4.5 holds the record and the runner design questions. Its purpose is to let a new session resume without re-deriving anything. It contains only what is **not** already recorded elsewhere: the start-up protocol, the reproduce-everything command list, and the unresolved TRACE design questions. Everything else is delegated — do not duplicate it here, or the copies will drift. This file must be committed to the repository (it previously existed only in the Claude project files).*
 
 ---
 
@@ -88,6 +88,25 @@ python scripts/sample_manual_validation.py
 python scripts/audit_c4_clause_specificity.py
 python scripts/sample_pinning_spotcheck.py    # sheet only; the census judgments are human work
 python scripts/census_c4_reanalysis.py        # requires the filled census CSV
+
+# TRACE task zero (2026-08-07/08; needs the authors' repo cloned as a sibling
+# and the dataset zip from the Drive link in their README — see §4.0 for the
+# layout defect: the parquet must sit at dataset/retrieval/test/test.parquet)
+python models/trace/read_checkpoint_args.py --checkpoint ../TRACE-Multimodal-TSEncoder/results/model_checkpoints/context_align/retriever_demo.pt
+python models/trace/run_authors_demo_eval.py --trace-repo ../TRACE-Multimodal-TSEncoder --split test
+#   -> results/experiments/trace_demo_repro_test.json; first run downloads the
+#      Nomic encoder (~500 MB) and embeds all texts (~60 min CPU, cached; re-runs ~4 min)
+
+# TRACE substrate decision + narrative item set (2026-08-08)
+python models/trace/downsample_survival_gate.py            # §4.1 gate (i): FAILED — the committed record
+python models/trace/inspect_noaa_narratives.py --trace-repo ../TRACE-Multimodal-TSEncoder
+python models/trace/scan_narrative_phrases.py  --trace-repo ../TRACE-Multimodal-TSEncoder
+python models/trace/generate_narrative_items.py --trace-repo ../TRACE-Multimodal-TSEncoder
+#   -> v2: data/processed/narrative_probe_items.jsonl (3,200 items, seed 42; N4
+#      dropped by pre-committed rule) + generation report + validation sheet
+python models/trace/excise_items.py --ids results/analysis/n3_excision_ids.txt
+#   -> data/processed/narrative_probe_items_certified.jsonl (3,178 items) —
+#      the runner's input — plus the excision record
 ```
 
 Checkpoints live locally and on Google Drive, never in Git. `docs/environment.txt` pins the package versions the reported results were produced with.
@@ -96,42 +115,56 @@ Checkpoints live locally and on Google Drive, never in Git. `docs/environment.tx
 
 ## 4. Next task: TRACE — design questions that are NOT yet resolved
 
-The state document says TRACE is next and why. What it does not contain is the design work, because it has not been done. **Do not start writing an adapter before settling these.** Note also that nothing below has been verified against the TRACE repository — checking it is task zero.
+The state document says TRACE is next and why. What it does not contain is the design work, because it has not been done. **Do not start writing an adapter before settling these.** Task zero (verification against the repository and checkpoint) is **closed as of 2026-08-08** — §4.0 below records what was established and how. The open question is §4.1.
 
-### 4.0 Verification — DONE 2026-07-30 (read from the paper and the repository)
+### 4.0 Verification — CLOSED 2026-08-08 (paper/repo read 2026-07-30; task zero executed 2026-08-07/08)
 
 **Repository:** `github.com/Graph-and-Geometric-Learning/TRACE-Multimodal-TSEncoder`. Public. Venue confirmed: **NeurIPS 2025** (39th Conference) — this closes one verification-queue item.
 
-**A trained checkpoint is released.** `results/model_checkpoints/context_align/retriever_demo.pt`, 46.3 MB (≈11.5M fp32 parameters, consistent with the paper's model size). **No training is required**, which removes the largest risk from this arm. ⚠ It is named *demo* and it has **not** been established that it reproduces the published P@1 of 44.10% — verify by running the authors' own demo before drawing any conclusion from its numbers.
+**A trained checkpoint is released.** `results/model_checkpoints/context_align/retriever_demo.pt`, 46,271,904 bytes (11,551,959 fp32 parameters — reconciles with file size and the paper's model size). **No training is required.** Both original caveats are now closed by execution:
 
-**The interface is already exactly what the probe needs** (`demo.ipynb`):
+- ✅ **The checkpoint reproduces retrieval.** On the released test split (n=2006, full pool, ground truth included): **P@1 0.4167 text→ts / 0.4282 ts→text**, P@10 ≈ 0.79 both directions, MRR ≈ 0.55, **median rank 2 of 2006**, chance 0.0005. The paper's 44.10% is matched to within ~2 points, but its split/direction/pool are unpinned, so this is **orientation, not exact reproduction** — the claim licensed is "the checkpoint is alive and in the published number's neighbourhood", nothing stronger. Canonical record: `results/experiments/trace_demo_repro_test.json`.
+- ✅ **Decisive training settings read from the checkpoint's stored args** (script `models/trace/read_checkpoint_args.py`, all gates passed): `text_encoder_name = nomic-ai/nomic-embed-text-v1.5`; **`hard_negative_mining = True`**, `num_negatives = 32`; `cross_attend = True`; `seq_len_channel = 186`; `d_model = 384`, 6 layers, 6 heads; `random_seed = 13`; stored `model_name = 'CATSEncoder'` (see defect catalogue). Registered prediction missed and recorded: num_negatives is 32, matching neither the yaml's 64 nor the CLI default 10 — the authors passed custom flags. No training bookkeeping (epoch/loss/metrics) is stored in the file.
+
+**The interface is exactly what the probe needs** — normalised embeddings and a cosine score, the same shape as the CLaSP and floor-baseline runners, so `run_probe1` ports directly:
+
 ```python
-from src.models.mm_encoder import MultiModalEncoder
-ckpt  = torch.load(checkpoint_path); model = MultiModalEncoder(ckpt["args"])
-out   = model(x_enc=timeseries, input_mask=input_mask,
-              channel_description_emb=..., description_emb=..., event_emb=...)
+out      = model(x_enc=timeseries, input_mask=input_mask,
+                 channel_description_emb=..., description_emb=..., event_emb=...)
 ts_emb   = F.normalize(out.embeddings,       dim=-1)
 text_emb = F.normalize(out.description_emb,  dim=-1)
 scores   = torch.mm(text_emb, ts_emb.T)      # retrieval by cosine
 ```
-Normalised embeddings and a cosine score — the same shape as the CLaSP and floor-baseline runners, so `run_probe1` ports directly.
 
-**One consequence that shapes the adapter.** The forward pass takes **pre-computed text embeddings**, not raw strings: text is encoded outside the model. So our captions must be embedded with *the same sentence encoder the checkpoint was aligned against*, or the comparison is meaningless. `context_align.py` defaults to `--text_encoder_name bert-base-uncased`, while the paper's references cite Nomic Embed — **resolve this discrepancy from the checkpoint's stored `args` before embedding anything.**
+⚠ **Do not construct the model the naive way** (`MultiModalEncoder(ckpt["args"])`): on the published code that crashes, for three stacked reasons in the defect catalogue below. The working construction path — model_name override plus a `_load_model` bypass, with the rename hypothesis *tested* by a strict state-dict load — is implemented and documented in `models/trace/run_authors_demo_eval.py` (REPAIR 2). Any adapter must reuse that path.
 
-**Other verified facts:** 6-layer encoder, hidden 384, 6 heads; patching with `[CIT]` per channel plus a global `[CLS]`; RoPE; mask ratio 0.3; `--num_negatives` default 10 and `--hard_negative_mining` **off by default** (so confirm the released checkpoint was trained with it, since hard negatives are the whole reason this model is scientifically interesting); NOAA weather data with 7 variables (temperature, precipitation, relative humidity, visibility, wind_u, wind_v, sky_code); Python 3.11 / PyTorch ≥2.2, compatible with the current environment.
+**Text-encoder consequence — now resolved.** The forward pass takes **pre-computed text embeddings**: text is encoded outside the model. The stored args settle the encoder as **`nomic-ai/nomic-embed-text-v1.5`** (768-dim, projected to 384 by `text_adapter`; the yaml-vs-CLI-default ambiguity is closed). Our captions must be embedded with exactly this encoder, through the same code path the authors use (`load_data.py` embeds via SentenceTransformer with `trust_remote_code=True`), or the comparison is meaningless. The encoder is downloaded and cached locally; test-split text embeddings are cached beside the parquet.
+
+**Defect catalogue — five drifts between the published artifacts, all caught by gates, none ours** (full detail in the header of `run_authors_demo_eval.py`):
+
+1. `demo.ipynb` reads `batch_x.sample_id`, a field that does not exist anywhere in the published code — the authors' own demo crashes as published. Repair: rely on dataloader order (test split is shuffle=False; NaN handling interpolates, never drops), gated on exact count reconciliation.
+2. The `MultiModalEncoder` constructor demands the Stage-1 pretraining checkpoint (`swift-glitter-75/CATSEncoder.pth`), which was **never released** → FileNotFoundError. Repair: bypass the Stage-1 load; legitimate because the Stage-2 checkpoint contains the full model (11.55M params = everything), which overwrites every parameter.
+3. Even with that file, the next line raises NotImplementedError: stored `model_name='CATSEncoder'` is not implemented in the public code (only `'TraceEncoder'`).
+4. The name is architecture-changing, not cosmetic: `channel_special_tokens = (model_name == "TraceEncoder")` controls whether the CIT tokens are built. Repair: override to `'TraceEncoder'` — the **rename hypothesis, confirmed** by gate G4: the checkpoint's weights loaded with zero missing and zero unexpected keys.
+5. The data loader reads `retrieval/<split>/<split>.parquet`; the README documents (and the zip ships) flat `retrieval/<split>.parquet`. The code's nested layout wins (embedding caches are written there too).
+
+The evident cause: the checkpoint predates a repo rename/refactor, and the public code and public checkpoint had never been run together. Worth a sentence in the thesis's reproducibility discussion.
+
+**Other verified facts:** 6-layer encoder, hidden 384, 6 heads; patching with `[CIT]` per channel plus a global `[CLS]`; RoPE; mask ratio 0.3; hard-negative training **confirmed ON in the released checkpoint** (32 negatives — the scientific premise of this arm holds); NOAA weather data with 7 variables (temperature, precipitation, relative humidity, visibility, wind_u, wind_v, sky_code); Python 3.11 / PyTorch ≥2.2, compatible with the current environment; full CPU run of the reproduction ≈65 min, almost all one-time text embedding, ~4 min cached.
 
 **Datasets:** pre-processed multimodal weather set via Google Drive link in the README; raw data on HuggingFace (`catherpker/TRACE-TimeseriesRAG-Dataset`); TimeMMD from its own repository.
 
 **This changes §4.1 below.** The paper states that TRACE was evaluated in the **univariate setting** on the Health, Energy and Environment subsets of TimeMMD, and the repository contains `src/tasks/pretrain_task_timemmd.py`. Single-channel input is therefore a supported configuration rather than an abuse of the architecture, which makes option (a) considerably more viable than it appeared. The baseline test in §4.1 remains the decider.
 
-### 4.1 The substrate problem — the central question
-TRACE is multivariate-native, uses channel-identity tokens, and was trained on NOAA weather narratives. The SUSHI items are univariate with short structured captions. Three options, none obviously right:
+### 4.1 The substrate problem — RESOLVED 2026-08-08: option (b)
 
-- **(a) Feed SUSHI as single-channel input.** Keeps the item set identical, so results are directly comparable with CLaSP. Univariate input is supported by design (§4.0), so the architectural objection is weaker than first thought; the remaining risk is domain shift — the checkpoint was aligned on weather narratives, not synthetic-signal captions. Testable cheaply and **before building anything**: embed the 279 SUSHI signals and their correct captions, and measure unperturbed retrieval. **If that baseline is near chance, stop — the arm is VOID exactly as the floor baseline was, and that must be reported rather than worked around.**
-- **(b) Build a reduced narrative-level probe on NOAA.** Faithful to what TRACE actually does, and what the proposal commits to. Requires a new component grammar for free-form storm narratives (candidate components: event type, reported magnitude, temporal extent), new item generation, and manual validation. Several days, and the components will not correspond one-to-one with C1–C5.
-- **(c) Both**, reporting (a) as a distribution-shift caveat and (b) as the substantive result.
+**Gate (i) FAILED, decisively and robustly.** The pre-registered downsampling-survival gate (`models/trace/downsample_survival_gate.py`; native run reproduced the committed control exactly) showed C4-distinguishing information does NOT survive 2,048→186: C4 mean feature separability 0.929 → 0.773, with the damage surgical — every spike-polarity pair collapsed (neg-vs-pos spike 0.775→**0.525**, literally chance; pos vs pn 0.860→0.573; pn vs step 0.948→0.595) while every `noisy` pair and smooth-vs-step survived (0.89–0.95). Global-shape components (C1/C2/C3/C5) unaffected (0.93–0.99 everywhere). Three variants agree (interpolation 0.773, decimation 0.784, fixed windows 0.786). The plot shows the mechanism: an 11× squeeze averages narrow spikes into nothing. Records: `results/analysis/trace_downsample_survival.{json,png}`. Registered-prediction misses recorded: C4 was predicted to pass; decimation was predicted worse than interpolation (they are equivalent).
 
-Whichever is chosen, the cross-model comparison uses **relative degradation only** — never raw accuracy across substrates. That is already a binding decision.
+**Consequence:** option (a) is dead for C4 — even perfect retrieval at 186 points could not disentangle substrate loss from model blindness on the arm's central question. Option (b) — the narrative-level probe on NOAA — is the load-bearing path (and was the proposal's commitment). A *restricted* option (a) covering only the four surviving components remains a cheap optional garnish, explicitly deferred, decision not needed now. The unperturbed-retrieval viability gate for (b) is **already passed by construction**: the demo reproduction was TRACE retrieving on exactly this substrate at P@1 0.42.
+
+**The retrieved text, read from source (`src/data/load_data.py::generate_dsp`, 2026-08-08):** a fixed template — `"Weather time series location: {location} Time range: {DATE} The weather is {labels}. {temperature} \n {precipitation} \n {relative_humidity} \n {visibility} \n {wind_u} \n {wind_v} \n {sky_code}"`. Two consequences:
+1. **State-document matrix correction:** the description TRACE retrieves by is largely the per-channel LLM-generated prose; the *human*-written text is the event narratives, present in only 659/2,006 rows and entering via a separate embedding on the signal side. The matrix line "sample-level human narratives; exclude ChatGPT channel descriptions" is unimplementable as a substrate choice — the architecture fixes what is retrieved. Documented as a limitation; mention to the supervisor.
+2. **Text-overlap validity threat, registered before any run:** the seven channel prose texts are embedded twice — inside the description (text side) and as `channel_description_emb` entering the signal side via cross-attention. A pure text-to-text matcher would also prefer the original caption in a binary choice, so on channel-prose components (N3/N4) **high accuracy is ambiguous** between genuine alignment and verbatim matching; low accuracy (blindness) stays interpretable. Built-in diagnostic: N1/N2/N5 swap header fields absent from the channel stream — compare header-swap vs prose-swap sensitivity. A paraphrase control is designed-for but deferred until first results.
 
 ### 4.2 What counts as an answer
 Both outcomes are findings, and neither should be spun:
@@ -145,6 +178,26 @@ The item set, `information_availability_control.py`, `analyze_probe1_stats.py` a
 ### 4.4 Probe 1 hardening — CLOSED 2026-08-06
 Items 1–3 of `probe1_findings_clasp.md` §7 are complete; full records in `probe1_per_pair_cross_analysis.md` and `probe1_manual_validation_findings.md`. Headline carried forward: **C4 = 0.603 [0.567, 0.641] on the 738 census-certified items** (0.599 all-items), vs features 0.929/0.931 and CLaSP's own 0.969 on random distractors. Blind-spot conclusion held under every control. Standing caveats a TRACE session must respect: pn-spike pairs are footnoted in both directions and not individually quotable; random-condition distractors were never human-validated; the plain-language convention governed all item judgments. Only remaining §7 item: **TRUCE substrate with parse-coverage reported** (optional).
 
+### 4.5 Narrative item set — CERTIFIED 2026-08-09; runner NOT started
+
+**Grammar (ratified 2026-08-08), components on the generate_dsp string.** N1 condition-label antonym swap (Hot↔Cold, Warm↔Cool, Clear↔Cloudy, Rainy↔Dry). N2 temporal extent, week↔six-months, whole-slot date-consistent rewrite. N3 trend-direction word surgery in the temperature field only. N5 location donor swap — the built-in negative control (location is not signal-inferable; an aligned model should show no degradation). **N4 (fluctuation↔stability) was DROPPED under a pre-committed rule** — after evidence-clause blocks, only 33/2,006 rows could be swapped cleanly (<100 threshold): in this corpus fluctuation claims are essentially never made without citing evidence (ranges, pinned values, drops), so the caption-side flip is unbuildable by minimal edit. Combined with the downsample-gate FAIL (§4.1), **the C4 question cannot be posed to TRACE in either direction — a two-walled, reportable finding**, and a supervisor talking point. Word-surgery-over-donor-fields remains deliberate: donor fields would maximally confound the text-overlap shortcut (§4.1).
+
+**Validation arc (the census discipline, applied pre-run):**
+1. Round 1 (50 items, 10/component): 10 internal-consistency defects — N1 1/10, N3 4/10, N4 5/10; N2/N5 clean 10/10. Under the pre-fixed ≥2/10 threshold, N3/N4 rules revised; N1's mechanism (post-swap contradictions, e.g. Dry+Humid) fixed as well — vindicated when the new gate removed **199/661 eligible rows (30%)** despite the 1/10 sample: the standing example that small samples find mechanisms but do not estimate rates.
+2. v2 regeneration (decoupled per-component RNGs; N2/N5 rules unchanged, carrying round-1 validation at the rule level): N1 462 eligible, N3 777, N4 dropped.
+3. Round 2 (20 items, N1/N3): N1 clean 10/10; N3 one flag (a temporal-peak clause surviving an up→down swap).
+4. Mechanical audits over the FULL populations: N1 — 0/400 swapped sets with contradictions; N3 — peak-family census found 32/400 items, of which 15 temporal suspects.
+5. Human certification of the 15: **11 defective, 4 kept** (kept: untimed "peaks indicating volatility" and "peaks and troughs" — bumpiness, not directional evidence). The 11 + their matched random twins excised.
+
+**Certified set (what the runner consumes): `data/processed/narrative_probe_items_certified.jsonl`** — 3,178 items: N1/N2/N5 400+400 each, N3 389+389. The original 3,200-item file is retained unmodified; excision record in `results/analysis/narrative_items_excision_report.json`; both counts are reported in the thesis, as with the C4 census. Health: length deltas ≤0.07 words; 2.6 items/signal. Standing caveats: random-condition distractors not human-validated (same caveat as the CLaSP items); N1 skews toward short windows (`duration_class` annotated per item); N2 uses canonical slot phrasing.
+
+**Pre-commitment on deeper validation:** before any narrative-probe number is quoted as a thesis claim, the load-bearing component receives at minimum a ~100-item human sample with a confidence interval on the defect rate, and a full census of its swap items if it carries a headline — sample to screen, census to certify.
+
+**Runner (next session's task) — open questions, in order:**
+1. Read `mm_encoder.py`'s forward pass from source and settle: is `out.description_emb` an independent projection of the input `description_emb` (text_adapter only — then swapped texts embed once via Nomic + one linear layer, and compare against the per-row signal embeddings already cached from the demo run), or entangled with the signal side (runner must batch signal+text jointly)? The 46 MB checkpoint's `text_adapter` (384×768) suggests the former; verify, don't assume.
+2. Embedding cost if independent: 1,589 swap texts ≈ 17 min CPU via the authors' own code path (SentenceTransformer, trust_remote_code); random distractors reuse cached description embeddings.
+3. Scoring identical to the CLaSP probe: cosine(signal_emb, correct) vs cosine(signal_emb, distractor); per-item JSONL in the schema `analyze_probe1_stats.py --per-item` consumes; then `audit_item_balance.py` on the results. Input: the CERTIFIED items file.
+4. Analysis slices to build in: per-component × condition (the gap is the diagnostic), header components (N1/N2/N5) vs the prose component (N3) for the text-overlap diagnostic, and `duration_class` slices for N1.
 ---
 
 ## 5. Standing practical matters
