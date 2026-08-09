@@ -186,7 +186,7 @@ def main():
     FLAGS.write_text(json.dumps({
         "population": len(pool), "flagged": len(flagged),
         "by_rule": dict(r_counts),
-        "known_defects_captured": f"{14 - len(missed)}/14",
+        "known_defects_captured": f"{len(known_defects) - len(missed)}/{len(known_defects)}",
         "certified_clean_overflagged": overflag,
         "census_rows_to_judge": len(to_judge),
         "flags": flagged,

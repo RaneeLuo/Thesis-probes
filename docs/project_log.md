@@ -358,3 +358,62 @@ BOUNDARY NOTE: Claude read the flags JSON and recomputed pattern
 classifications on the previously-provided items file (interpretive
 computation on provided data, disclosed); the census judging sheet
 itself remains unseen by Claude until verdicts are filled.
+
+
+## 2026-08-09 (new chat) — N3 census verdict: TRACE Probe-1 arm complete
+
+Session opened per protocol (fresh clone read; strata-label slip by Claude
+caught by Ranyi and verified from source: 67 x 28_days / 27 x week /
+6 x six_months). Ranyi judged all 289 census rows offline and uploaded the
+filled sheet; Claude verified and scored it on its side (interpretive
+computation on provided data, disclosed); the canonical excision and
+recomputation ran locally via scripts/n3_census_verdict.py.
+
+SHEET VERIFICATION (all clean): 289 rows, ids exact-match to the blank
+sheet, 261 y / 28 n, no blanks, every n carries an a:/b: note, no stray
+notes on y rows. Ranyi's four judged failure patterns recorded in handoff
+§4.5: contradictory remnant appositives; garbled/non-claims; period-level
+humidity-trend survivors (diurnal/correlational passed); named six-month
+spans opposing the claim (equinox-mirror and unnamed-month R1 rows passed
+— R1 was the biggest source of false exclusions). One mid-run consistency
+revision: row #35 n->y after the diurnal-vs-period rule was settled.
+Because 389/389 were flagged, sample + census = a TRUE FULL CENSUS of N3.
+
+EXCISION & RECOMPUTE (local run; every registered count expectation hit):
+45 defective swap items (17 sample-union + 28 census; zero overlap) +
+matched random twins; per-seed lines 3178 -> 3088; N3 688/seed (344+344).
+Certified per-item file written; verdict-script and analyze_probe1_stats
+accuracies agree digit-exact (two independent computations).
+
+CERTIFIED N3 (quotable): swap 0.703488/0.712209/0.709302 by seed, gap
++0.297/+0.282/+0.288 (mean +0.289 +/- 0.007), random 0.994-1.000, 95% CIs
+exclude zero, Holm-significant all seeds, no VOID. Swap accuracy FELL in
+all seeds post-excision (delta -0.016/-0.010/-0.016): the understatement
+argument is now demonstrated in data. Count chain: 400 -> 389 -> 344.
+Gradient (certified, monotone): week 0.619 (n=90) -> 28_days 0.736
+(n=245) -> six_months 0.852 (n=9; too thin for standalone claims).
+Stratum defect rates: 28_days 6.1%, week 14.3%, six_months 60.9%.
+
+PREDICTION LEDGER: P-cen1 CONFIRMED (28, near low edge of [25,75] — the
+sample's 17% over-projected; census-only rate 9.7%); P-cen2 MISSED
+(six_months 9/17 = 0.529 vs >= 0.70; R1's "a six-month header IS a
+direction claim" too strong — only named, signed spans opposing the claim
+fail); P-cen3 CONFIRMED in the informative direction (decrease everywhere,
+not merely within +0.03).
+
+COSMETIC FIXES FOLDED IN: build_n3_census.py wrote a hardcoded "14/14"
+known_defects_captured string to the flags JSON while the gate itself
+correctly checked 17 (label-only bug; gate and membership unaffected);
+the stale N3|1542 conditional note in the old n3_excision_ids.txt header
+is resolved (final verdict: excised, per the filled sheet).
+
+NEW/CHANGED FILES: scripts/n3_census_verdict.py;
+results/analysis/{n3_census_sheet.csv (filled), n3_census_excision_ids.txt,
+n3_census_verdict.json};
+results/experiments/{trace_narrative_per_item_certified.jsonl,
+trace_narrative_statistics_certified.json}; doc patches per the paste pack.
+
+STATUS: TRACE Probe-1 arm COMPLETE (optional extras unscheduled: N5
+interpretation deep-dive; restricted option-(a)). Probe 1 phase still
+open: ChatTS pending (GPU), TRUCE substrate optional. Next: supervisor
+conversation; governing docs committed before a new chat.
