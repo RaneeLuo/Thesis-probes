@@ -417,3 +417,40 @@ STATUS: TRACE Probe-1 arm COMPLETE (optional extras unscheduled: N5
 interpretation deep-dive; restricted option-(a)). Probe 1 phase still
 open: ChatTS pending (GPU), TRUCE substrate optional. Next: supervisor
 conversation; governing docs committed before a new chat.
+
+
+## 2026-08-09 — text-embedding-3-large strict retrieval baseline (matrix cell filled)
+
+New script models/openai_embed/run_baseline.py (protocol identical to CLaSP
+harness B; serialisation imported from run_probe1 — shared cache, no drift;
+gates G1–G7). All registered expectations hit exactly: pool 386, queries 878
+(738 truce / 140 sushi), signals 246/140, max signal tokens 4096, cache hits
+140 signals + 140 captions, paid cost ~$0.002 (SUSHI signal embeddings fully
+reused from the probe cache). Ranyi ran locally; Claude interpreted from the
+returned output only.
+
+Result (random-ranking references for pool 386: R@1 0.003 / R@10 0.026 /
+MRR 0.017):
+  all   R@1 0.005  R@5 0.022  R@10 0.052  MRR 0.027  median rank 133
+  truce R@1 0.005  R@5 0.026  R@10 0.062  MRR 0.032  median rank 110
+  sushi R@1 0.000  R@5 0.000  R@10 0.000  MRR 0.004  median rank 307
+
+Floor confirmed: the baseline cell now shows in ordinary retrieval units that
+this model cannot do the task, anchoring the probe's VOID verdict. SUSHI is
+BELOW chance (median rank 307 vs ~193 random; 0 top-10 hits in 140 queries
+vs ~3.6 expected) — consistent with the probe's documented length-correlated
+behaviour. Mechanism hypothesis (in the mixed pool, SUSHI caption queries
+rank the 246 short TRUCE number-strings above the 4,096-token SUSHI
+serialisations, predicting median ~316) fits but is recorded as INFERENCE,
+NOT VERIFIED — decision (Ranyi, 2026-08-09): accept and footnote, no
+diagnostic script; keep scope tight.
+
+Prediction ledger: MRR < 0.05 everywhere CONFIRMED (0.027/0.032/0.004);
+cache split predicted ~140/~246 EXACT; cost predicted <= $0.02 CONFIRMED
+(~$0.002). One non-crash stop: first --yes run halted before any API call
+on a missing OPENAI_API_KEY (env var not set in the new terminal session).
+
+Canonical file: results/experiments/baseline_openai_embed.json
+
+STATUS: Phase 1b text-embedding-3-large baseline COMPLETE. Next: supervisor
+message sent separately; then Probe 2 planning on CLaSP + TRACE.

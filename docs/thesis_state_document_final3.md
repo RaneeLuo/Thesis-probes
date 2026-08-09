@@ -1,6 +1,6 @@
 # Thesis State Document — v3
 **Project:** Diagnostic Evaluation Framework for Time-Series–Text Alignment (TU/e DS&AI Master's Thesis, Ranyi/Ranee)
-**Last updated:** 2026-08-06 (rev. 5 — Probe 1 hardening complete: per-pair cross-analysis, 279-restricted control, full C4 item census; C4 headline now census-certified 0.603)
+**Last updated:** 2026-08-09 (rev. 6 — TRACE Probe-1 arm complete, N3 census-certified per §2; text-embedding-3-large strict retrieval baseline added: floor confirmed, MRR 0.027 vs chance 0.017, matrix cell filled)
 **Supersedes:** `thesis_state_document_final2.md` (v2), which is superseded in §2 (status), §4 (probe metric decision), §5 (baseline values), §6 (new verified facts), §7 (compute) and §8 (phase status). **If v2 and v3 conflict, v3 is correct.**
 
 ---
@@ -76,6 +76,8 @@ Chance = 0.500. All Holm-significant in all three seeds. Difficulty control: 16 
 
 **Probe 1 on text-embedding-3-large (floor baseline) — complete.** Same items, same statistics; serialisation documented (z-normalised, ×10, clipped ±99, all 2,048 points, 4,096 tokens/signal). Result: **at or below chance on every component**, swap margins 0.001–0.007 vs CLaSP's 0.02–0.50. Choices correlate with caption length (r ≈ +0.13/+0.17), falling below chance where correct captions are shorter.
 
+**Strict retrieval baseline for text-embedding-3-large — complete 2026-08-09** (`models/openai_embed/run_baseline.py`; protocol identical to CLaSP harness B, serialisation imported from the probe runner, shared cache; all registered count expectations hit exactly). Result over 878 test queries, pool 386: **all MRR 0.027 / R@10 0.052** (chance references 0.017 / 0.026); truce MRR 0.032; **sushi MRR 0.004, median rank 307, zero top-10 hits — below chance.** This anchors the probe's VOID verdict in ordinary retrieval units: the model has no retrieval capability for a perturbation to degrade. The below-chance SUSHI pattern is consistent with the probe's documented length-correlated behaviour; the mixed-pool crowding mechanism (short TRUCE strings outranking 4,096-token SUSHI serialisations, predicted median ~316 vs observed 307) is recorded as **inference, not verified** — accepted-and-footnoted by decision 2026-08-09, no diagnostic script. Canonical file: `results/experiments/baseline_openai_embed.json`.
+
 **Its verdict is VOID, not "degraded".** With both conditions near chance there is no capability for a perturbation to degrade, so its gaps are *not* shortcut evidence. It contributes (a) a measured floor showing CLaSP's shape performance is bought by contrastive training, and (b) a negative control demonstrating the diagnostic does not manufacture false shortcut claims — a shortcut requires *high* random-condition accuracy, which this model never reaches.
 
 **Item-set audit (applies to all models).** `scripts/audit_item_balance.py` reports the accuracy of an oracle that always picks the longer caption: **all swap conditions within 0.017 of chance** (0.495–0.517), so length is unexploitable where every shortcut finding comes from. Random condition deviates mildly (0.421 on C3 to 0.559 on C4) — report alongside random accuracies; it cannot account for CLaSP's 0.92–0.99.
@@ -150,7 +152,7 @@ The item set, difficulty control and statistics script are **model-independent**
 | **CLaSP** (our reimplementation; Ito et al., EUSIPCO 2025) | univariate dual encoder (Transformer-from-scratch + T5-Small) | TRUCE / SUSHI Tiny | Recall@k, MRR | **baseline done**: R@1 0.043, MRR 0.133 |
 | **TRACE** (Chen et al., arXiv 2506.09114) | multivariate retriever, CIT + channel-biased attention, K=32, λ_ch=1.0 | NOAA test-split descriptions via the authors' generate_dsp template (largely LLM channel prose — the "human narratives" framing was corrected 2026-08-08, see §2; narrative grammar N1–N5) | binary forced choice, acc gap swap-vs-random | substrate resolved (b); 3,178 certified items (N1/N2/N3/N5; N4 unbuildable-clean, dropped); measurement complete 2026-08-09, replicated over 3 mask seeds; N5 reframed (not a negative control); **arm COMPLETE 2026-08-09 — N3 census-certified (344 pairs; gap +0.289 ± 0.007)** |
 | **ChatTS** (Xie et al., VLDB 2025) | 14B Qwen2.5 TS-MLLM, value-preserved prefix | TRUCE / SUSHI (MCQ) | F1 | not started; needs A100 |
-| **text-embedding-3-large** | API text embedder | TRUCE / SUSHI (series serialised as text) | Recall@k, MRR | not started; ≈1 day |
+| **text-embedding-3-large** | API text embedder | TRUCE / SUSHI (series serialised as text) | Recall@k, MRR | **baseline done 2026-08-09**: MRR 0.027 vs chance 0.017, median rank 133/386 — floor confirmed; SUSHI below chance (median 307), footnoted; `results/experiments/baseline_openai_embed.json` |
 
 Cross-model synthesis uses **relative degradation only**. No shared test items across all four; no raw Recall@k-vs-F1 comparison. The probe×model pass/fail matrix is the headline deliverable.
 
@@ -207,7 +209,7 @@ Cross-model synthesis uses **relative degradation only**. No shared test items a
 
 - **Phase 0 — Paperwork:** ✅ complete.
 - **Phase 1a — CLaSP baseline:** ✅ **complete.** Three seeds trained and aggregated, fidelity validated across four protocols, untrained control run. Optional remainder: a one-page baseline report.
-- **Phase 1b — Remaining model baselines:** ⬜ text-embedding-3-large, TRACE, ChatTS.
+- **Phase 1b — Remaining model baselines:** 🟨 **text-embedding-3-large ✅ complete 2026-08-09** (strict protocol identical to CLaSP harness B; MRR 0.027 vs chance 0.017 — floor confirmed; SUSHI below chance, mechanism hypothesis recorded as inference, accepted-and-footnoted). TRACE covered by the demo reproduction (P@1 0.42, orientation-level). Remaining: ChatTS.
 - **Phase 2 — Probe 1 (component swap):** 🟨 **in progress.** Machinery built and validated; **CLaSP arm complete and fully hardened** (per-pair analysis, restricted control, complete item census — C4 headline 0.603 census-certified); floor baseline complete (VOID). **TRACE arm complete 2026-08-09** (N3 census-certified; gap +0.289 ± 0.007). Remaining: ChatTS, TRUCE substrate (optional). Do **not** describe Phase 2 as complete until the cross-model matrix exists — the paradigm-level claim depends on it.
 - **Phase 3 — Probe 2 (shuffle):** ⬜ reuses Phase 2 pipeline.
 - **Phase 4 — Probe 3 (summary-stats):** ⬜ includes the ChatTS A100 job.
