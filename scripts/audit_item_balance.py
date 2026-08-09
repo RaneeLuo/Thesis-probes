@@ -94,6 +94,13 @@ def main():
     ap.add_argument("--out", default=None,
                     help="output path; defaults to probe1_item_balance.json, or "
                          "probe1_item_balance_<model>.json when --results is given")
+    # ADDED 2026-08-08: the narrative substrate is the first second item set;
+    # the hardcoded ITEMS constant silently audited the SUSHI items against
+    # TRACE narrative results (0 matched). Default preserves every existing
+    # CLaSP/floor command unchanged.
+    ap.add_argument("--items", default=str(ITEMS),
+                    help="item-set JSONL to audit; MUST be the set the "
+                         "--results file was scored on")
     args = ap.parse_args()
 
     # The item-set audit is model-independent, but the correlation is not, so
@@ -109,8 +116,22 @@ def main():
     else:
         out_path = OUT
 
-    items = [json.loads(l) for l in open(ITEMS, encoding="utf-8")]
+    items = [json.loads(l) for l in open(args.items, encoding="utf-8")]
+    print(f"items file: {args.items}")
     print(f"items: {len(items)}\n")
+
+    if args.results:
+        res_ids = {json.loads(l)["item_id"]
+                   for l in open(args.results, encoding="utf-8")}
+        item_ids = {it["item_id"] for it in items}
+        n_hit = len(res_ids & item_ids)
+        print(f"[check] results item_ids matched to this item set: "
+              f"{n_hit}/{len(res_ids)}")
+        if n_hit == 0:
+            print("[check][WARNING] ZERO overlap — you are auditing a "
+                  "DIFFERENT item set than the results were scored on. "
+                  "Pass the right --items; every number below would be "
+                  "about the wrong items.")
 
     groups = defaultdict(list)
     for it in items:

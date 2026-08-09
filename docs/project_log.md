@@ -213,3 +213,148 @@ This file records major implementation and research milestones for the thesis pr
 ## Next milestone
 
 Build the TRACE narrative runner on the certified item set. First move: read the forward pass in mm_encoder.py from source to settle whether the description side is an independent projection — if so, the runner embeds the 1,589 swap texts once and compares against the signal embeddings already cached from the demo reproduction; scoring and statistics reuse the Probe-1 machinery unchanged. Design questions and analysis slices are listed in handoff §4.5. ChatTS follows once GPU access is resolved.
+
+## 2026-08-09 — TRACE narrative runner stage (one session)
+
+Session scope: answer the four §4.5 runner questions, build and run the
+narrative probe, analyse, investigate anomalies, prepare N3 hardening.
+
+SOURCE READS (authors' repo, line numbers in handoff §4.1/§4.5):
+mm_encoder.py (description path independent: adapter+LayerNorm+L2, 144-152,
+returned at 181; cross-attention 167-169 touches only channel outputs);
+masking.py + context_align_task.py (authors evaluate with a RANDOM 30% mask;
+no seeding anywhere); load_data.py (bare-string Nomic call; caches are raw
+768-dim TEXT embeddings — the §4.5 claim of cached SIGNAL embeddings was
+wrong: the demo persists only metrics).
+
+DECISIONS: seeded mask replication (13/14/15) as the seed axis; §4.1
+text-overlap threat REVISED (no inference-time pathway; header-vs-prose
+downgraded to descriptive); both recorded in the handoff.
+
+RUN: run_narrative_probe.py, gates G1-G9 all green (second attempt).
+Unperturbed P@1 0.4407/0.4282/0.4302 (spread 0.0125). Results: N1
+0.875-0.892/+0.11; N2 0.935-0.950/+0.055; N3 0.720-0.725/+0.27 (margins
+0.005); N5 0.917-0.935/+0.074. All Holm-significant, no VOID, random
+condition 0.990-1.000.
+
+ERRORS (ledger #10, #11 — both "ran cleanly, looked reasonable"):
+#10 (Claude's, in the delivered runner): items read without explicit UTF-8
+    -> cp936 mojibake at read time -> G6 fired on 3,162 items; file was
+    byte-clean; fixed + canary gate G5b. Dry-test on Linux could not catch
+    it (UTF-8 default).
+#11 audit_item_balance.py hardcoded the SUSHI items path; produced a clean,
+    plausible, WRONG table for TRACE results with a quiet footnote. Fixed:
+    required --items flag + loud zero-overlap warning.
+
+N5 INVESTIGATION (verify_n5_investigation.py; local run digit-exact):
+replacement records faithful 400/400; 360/400 swaps change the sentence
+frame; decisive slice: 40 place-name-ONLY swaps score 0.900 in all seeds
+-> location IS signal-inferable; N5 reframed from negative control to
+positive finding; climate vs station-memorization left open (duration
+gradient week 0.850 -> 28d 0.978 weakly favours climate inference).
+
+SLICES (analyze_narrative_slices.py): N1 duration spread 0.072 (P-dur
+confirmed — N1 not duration-driven). N3 monotone gradient week 0.648 ->
+28d 0.742 -> six-months 0.841: report with any N3 claim. Header-vs-prose
+0.92 vs 0.72, stable; descriptive only.
+
+LENGTH AUDIT (patched, --items): closed. N1/N3 swap zero word diff; N5
+swap 0.496 (anomaly not length); flagged cells deflationary; r ~ 0.000.
+
+PREDICTION LEDGER: P1 confirmed (G7 4.5e-07); P2 confirmed (spread
+0.0125); P3 confirmed (after #10 fix; the initial G6 failure was the bug,
+not the data); P4 confirmed; P5 MISSED (N5 0.92, not chance); N5
+content-contamination prediction PARTIAL MISS; N5 frame-driven prediction
+MISSED (0.900 on place-name-only); P-dur confirmed; P-hp confirmed.
+Registered for next stage: P-val1 (N3 sample pass >= 0.95), P-val2
+(failures concentrate in week items).
+
+N3 HARDENING PREPARED: make_n3_validation_sheet.py, seed 20260808,
+stratified 67/27/6, batches of 50, criterion >=0.95 cumulative at each
+boundary; rules adapted from pinned C4 two-part test + v2 exclusions;
+Ranyi to confirm rules wording before row 1. Verdict = next session.
+
+PROCESS NOTE: one boundary crossing, disclosed in-session — Claude ran the
+patched audit and the N5 item-level checks on its side (the audit as an
+unauthorised smoke test, flagged immediately; the N5 investigation under a
+one-time explicit authorisation, then reproduced locally digit-exact).
+Standing rule reaffirmed: scripts to Ranyi, runs local, no exceptions.
+These handoff-document edits were also applied by Claude (files delivered
+for review) at Ranyi's request.
+
+NEW/CHANGED FILES: models/trace/run_narrative_probe.py,
+models/trace/diagnose_g6_drift.py (served its purpose; retains the read
+bug it diagnosed — do not reuse), models/trace/verify_n5_investigation.py,
+scripts/analyze_narrative_slices.py, scripts/make_n3_validation_sheet.py,
+scripts/audit_item_balance.py (patched); results/experiments/
+trace_narrative_{per_item.jsonl,summary.json,statistics.json};
+results/analysis/{trace_narrative_slices.json,
+probe1_item_balance_trace_narrative.json,n3_validation_sheet.csv,
+n3_judging_rules.md}; .cache/trace_swap_text_emb.pt (local only).
+
+## 2026-08-09 (continued, same chat) — N3 sample verdict and census engagement
+
+The session continued past the runner stage at Ranyi's request: the N3
+sample was judged and scored, and the census was constructed — a second
+stage in one chat, by explicit decision, noted as a convention deviation.
+
+SAMPLE VERDICT: primary sheet 86/100; criterion FAILED already at
+batch-1 (45/50 vs pre-registered >=48). Procedural deviation: batch 2
+judged after the failing boundary (C4 precedent; rows blind+top-down;
+data stands). P-val1 MISSED (0.86<0.95); P-val2 MISSED (six_months 5/6
+defective dominates, not week).
+
+TWO-PASS RECORD: a second filled version of the sheet surfaced (draft
+pass); 4 rows differ. Deleted copy recovered from OneDrive per
+keep-superseded-records practice. Strict-call ruling: defects = UNION of
+n's across passes -> 17 (adds N3|1188/345/626, all week, one shared new
+mechanism: "peaking at" survivors; N3|220's reasoned n stands over the
+variant's unnoted y). Union: 83/100, batch-1 42/50, rate 0.170, Wilson
+CI [0.1089, 0.2555]. Verdict unchanged under either reading. Both files
+committed: n3_validation_sheet.csv + n3_validation_sheet_variant.csv.
+
+MECHANISMS CODIFIED (5): intra-clause tails/value anchors; seasonal
+six-month windows (structural; retro-explains that stratum's 0.841);
+cross-channel humidity anchors; peak/trough survivors; sub-window
+anchors in standard phrasing (N3|1577, found by the census gate test).
+
+CENSUS CONSTRUCTION (build_n3_census.py): rules R1/R2/R3 gated against
+all 17 known defects — gate PASSED 17/17 (after R2 was extended with
+peak patterns BECAUSE of the two-pass disagreement); P-c2 confirmed
+(R1=23); P-c3 MISSED with mechanism: 389/389 flagged — R2 value
+patterns match the corpus's standard temperature template (280 items
+value-only). Rule-certification (109-item semantic set) tested and
+REFUTED by counterexample: misses N3|1577, whose defect hides in fully
+standard phrasing. DECISION (Ranyi): Path 1, full human census of the
+289 unjudged items; flags column secondary. Sheet delivered; judging
+offline; scoring/excision/recompute next session.
+
+SESSION-CLOSE MICRO-ERRORS (recorded; same species as ledger #10/#11):
+- score script v1 used a bare assert (no row numbers) — against house
+  style; v2 names failures.
+- v1's first failure was environmental, not format: the repo path held a
+  blank/unsynced sheet at read time (Excel save + OneDrive lag + a
+  rename); lesson: same path, different bytes at different times.
+- Claude's "expected" CI digits [0.1090, 0.2547] were head-arithmetic;
+  the computed truth is [0.1089, 0.2555]. Plausible number from memory
+  presented as an expectation — the exact species this project distrusts.
+- census flag-reason strings truncate to 3 patterns (hits[:3]) and can
+  hide semantic hits behind value hits; flag MEMBERSHIP and the gate are
+  untruncated and unaffected; Path-2 analysis was recomputed from raw
+  items rather than trusted to the truncated record.
+- two document-patch attempts reported in-memory [ok] per edit but wrote
+  nothing (a later anchor failed before the single write); lesson: only
+  a post-write verification of the file on disk counts.
+
+PREDICTIONS REGISTERED FOR NEXT STAGE: (P-cen1) census defect count among
+the 289, using the sample as prior (17% of flagged-population): wide
+interval 25-75; (P-cen2) six_months items not already judged (23-6=17)
+are defective at >=70%; (P-cen3) post-excision N3 pooled swap accuracy
+DECREASES or holds within 0.03 (mechanisms inflate swap accuracy, so
+removing defects should not raise it materially) — a miss here would
+challenge the understatement argument and must be investigated.
+
+BOUNDARY NOTE: Claude read the flags JSON and recomputed pattern
+classifications on the previously-provided items file (interpretive
+computation on provided data, disclosed); the census judging sheet
+itself remains unseen by Claude until verdicts are filled.
