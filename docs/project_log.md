@@ -604,3 +604,190 @@ ex-half identity check and no-op flagging; grouping-coverage counters;
 known-dependent-stratum direction sanity; natural-zeros gate;
 registered-expectation-per-command), then the TRUCE classifier build.
 Predictions P2-1..P2-9 registered; none yet tested against runs.
+
+## 2026-08-13 — Q5 resolved; TRUCE grouping built, judged, CERTIFIED; P2-8 MISSED; Probe-2 design complete
+
+Q5 RESOLVED at session open: runner gate list G1–G9 accepted by Ranyi as
+proposed. G1 perturbation-applied per-item diff (multiset equal + order
+changed; sf-half second half byte-identical; ex-half survivors flagged
+NO-OP, not failed); G2 natural-zeros rate printed before any masked run
+(reported, never fatal); G3 grouping-coverage counters vs certified counts,
+totals must reconcile (HARD STOP); G4 direction sanity — SUSHI known-
+dependent stratum must not improve under sf-all (HARD STOP); G5 registered
+expectation per command (standing); G6 frozen-baseline digit-exact
+reproduction before any perturbed number (HARD STOP); G7 permutation
+validity — true perm, seed recorded per signal, TRACE same index array
+asserted across channels, mask position counts exact (HARD STOP); G8
+identity control — SUSHI clean;constant embedding and rank unchanged under
+the shuffle family; G9 pairing integrity — lossless per-query ID join
+(HARD STOP). Also restated into the runner spec: per-group unperturbed
+baselines printed before any DiD; utf-8 + mojibake canary; required path
+flags. P2-8 scoring PINNED pre-run: parseable = dependent + invariant
+(ambiguous outside the denominator); row-level population primary;
+unique-level and test-split reported alongside.
+
+TRUCE build. Step 1, inspection (inspect_truce_order_language.py, gates
+I1–I5 green): 7,380 TRUCE rows = 5,087 unique texts; test rows 738
+CONFIRMED the pool-386 arithmetic (was inference, now verified). DATA
+DISCOVERY: TRUCE contains empty/junk captions — '{}' and a pasted
+dictionary definition (min caption length 0 words). Candidate scan:
+zero-hit 5.1%, and its word table exposed missed order vocabulary
+(incline, reduces, reach, reverse, midpoint, digit fractions, typos).
+
+Classifier v1 (rules per binding Q3 truth-conditional standard; panel
+18/18; all gates green): 7,045/239/96 rows dep/inv/amb; P2-8 provisional
+0.0328. Registered-expectation ledger: five hits; ONE MISS recorded —
+junk predicted 5–80 unique texts, actual 1 ('{}' ×7 rows); TRUCE
+annotation failures concentrate in one template string. Claude then read
+all three sheets in full and found mechanisms BOTH ways: ~6 dependent
+leaks in the invariant sheet (missed vocab + two regex-proof typos
+'ricing'/'fist') and two recoverable populations in ambiguous (~11
+negated-bumpiness texts = invariant per the SUSHI certified negated-
+order-word precedent; ~30 dependents with missed vocabulary).
+
+Rules v2 (one revision round, round-1→v2 precedent; threshold-chasing
+guard stated up front: v1 rate stays in the record, v2 expectation
+registered at 0.031–0.038 — refinements do not rescue P2-8): negation
+handling (negation + bumpiness/change word → invariant unless remainder
+still carries an order claim); bare up/down + shape/motion vocabulary →
+dependent; straight/linear/horizontal without another anchor → ambiguous
+(this corpus uses "straight" for steep rises); anchors gain
+stabil*/maintain*/consist*. Panel extended to 49 (one DELIBERATE change:
+'oscillates with a negligible amplitude' amb→inv); 40-case regression
+from v1 sheets all pass. v2 run: all gates green; 7,082/249/49 rows;
+negated_motion 25 (registered 15–25, top edge); P2-8 v2 0.0340 (inside
+0.031–0.038). One residual bug found by READING the negated newcomers:
+'very not steep downward parabola' — the negation span swallowed
+'downward' before the dependent check saw it. 1 text; left to census by
+decision (mechanism recorded), and predicted as a census 'n'.
+
+CENSUS (Ranyi, all three sheets, 2026-08-13): invariant 189 → 184 y /
+5 n; dependent sample 30/30 y; ambiguous 43 → 40 y / 3 n (reassignments:
+'highly placed line' → invariant; 'incresae the same' and 'inrease
+derease to inccresaes' → dependent). The five invariant n's include all
+three Claude-predicted rows AND one catch Claude had missed in both v1
+and v2 reads: 'the changes stay almost constant throughout the pattern'
+— constant CHANGES can mean constant slope, not shuffle-safe. Sharp
+truth-conditional reading; exactly what the census exists for.
+Prediction scorecard: P-c1 (3–12 n's, three named) HIT; P-c2 (0–2) HIT;
+P-c3 (≤8 moves) HIT.
+
+ENCODING INCIDENT, caught before any damage: Ranyi's judged sheets came
+back GBK-encoded (Chinese-locale Excel re-encode; em-dashes in her typed
+notes). Caught because verification decodes before trusting; ALL 262
+caption join keys verified byte-intact — verdicts unaffected. The
+certification script decodes utf-8/gbk/cp1252 with the encoding printed.
+
+CERTIFICATION (apply_truce_certification.py, gates A1–A5 all green, all
+counts landing exactly on registered expectations): certified grouping
+dependent 7,089 rows / 4,862 texts / 715 test; invariant 245 / 185 / 18;
+ambiguous 46 / 40 / 5; degenerate series 0. All eight moved captions are
+train/val — test untouched. **P2-8 CERTIFIED: 245/7,334 = 0.0334 —
+MISSED** (threshold 0.15; v1 0.0328 and v2 0.0340 provisionals retained).
+The miss is informative: THREE-SUBSTRATE SATURATION — SUSHI 2.9%
+invariant, TRACE 0%, TRUCE 3.3% — natural caption corpora are saturated
+with order language; a candidate thesis finding. Stated consequence for
+the runner: the CLaSP DiD invariant group on test is 18 rows — thin; the
+TOST leg may be underpowered and the write-up says so rather than hides
+it. Artifacts: results/analysis/probe2_truce_groups{,_certified}.json,
+probe2_truce_{invariant_judgment_sheet,dependent_sample,ambiguous_sheet}
+.csv (judged copies to commit), truce_order_inspection.json.
+
+Probe-2 design ledger CLOSED: Q1–Q5 all resolved; groupings certified on
+all three counted substrates; predictions P2-1..P2-9 registered, none yet
+tested. NEXT STAGE (new chat): the runner build — CLaSP first
+(SUSHI + TRUCE substrates, G1–G9, frozen-table reproduction), then TRACE.
+
+## 2026-08-13 (second entry) — CLaSP Probe-2 EXECUTED and SCORED: P2-1/2/3 confirmed, P2-5 missed with mechanism traced to one query; G6 fired and earned its keep (TRUCE-synth duplicate signals discovered)
+
+Session continued past the morning handoff by Ranyi's explicit choice
+(context-trimming caveat stated and accepted).
+
+MECHANICS M1–M3 accepted after fresh source verification (parent repo
+re-cloned; ablUtils.py sha256 matches the recorded 4e0552…a6f0): M1
+masking fills 0 on the z-normed model input (parent StandardScaler runs
+in the loader before batching — data_loader.py:111–133; pre-znorm
+masking would leak into every point via recomputed mean/std); M2
+int(0.2*L) verbatim from parent code — SUSHI 409/2048, TRUCE 2/12 =
+16.7% effective, reported as such; M3 per-signal seed =
+sha256(sample_id|pert|ckpt_seed)[:12hex], recorded per signal.
+
+DESIGN CORRECTION recorded before build: G8's rank-invariance clause was
+WRONG — every pool signal is perturbed, so the constant signal's rank
+can legitimately move; G8 is embedding-identity only.
+
+FIRST RUN: G6 FIRED (seed 42; max dev 4.07e-3; SUSHI + TRUCE R@5/R@10
+digit-exact). Investigation instead of tolerance-loosening:
+diagnose_g6 showed (D1) drift STABLE to 12 decimals within the current
+environment (torch 2.13/numpy 2.4.6/transformers 5.14 vs the July env);
+(D2) the flipped queries sit at margins of EXACTLY 0.0 — exact ties.
+check_pool_duplicates + check_pool_neighbours then verified the
+mechanism end-to-end: **TRUCE-synth test pool contains duplicate
+signals** — exact z-norm clusters {165,326,360} and {58,86}, plus
+1-float32-ulp near-duplicates 87↔165 and 249↔362 (5.96e-08 = one ulp);
+15 exact-cluster queries, 18 tied at runtime incl. ulp collisions;
+SUSHI min NN distance 0.124 (structurally tie-free). July's frozen
+TRUCE R@1 therefore contains 3 lucky tie flips; ~2% of TRUCE R@1 is a
+coin flip for ANY model. DATA-QUALITY FINDING (joins the '{}' captions).
+
+DECISIONS D1/D2 accepted: D1 G6 split — G6a SUSHI digit-exact (<=1e-9,
+hard stop; a SUSHI deviation cannot be tie-explained); G6b
+TRUCE-containing metrics within 6e-3 (tie-derived bound, hard stop
+beyond). D2 rank metric now DETERMINISTIC AVERAGE RANK (ties get the
+mean of their positions); legacy argsort rank retained solely for the
+like-for-like G6 comparison vs the frozen table. SECOND CORRECTION mid-
+arc: the first G6a partition ("TRUCE R@5/R@10 tie-immune") was seed-42-
+empirical and seed 43 falsified it — one tied query crossed an R@5
+boundary (deviation exactly 1/738); partition rebuilt on the structural
+property (SUSHI-only). Gate now prints every deviating metric in
+query-steps; the tie signature is whole-step quantization, verified in
+all three seeds. Also recorded: the constant SUSHI signal z-norms to
+all ±1, NOT zeros (float rounding in the mean defeats the sd<1e-8
+branch) — three of Claude's registered expectations missed on this one
+mechanism (D2 tie count 18 vs 15; SUSHI natural zeros 0%; masking
+no-op 0) and are logged as misses.
+
+FULL RUN (runner v3, seeds 42/43/44): ALL GATES PASSED. Tie counts 18
+stable across seeds; dissolution profile as predicted (sf_all/sf_half/
+masking -> 0; ex_half preserves duplicate ties, 15–17); seed-43 masking
+no-op OW_5 explained by G2's 14 natural TRUCE zeros; G4 degradation
++0.232/+0.239/+0.280.
+
+STATISTICS (analyze_probe2; cluster bootstrap over signals, B=2000;
+TRUCE invariant = 18 queries over 14 signals; TOST margin ±0.05 PINNED
+PRE-ANALYSIS, mirroring P2-1's registered threshold — the post-hoc-
+margin risk flagged at the presentation stage is thereby closed):
+**P2-1 CONFIRMED** (SUSHI dep sf-all Δ 0.232/0.239/0.280, rel 76–78%,
+Wilcoxon p ≤ 4e-16, both threshold readings). **P2-2 CONFIRMED** (TRUCE
+DiD +0.0022/+0.0762/+0.0729, positive all seeds as worded; 95% CIs
+exclude 0 in seeds 43/44, straddle 0 in seed 42 — reported beside the
+verdict, not hidden). **P2-3 CONFIRMED** (sf-all ≥ sf-half everywhere).
+**P2-5 MISSED** — and not in the registered-expectation's expected way:
+seeds 43/44 PASSED TOST cleanly (90% CIs [−0.016,+0.012] and
+[−0.0003,+0.018] inside ±0.05 — genuine flatness, not inconclusiveness);
+seed 42 failed substantively (+0.064, CI bounded away from 0). Drill-
+down: **87% of seed-42's invariant degradation is ONE query** —
+truce_synth:pilot13/126.png#2, 'The majority is flat.', rank 1 → 259
+under sf-all. Caption certified invariant under the value-level reading
+(census 'mostly flat' precedent; certification stands, not reopened);
+sibling captions describe the signal as incline-then-flat; the
+majority-flat APPEARANCE is an arrangement property that shuffling
+destroys. The registered miss-interpretation ("even orderless captions
+ride on order-sensitive signal features") is thus instantiated as one
+named, inspectable case. Discussion item: adjacency-vs-multiset reading
+of flatness claims.
+
+Unregistered-but-measured descriptives for the profile: ex_half ≈
+sf_all in severity on both substrates (half-swap destroys nearly as
+much as full shuffle); TRUCE masking degradation is small (rel 14%/14%/
+2%; seed 44 p=0.15 n.s.) versus shuffle's 66–75% — CLaSP-TRUCE
+degradation is overwhelmingly order-driven, with the 2-of-12-points
+masking-weakness caveat attached.
+
+Artifacts: models/clasp/run_probe2.py (v3), diagnose_g6.py,
+analyze_probe2.py; scripts/check_pool_duplicates.py,
+check_pool_neighbours.py; results/experiments/probe2_clasp_per_query_
+seed{42,43,44}.jsonl + signal_meta + summary + stats;
+results/analysis/probe2_g6_diagnosis.json, probe2_pool_duplicates.json,
+probe2_pool_neighbours.json. REMAINING in Probe 2: floor negative
+control (P2-4) and the TRACE runner (P2-9 + profile) — NEXT CHAT.

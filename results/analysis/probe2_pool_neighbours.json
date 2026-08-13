@@ -1,0 +1,35 @@
+{
+  "close_pairs": [
+    [
+      "truce_synth:pilot13/58.png",
+      "truce_synth:pilot13/86.png",
+      0.0
+    ],
+    [
+      "truce_synth:pilot13/87.png",
+      "truce_synth:pilot13/165.png",
+      5.960464477539063e-08
+    ],
+    [
+      "truce_synth:pilot13/165.png",
+      "truce_synth:pilot13/326.png",
+      0.0
+    ],
+    [
+      "truce_synth:pilot13/249.png",
+      "truce_synth:pilot13/362.png",
+      5.960464477539063e-08
+    ]
+  ],
+  "focus": {
+    "truce_synth:pilot13/87.png": [
+      "truce_synth:pilot13/165.png",
+      5.960464477539063e-08
+    ],
+    "truce_synth:pilot13/362.png": [
+      "truce_synth:pilot13/249.png",
+      5.960464477539063e-08
+    ]
+  },
+  "sushi_min_nn": 0.12389162182807922
+}
