@@ -454,3 +454,153 @@ Canonical file: results/experiments/baseline_openai_embed.json
 
 STATUS: Phase 1b text-embedding-3-large baseline COMPLETE. Next: supervisor
 message sent separately; then Probe 2 planning on CLaSP + TRACE.
+
+---
+
+## 2026-08-09 — Probe-2 stage opened: §4.6 Q1 and Q2 resolved
+
+Q1 (parent mechanics). Tan et al. shuffle/masking mechanics pinned from
+source: paper §4.4 verbatim + authors' code (ablUtils.py + OFA call path,
+BennyTMT/LLMsForTimeSeries). Test-time only; point-level shuffles (sf-all
+whole sequence, sf-half first half, ex-half deterministic half-swap with no
+randomness); masking sets random non-contiguous positions to 0; channels
+shuffle jointly; one permutation shared per batch, single unseeded draws.
+Discovery: unreported block-level shuffle (sf_patchs, patch sizes 8-64) in
+the authors' code. Unpinned and flagged: which mask ratio the paper's
+Masking column reports (code sweeps 0.0-0.8) and which metric underlies its
+% cells. ablUtils.py hashed byte-identical across OFA/CALF/PAttn (sha256
+4e0552...a6f0) — "identical" verified, not inferred from byte size. No
+conflict with any committed decision (§6.1 count 3+1 confirmed exactly).
+
+Q2 (metric). BINDING decision, accepted by Ranyi: strict retrieval rank
+shift for CLaSP and TRACE (MRR/R@10 primary, paired per query, frozen
+unperturbed baselines reused). Forced choice rejected: Probe 1's
+unequal-pool justification does not transfer, and the random-distractor
+ceiling (0.95-0.99) would compress the DiD. Floor model pre-declared VOID
+for Probe 2; runs as the pipeline's negative control. Per-group unperturbed
+baselines to be printed before any DiD is quoted. Predictions P2-1..P2-5
+registered pre-run (handoff §4.6): dependent-group degradation > margin,
+positive DiD, sf-all >= sf-half severity, floor VOID, invariant-group TOST
+pass (least confident; no ex-half prediction — open by design).
+
+Design consequences recorded for the runner stage: per-signal seeded
+permutations as a documented adaptation of the parent's per-batch draw;
+ex-half applied-check must be a half-swap identity check (constant series
+survive ex-half unchanged — no-op item, not error); mask ratio must be
+pre-registered (parent's is unpinned); sf_patchs available as a named
+parent-precedented extension if a block-level SUSHI variant is wanted.
+
+NEXT: §4.6 Q3 — caption grouping per substrate (SUSHI rule-based from
+labels; TRUCE 3-way classifier + human sample; TRACE narrative sentence
+types), then Q4 mechanics per substrate, then Q5 gates.
+
+---
+
+## 2026-08-09 — §4.6 Q3: grouping rule decided; SUSHI count done
+
+Rule (BINDING, accepted by Ranyi, recorded in PROJECT_CONTEXT):
+truth-conditional grouping — a caption is order-dependent if shuffling
+makes ANY of its claims false; invariant = zero order-sensitive claims;
+ambiguous-excluded reserved for unclassifiable language, counted; purity
+subgroups secondary. New third bucket discovered from the committed
+caption texts: DEGENERATE (permutation fixed points, e.g. SUSHI
+"clean; constant" — shuffling an exactly flat series is a no-op), kept as
+identity controls outside any DiD group. Sequencing: counts before the
+TRUCE build.
+
+SUSHI count (classify_sushi_order_groups.py, run by Ranyi, gates green):
+1400 records, 140 classes reconciled against the committed grammar;
+verdict split EXACTLY the hand-computed expectation 135 dependent /
+4 invariant ({noisy, neg, pos, pn spike} x constant) / 1 degenerate.
+P2-6 CONFIRMED (4 <= 14). Within-SUSHI DiD underpowered as suspected;
+SUSHI role = known-order-dependent sanity stratum, invariant mini-group
+descriptive only. Script self-correction recorded: the "10 captions per
+class -> x10" parenthetical was a wrong assumption — the real split is
+8 train / 1 val / 1 test caption-rows per class, so the test side carries
+one caption per class (consistent with the 140-SUSHI share of pool 386).
+Claude read all 40 invariant-cell captions: no order claim beyond the
+constant clause found (sporadically/throughout/frequent = scatter and
+count, permutation-safe). RANYI'S CERTIFYING VERDICT ON THE 40 PENDING.
+Artifact: results/analysis/probe2_sushi_groups.json.
+
+NEXT: TRACE census (census_trace_order_content.py
+--trace-repo ../TRACE-Multimodal-TSEncoder; expect first line rows 2006;
+P2-7 invariant < 5%; < 50 floor pre-registered), then Ranyi judges the
+40-row TRACE sample sheet, then the TRUCE decision with weights known.
+
+---
+
+## 2026-08-10 — Q3 certified (both substrates); TRACE reframe accepted; Q4 proposed
+
+TRACE census (census_trace_order_content.py, run by Ranyi, gates green):
+2,006 rows; buckets 2,005 dependent / 1 ambiguous / 0 invariant. P2-7
+CONFIRMED at 0%. Pre-registered <50 floor triggered: within-TRACE
+caption-group DiD is UNPOSABLE — recorded finding, N4-flavoured: the
+benchmark's own text is saturated with order language (1,878/2,006
+descriptions contain the literal word "trend"; description-level count).
+Script printing errors recorded: the frequency table's "descriptions
+containing it" label actually showed sentence-level occurrence counts
+(hence trend 2,994 > 2,006); and the after\w* pattern lexically matches
+"afternoons" (semantically harmless where seen). Classification logic
+unaffected; verified against per_row records in the uploaded artifact.
+
+Human certifications (Ranyi, 2026-08-10):
+- SUSHI: all 40 invariant-cell captions y (40/40). Sharpest case row 40,
+  "not alternating from value" — negated order-word, survives shuffling.
+  SUSHI grouping CERTIFIED: 135/4/1.
+- TRACE sample: 16/16 dependent confirmed, each note quoting a genuine
+  arrangement anchor (regex noise never carried a row alone); row 1191
+  confirmed amb, "degenerate constant" — TRACE's own clean;constant.
+  Recorded nuance: degenerate-constant subclaims inside a caption (row
+  1526 wind 0.0 m/s) do not rescue it; one broken claim decides.
+Filled sheets to commit under results/analysis/.
+
+Reframe ACCEPTED (Ranyi 2026-08-10, recorded in PROJECT_CONTEXT):
+TRACE's Probe-2 conclusion-carrier is the degradation profile across
+perturbation types (shuffle-family destroys order and preserves values;
+masking destroys values and largely preserves order). Caption-group DiD
+remains primary where posable: TRUCE (P2-8 now load-bearing), SUSHI
+descriptively.
+
+Q4 PROPOSED, awaiting acceptance (handoff §4.6 item 4): SUSHI point-level;
+TRUCE half definitions on 12 points; TRACE channels JOINTLY with
+per-signal seeded draws; mask ratio 0.2 additional (TRACE: 0.3 protocol
++ 0.2 perturbation, stated pre-run), fill 0 with a natural-zeros gate in
+Q5. P2-9 proposed alongside (TRACE sf-all degrades beyond margin, all
+seeds); registers on acceptance.
+
+NEXT: Ranyi's word on Q4's four calls -> Q5 gate list -> TRUCE
+classifier build (parser, 3-way, parse-coverage reported, human sample).
+
+---
+
+## 2026-08-10 — Q4 RESOLVED (all four calls accepted); stage closes
+
+Before acceptance, Ranyi asked whether all four calls rest on academic
+facts; the fact-vs-judgment ledger was walked through explicitly (mechanics
+= source-verified from paper/code/certified results; selections = design
+judgments justified by those facts and standard controlled-comparison
+logic; the 0.3 TRACE protocol-mask claim re-verified against the state
+document before answering). Ranyi accepted all four.
+
+Resolved mechanics: SUSHI point-level (sf_patchs shelved, named optional);
+TRUCE 12-point definitions (sf-all 12, sf-half first 6, ex-half swap
+halves; classifier must catch positional captions); TRACE channels JOINTLY
+with per-signal seeded draws (documented adaptation of the parent's
+per-batch draw); mask ratio 0.2 pre-registered (parent code default;
+paper's ratio unpinned), fill 0 — TRACE reported as 0.3 protocol + 0.2
+perturbation, with a Q5 gate reserved to print natural-zero rates per
+substrate before any masked run is trusted.
+
+P2-9 REGISTERED on acceptance: TRACE sf-all degradation exceeds the margin
+in all three seeds (grounds: certified N3 gap +0.289 requires reading
+order). Deliberately no prediction on shuffle-vs-mask ranking for TRACE —
+that is the open question the profile answers.
+
+Design-stage ledger at close: Q1 resolved (source-pinned), Q2 binding
+(rank shift), Q3 rule binding + both counts certified, Q4 resolved.
+OPEN FOR NEXT SESSION: Q5 (gate list: shuffle-actually-applied incl.
+ex-half identity check and no-op flagging; grouping-coverage counters;
+known-dependent-stratum direction sanity; natural-zeros gate;
+registered-expectation-per-command), then the TRUCE classifier build.
+Predictions P2-1..P2-9 registered; none yet tested against runs.

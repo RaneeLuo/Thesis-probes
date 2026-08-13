@@ -1,0 +1,120 @@
+row_idx,bucket,dep_hits,amb_hits,description,human_verdict (dep/inv/amb),note
+1336,dependent,afternoons;drops;early;end;towards;trend;warming,fluctuated;fluctuations;variable;varied;varying,"Weather time series location: Santa Barbara County, California experienced a variety of weather conditions. Time range: The past 28 days from July 31, 2021, to August 27, 2021. The weather is Clear, Hot, Dry. The temperature ranged from a low of 12.5°C to a high of 25.42°C, with noticeable daily fluctuations and a general warming trend observed towards the end of the period. 
+ There was no recorded precipitation throughout the entire 28 days, indicating a dry spell. 
+ Relative humidity values varied significantly, with a range from 51.0% to 97.5%, showing a trend of higher humidity during the early mornings and lower values in the afternoons. 
+ Visibility remained generally good, mostly around 16.09 km, with occasional drops to lower values due to varying conditions. 
+ Wind speeds also varied, with values ranging from -3.48 to 5.33 m/s, reflecting a mix of calm and breezy conditions. 
+ Wind velocities fluctuated, with values ranging from -2.44 to 5.33 m/s, indicating variable wind conditions throughout the period. 
+ The sky cover varied from clear to overcast, with a predominance of clear skies (0/8) and few scattered clouds (1/8 to 3/8) observed during the period.",,
+472,dependent,cooling;peak;reaching;trend;warming,fluctuated;fluctuations;variability;varied,"Weather time series location: Bossier, Louisiana experienced varied weather conditions. Time range: The past 28 days from October 7 to November 3, 2022. The weather is Clear, Cloudy, Rainy, Humid, Windy. The temperature ranged from a low of 3.2°C to a high of 31.0°C, with noticeable fluctuations and a general trend of warming during the day and cooling at night. 
+ Precipitation was minimal, with most days recording no rainfall, but there were a few instances of light rain, including a peak of 4.0 mm on one day. 
+ Relative humidity varied significantly, with values ranging from 18.33% to 94.15%, indicating periods of dryness and high humidity, particularly in the mornings and evenings. 
+ Visibility generally remained high, averaging around 16.09 km, with occasional reductions due to weather conditions. 
+ Wind direction fluctuated, with values ranging from -4.48 to 7.57 m/s, indicating changing wind patterns throughout the period. 
+ Wind velocity showed variability, with some days experiencing stronger winds, particularly reaching up to 7.82 m/s. 
+ The sky cover varied from clear to overcast, with several days experiencing scattered to broken clouds.",,
+1365,dependent,afternoon;cooling;early;increase;peaks;shifts;spikes;trend;upward,consistently;fluctuated;variability;varied,"Weather time series location: Hillsborough County, Florida. Time range: The past seven days from July 15 to July 21, 2021. The weather is Clear, Humid, Rainy. The temperature ranged from a low of 23.0°C to a high of 34.0°C, showing a general upward trend during the day with noticeable peaks in the afternoon and a cooling trend at night. 
+ Precipitation was consistently recorded at 1.58 mm for most hours, with occasional spikes, including a notable increase to 4.67 mm on one occasion, indicating sporadic rainfall. 
+ Relative humidity fluctuated between 48.33% and 100%, with a trend of higher humidity in the early morning and lower values during the afternoon, reflecting typical diurnal patterns. 
+ Visibility remained generally high, mostly around 16.09 km, with occasional reductions due to weather conditions. 
+ Wind direction showed variability, with values ranging from -4.95 m/s to 4.47 m/s, suggesting shifts in wind patterns throughout the week. 
+ Wind velocity varied, with values ranging from -3.18 m/s to 3.82 m/s, indicating periods of calm and gusty conditions. 
+ Sky cover varied, with a mix of clear to partly cloudy conditions, predominantly clear skies with occasional scattered clouds.",,
+301,dependent,drops;peaking;spikes;trend;warming,fluctuated;fluctuations;stable;variability;varied,"Weather time series location: The weather data is for Warren, Iowa. Time range: The past 28 days from July 21, 2019, to August 17, 2019. The weather is Clear, Cloudy, Rainy, Humid, Warm. The temperature ranged from a low of 15.58°C to a high of 30.9°C, with noticeable fluctuations and a general warming trend observed, particularly in the latter half of the period. 
+ Precipitation was minimal, with several days recording no rain, but notable spikes occurred with 4.29mm and 3.54mm on specific days, indicating sporadic rainfall events. 
+ Relative humidity varied significantly, with values ranging from 36.2% to 93.88%, showing a trend of higher humidity during cooler periods and lower humidity during warmer days. 
+ Visibility remained relatively stable, mostly around 15.69 km, with occasional drops to lower values during periods of precipitation. 
+ Wind direction also fluctuated, with values ranging from -3.64 m/s to 5.28 m/s, suggesting a mix of calm and breezy conditions. 
+ Wind velocity showed variability, with both positive and negative values indicating changing wind directions, peaking at 7.68 m/s. 
+ The sky cover varied from clear to overcast, with a predominance of scattered to broken clouds throughout the period.",,
+1781,dependent,decreasing;dropping;peaking;reached;rose;shifts;starting;trend;upward,consistently;fluctuated;fluctuations;variability;varied;volatility,"Weather time series location: Morton County, North Dakota experienced varied weather conditions. Time range: The past week from July 13 to July 19, 2021. The weather is Clear, Hot, Windy. The temperature showed a noticeable upward trend, starting around 16°C and peaking at approximately 36°C, with some fluctuations indicating overall volatility, particularly on July 18, where temperatures reached a high of 36°C. 
+ There was no recorded precipitation throughout the week, indicating dry conditions. 
+ Relative humidity fluctuated significantly, starting high at around 72.67% and dropping to as low as 30.67%, with a general trend of decreasing humidity as temperatures rose. 
+ Visibility remained consistently high, mostly around 16.09 km, with slight reductions noted on certain days. 
+ Wind direction showed variability, with some hours experiencing significant negative values, indicating shifts in wind patterns. 
+ Wind velocity varied, with some hours experiencing gusts up to 8.74 m/s, indicating windy conditions at times. 
+ The sky cover ranged from clear to scattered clouds, with a predominance of clear conditions throughout the week.",,
+461,dependent,decrease;drops;early;end;increase;peaking;towards;trend;upward,consistent;fluctuated;fluctuations;stable;variability;variable;varied,"Weather time series location: Lehigh, Pennsylvania. Time range: The past week from July 15 to July 21, 2020. The weather is Clear, Hot, Humid. The temperature ranged from a low of 17.67°C to a high of 34.33°C, showing a noticeable upward trend with significant daily fluctuations, particularly peaking towards the end of the week. 
+ Consistent light precipitation of 0.5 mm was recorded throughout the week, indicating no significant rainfall events. 
+ Relative humidity varied from 41.0% to 100%, displaying a general decrease during the day and an increase at night, with high humidity levels observed early in the week. 
+ Visibility remained stable at 16.09 km for most of the week, with occasional drops to 14.48 km. 
+ Wind direction showed variability, with values ranging from -4.34 to 4.05 m/s, suggesting changing wind patterns. 
+ Wind velocity fluctuated, with values ranging from -3.9 to 4.88 m/s, indicating variable wind conditions throughout the week. 
+ The sky cover varied from clear to overcast, with a mix of clear and scattered clouds, particularly noted during the early part of the week.",,
+1313,dependent,decline;dips;drops;increased;peak;peaks;reaching;spikes;towards;trend,fluctuated;variability;varied;volatility,"Weather time series location: Madera, California experienced a diverse range of weather conditions. Time range: The past six months from September 2019 to February 2020. The weather is {Clear, Cloudy, Rainy, Cold, Humid, Windy}. The average temperature showed a noticeable decline from warm to cooler conditions, with a peak around 25.97°C and a low of 3.67°C, indicating significant volatility and a clear trend towards colder weather as winter approached. 
+ Precipitation levels were predominantly low, with most days recording no rainfall, but there were occasional spikes with a maximum of 0.95 inches, suggesting sporadic wet weather. 
+ Relative humidity fluctuated significantly, averaging around 60%, with peaks reaching 94% during wetter periods and dips to around 38%, indicating a trend towards increased humidity during rainfall events. 
+ Visibility generally remained high, averaging around 15.5 km, with occasional drops due to weather conditions. 
+ Wind direction varied, with some days experiencing stronger winds, averaging around 0.5 m/s. 
+ Wind velocity showed variability, with occasional strong gusts, but generally remained low, averaging around -0.5 m/s. 
+ The sky cover ranged from clear to overcast, with a significant number of days being clear or with few clouds, but also included several days of overcast conditions.",,
+1504,dependent,decreasing;dropped;increased;reaching;towards;trend,consistent;fluctuated;variability;variable;varied;volatility,"Weather time series location: Morton County, North Dakota experienced a diverse range of weather conditions. Time range: The past six months from July 3, 2022, to December 29, 2022. The weather is {Clear, Cloudy, Cold, Windy, Humid}. The temperature showed a noticeable trend of decreasing from warm summer highs around 27.74°C in July to lows of -27.75°C in December, indicating a transition from hot to cold weather, with significant volatility and several outliers below freezing. 
+ There was minimal precipitation throughout the period, with consistent dry days and no significant rainfall recorded. 
+ Relative humidity varied, generally remaining high in the summer months, averaging around 85%, but dropped significantly in the colder months, with values reaching as low as 33.36% in December, indicating a trend towards drier air. 
+ Visibility remained generally good, with occasional reductions during specific weather events, but mostly above 10 km. 
+ Wind direction showed variability, with periods of both calm and strong winds, particularly during the transition to winter. 
+ Wind velocity fluctuated, with notable gusts and calm periods, indicating variable wind conditions throughout the months. 
+ The sky cover varied from clear to overcast, with a predominance of clear days in the summer and increased cloudiness as winter approached.",,
+383,dependent,peaking;peaks;trend;upward,variability;variable;varied,"Weather time series location: The weather data pertains to Panola, Texas. Time range: The past six months have shown a diverse range of weather conditions. The weather is Clear, Cloudy, Rainy, Humid, Windy, Hot. The temperature has exhibited a noticeable upward trend, with average daily temperatures ranging from cool lows around 11°C to highs peaking at approximately 30°C, indicating a transition from cooler spring to warmer summer months. 
+ Precipitation has been highly variable, with several significant rainfall events, including outliers exceeding 22 mm, while many days recorded minimal to no rainfall, suggesting a pattern of sporadic heavy rain interspersed with dry spells. 
+ Relative humidity levels have generally remained high, averaging around 75%, with peaks above 90% on several occasions, indicating a humid climate, particularly during the warmer months. 
+ Visibility has mostly been good, averaging around 15 km, with occasional reductions likely due to fog or precipitation events. 
+ Wind direction has shown variability, with occasional strong gusts from the north and south, contributing to the overall windy conditions experienced. 
+ Wind speeds have varied, with notable gusts recorded, particularly during stormy conditions, averaging around 1.5 m/s. 
+ The sky cover has ranged from clear to overcast, with a mix of clear and cloudy days, indicating a generally variable sky condition throughout the period.",,
+266,dependent,early;late;peak;peaking;trend;warming,fluctuated;fluctuations;variability;varied,"Weather time series location: Bossier, Louisiana experienced a variety of weather conditions during this period. Time range: The past six months from October 2019 to April 2020. The weather is Clear, Cloudy, Rainy, Humid, Windy, Warm, Cold. The temperature ranged from a low of approximately 1.29°C to a high of 26.21°C, with noticeable fluctuations and a general warming trend as the months progressed, particularly in late winter and early spring. 
+ Precipitation was sporadic, with several days of no rain and a few significant rainfall events, including a peak of 6.41 mm on one day, indicating overall dry conditions with occasional wet spells. 
+ Relative humidity levels varied significantly, generally remaining high, with values often above 70%, peaking at 93.43%, suggesting a humid environment, especially during the warmer months. 
+ Visibility was mostly good, averaging around 13-16 km, with occasional reductions due to weather conditions. 
+ Wind speeds also fluctuated, with notable gusts and calm periods, contributing to the overall weather variability. 
+ Wind velocities showed variability, with both positive and negative values indicating changing wind directions and strengths throughout the period. 
+ Sky cover ranged from clear to overcast, with a mix of clear and cloudy days, indicating a diverse sky condition throughout the months.",,
+145,dependent,early;end;shifts;towards;trend,fluctuated;fluctuations;variability;varied,"Weather time series location: Mariposa, California. Time range: The past 28 days from December 3, 2022, to December 30, 2022. The weather is Cloudy, Rainy, Humid, Cold. The temperature ranged from a low of -0.72°C to a high of 15.58°C, with noticeable fluctuations and a general trend of cooler temperatures towards the end of the period. 
+ Precipitation was sporadic, with significant events on December 3, 5, and 10, totaling several days of measurable rain, while many days recorded no precipitation at all. 
+ Relative humidity varied significantly, with values ranging from 54.25% to 98.5%, indicating a generally humid environment, particularly during the early part of the period. 
+ Visibility fluctuated widely, with some days experiencing clear conditions while others had reduced visibility due to fog or precipitation. 
+ Wind direction also varied, with negative values indicating winds from the west and positive values from the east, contributing to the overall weather dynamics. 
+ Wind velocity showed variability, with both positive and negative values indicating shifts in wind direction and strength throughout the period. 
+ The sky cover ranged from clear to overcast, with several days experiencing significant cloud cover, particularly during precipitation events.",,
+1088,dependent,towards;trend;upward,consistently;fluctuated;fluctuations;variability;varied,"Weather time series location: The weather data pertains to Duval County, Florida. Time range: The past six months from April 15, 2020, to October 11, 2020. The weather is Clear, Hot, Humid. The temperature ranged from a low of 16.93°C to a high of 29.49°C, showing a noticeable upward trend as the months progressed, with warmer temperatures dominating the summer months. 
+ There was no recorded precipitation during this period, indicating a dry spell throughout the six months. 
+ Relative humidity values fluctuated between 46.25% and 98.7%, with a general tendency towards higher humidity levels during the warmer months, particularly in the summer. 
+ Visibility remained consistently high at 14.75 km throughout the entire period. 
+ Wind direction also showed variability, with both positive and negative values, suggesting a mix of wind conditions. 
+ Wind velocity varied, with notable fluctuations, including both positive and negative values, indicating changing wind patterns. 
+ The sky was predominantly clear, with no significant cloud cover reported.",,
+1733,dependent,beginning;decreasing;drops;end;reaching;towards;trend;upward,consistently;fluctuated;fluctuations;variability;varied,"Weather time series location: Glacier County, Montana experienced varied weather conditions. Time range: The past week from June 1 to June 7, 2023. The weather is Clear, Cloudy, Humid, Windy. The temperature ranged from a low of 6.7°C to a high of 27.8°C, showing a noticeable upward trend towards the end of the week, with some fluctuations and outliers particularly on June 4 and June 5. 
+ There was minimal precipitation throughout the week, with only a few instances of light rain totaling up to 1.5 mm, indicating predominantly dry conditions. 
+ Relative humidity values fluctuated between 28% and 97%, with a general trend of decreasing humidity towards the end of the week, particularly on June 6 and 7. 
+ Visibility remained consistently high, mostly around 16.09 km, with occasional drops to lower values during specific hours. 
+ Wind direction showed variability, with speeds ranging from -4.13 m/s to 6.32 m/s, suggesting changing wind patterns throughout the week. 
+ Wind velocity varied, with notable gusts reaching up to -11.96 m/s, indicating periods of strong winds, particularly on June 6. 
+ The sky cover varied from clear to overcast, with a predominance of clear to partly cloudy conditions, particularly at the beginning of the week.",,
+438,dependent,decline;dropping;late;mid-;peaking;shifts,fluctuated;variability;varied,"Weather time series location: The weather data is for Bossier, Louisiana. Time range: The past six months span from July 6, 2022, to January 1, 2023. The weather is Clear, Cloudy, Rainy, Windy, Hot, Cold, Humid, Stormy. The average temperature showed a noticeable decline from hot summer highs around 33°C in July to colder lows near 5°C in December, indicating a clear seasonal transition. 
+ Precipitation was sporadic, with significant rainfall events occurring in mid-August and late September, contributing to a total of several notable rainy days, while many days recorded little to no rain. 
+ Relative humidity fluctuated significantly, peaking during the summer months with values above 80% and dropping to around 36% in late December, reflecting seasonal changes and moisture levels. 
+ Visibility remained generally high, averaging around 16 km, with occasional reductions due to weather conditions. 
+ Wind direction showed variability, with both positive and negative values indicating shifts in wind patterns throughout the period. 
+ Wind velocity varied, with notable gusts recorded, particularly during storm events, indicating periods of windy conditions. 
+ Sky cover ranged from clear to overcast, with several days experiencing significant cloud cover, particularly during rainy periods.",,
+1526,dependent,dropping;early;end;peaking;towards;trend,consistently;fluctuations;stable;varied,"Weather time series location: Chesapeake City, Virginia. Time range: The past 28 days from August 6 to September 2, 2023. The weather is Clear, Cloudy, Rainy, Humid, Warm. The temperature ranged from a low of 17.9°C to a high of 34.8°C, with noticeable fluctuations and a general trend of warmer temperatures towards the end of the period. 
+ Precipitation was minimal for most of the period, with significant rainfall events occurring on August 10 (28.64 mm), August 12 (21.67 mm), August 23 (18.21 mm), and August 30 (44.08 mm), indicating sporadic heavy rainfall. 
+ Relative humidity varied significantly, peaking at 100% on several occasions, particularly in the early days, and showing a trend towards lower humidity levels as the month progressed, with values dropping to around 48.12%. 
+ Visibility generally remained high, averaging around 16.09 km, with occasional reductions to as low as 4.32 km during certain periods. 
+ Wind direction was also stable, with values consistently at 0.0 m/s. 
+ Wind velocity was consistently calm, with values remaining at 0.0 m/s throughout the reporting period. 
+ Sky cover varied, with a mix of clear to overcast conditions, predominantly showing clear to few clouds (0-3 on the sky code) for most of the period, with some days experiencing scattered to broken clouds (4-6).",,
+603,dependent,declining;dropping;peaking;reaching;starting;trend;upward,consistently;fluctuated;fluctuations;variable;varied;volatility,"Weather time series location: The weather was reported for Maricopa, Arizona. Time range: The past week from August 24 to August 30, 2023. The weather is Clear, Hot. The temperature exhibited a noticeable upward trend, peaking at 45.0°C, with fluctuations indicating high volatility, particularly during the daytime hours. 
+ There was no recorded precipitation throughout the week, indicating completely dry conditions. 
+ Relative humidity showed a declining trend, starting at 30.0% and dropping to around 10.33%, with some fluctuations but generally low levels. 
+ Visibility remained consistently high, averaging around 16.09 km, with minor variations. 
+ Wind direction fluctuated, with values ranging from -7.62 to 4.86 m/s, indicating variable wind patterns. 
+ Wind velocity varied throughout the week, with some periods of calm and others with gusts reaching up to 4.24 m/s. 
+ The sky was predominantly clear, with a sky cover of 0, indicating no significant cloud cover.",,
+1191,ambiguous,,consistently;fluctuated;fluctuations;stable;steady;variability;variable;varied,"Weather time series location: The weather was reported for McCurtain, Oklahoma. Time range: The past week from December 3 to December 9, 2020. The weather is Cold, Clear. The temperature remained consistently at 0.0°C throughout the week, indicating a stable but cold environment with no noticeable fluctuations. 
+ Precipitation was steady at 0.3 mm per hour, showing no significant variation or outliers during the week. 
+ Relative humidity was consistently recorded at 66.04%, reflecting a stable level of moisture in the air with no observed changes. 
+ Visibility varied, with most readings around 16.09 km, but some lower values were noted, indicating occasional reduced visibility conditions. 
+ Wind direction showed variability, with values ranging from -4.43 to 4.18 m/s, indicating changing wind patterns. 
+ Wind velocity fluctuated, with values ranging from -4.61 to 4.07 m/s, suggesting variable wind conditions throughout the week. 
+ The sky was consistently clear with a sky cover of 0, indicating no cloud cover throughout the week.",,

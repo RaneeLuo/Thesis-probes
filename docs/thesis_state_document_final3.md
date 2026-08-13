@@ -1,6 +1,6 @@
 # Thesis State Document — v3
 **Project:** Diagnostic Evaluation Framework for Time-Series–Text Alignment (TU/e DS&AI Master's Thesis, Ranyi/Ranee)
-**Last updated:** 2026-08-09 (rev. 6 — TRACE Probe-1 arm complete, N3 census-certified per §2; text-embedding-3-large strict retrieval baseline added: floor confirmed, MRR 0.027 vs chance 0.017, matrix cell filled)
+**Last updated:** 2026-08-10 (rev. 9 — Q4 RESOLVED: all four perturbation-mechanics calls accepted (SUSHI point-level; TRUCE half definitions; TRACE joint channels, per-signal seeds; mask 0.2 pre-registered, TRACE 0.3+0.2); P2-9 registered; Q5 + TRUCE build open for next session)
 **Supersedes:** `thesis_state_document_final2.md` (v2), which is superseded in §2 (status), §4 (probe metric decision), §5 (baseline values), §6 (new verified facts), §7 (compute) and §8 (phase status). **If v2 and v3 conflict, v3 is correct.**
 
 ---
@@ -131,7 +131,11 @@ The item set, difficulty control and statistics script are **model-independent**
 - **Confound defense:** compositional sensitivity ⇒ *differential* degradation across components; a distractor-difficulty artifact ⇒ *uniform* degradation.
 
 ### Probe 2 — Order-invariance via shuffle (parent: Tan et al.)
-- **Three** shuffles (sf-all, sf-half, ex-half) **plus** Tan's separate masking perturbation. (Not "four shuffle strategies.")
+- **Three** shuffles (sf-all, sf-half, ex-half) **plus** Tan's separate masking perturbation. (Not "four shuffle strategies.") Parent mechanics pinned from source 2026-08-09 — see §6.1 Tan row (test-time only; point-level; ex-half deterministic; masking→0; channels jointly).
+- **Metric (BINDING, 2026-08-09): strict retrieval rank shift** — perturbed vs unperturbed rank of the ground-truth caption (MRR/R@10, primary per the standing rule), paired per query, reusing the frozen unperturbed baselines (CLaSP frozen table, TRACE seeded-mask demo repro, floor baseline). Forced choice was considered and **rejected**: Probe 1's justification (unequal component pools) does not transfer — Probe 2 swaps nothing caption-side — and a random-distractor forced choice starts at CLaSP's 0.95–0.99 ceiling, compressing the DiD twice. Per-group unperturbed baselines must be printed side by side before any DiD is quoted (groups may differ in baseline retrievability; DiD absorbs the level, but it is reported, not assumed away).
+- **Floor model pre-declared VOID for Probe 2** (baseline MRR 0.027 vs chance 0.017 — no capability for a shuffle to degrade). It runs anyway as the pipeline's negative control: meaningful "degradation" reported for a model with no capability would indicate a broken pipeline, not a finding.
+- **Grouping outcomes (certified 2026-08-10):** SUSHI 135 dependent / 4 invariant / 1 degenerate — within-SUSHI DiD underpowered; SUSHI = known-order-dependent sanity stratum + descriptive invariant mini-group + identity control. TRACE 2,005 dependent / 1 ambiguous (degenerate constant, row 1191) / **0 invariant** of 2,006 — **caption-group DiD unposable on TRACE; recorded finding** (benchmark text saturated with order language; 1,878/2,006 contain "trend"). TRACE's conclusion-carrier is the shuffle-vs-mask perturbation profile (PROJECT_CONTEXT). The CLaSP caption-group DiD lives on TRUCE — classifier build pending, P2-8 load-bearing.
+- **Perturbation mechanics (accepted 2026-08-10, PROJECT_CONTEXT holds the full record):** SUSHI point-level; TRUCE sf-half = first 6 of 12, ex-half = swap 6-halves; TRACE joint-channel permutation, per-signal seeded; mask 0.2 (+0.3 standing protocol on TRACE, reported as such), fill 0. Registered predictions now P2-1…P2-9 (handoff §4.6).
 - **Gap-2 refinement (the actual novelty):** split captions into order-dependent vs order-invariant groups; shuffle each; the diagnostic is the *differential* (difference-in-differences). Never revert to naive whole-set shuffling.
 - Classifier validation: 3-way (clearly dependent / clearly invariant / ambiguous-excluded) + human check on a sample.
 - ChatTS extra: two-level shuffle (within-patch vs across-patch).
@@ -166,7 +170,7 @@ Cross-model synthesis uses **relative degradation only**. No shared test items a
 |---|---|
 | BEDTime authors | **Sen, Gottesman, Qiu, Bruss, Nguyen, Hartvigsen** (2509.05215). "Tutuncuoglu" is fabricated. |
 | BEDTime datasets | TRUCE-Stock, TRUCE-Synthetic, **TaxoSynth**, SUSHI. "NICU-HR" is fabricated. |
-| Tan et al. §4.4 | **Three** shuffles + **separate** masking perturbation. |
+| Tan et al. §4.4 | **Three** shuffles + **separate** masking perturbation. Mechanics pinned from paper + authors' code 2026-08-09: all perturbations **test-time only**; shuffles move **individual time steps** (sf-all whole sequence; sf-half first half only; **ex-half deterministic** half-swap, no randomness); masking sets random non-contiguous positions to **0**; channels shuffle **jointly** (same permutation, `[:, perm, :]`); one permutation shared per *batch*, single unseeded draws (global seed 2021 only). Code also contains an **unreported block-level shuffle (`sf_patchs`**, patch sizes 8–64 swept). ⚠ Unpinned: which mask ratio the paper's Masking column reports (code sweeps 0.0–0.8; shuffle-loop default 0.2) and which metric (MAE/MSE) underlies its % cells. `ablUtils.py` verified byte-identical across all three harnesses (sha256 4e0552…a6f0); only the OFA call path read. |
 | Fons et al. Table 1 | **Seven** univariate categories (incl. **stationarity**) + 3 multivariate. EMNLP 2024. |
 | ARO | Near-chance is on **relations** (VG-R ~59%); attribution (VG-A) ~62%. ICLR 2023 Oral. |
 | MMTS-Bench | Prefix ablation = their own ChatTS-style reproduction (Qwen2.5-3B): ON 0.59 → OFF 0.24 → **OFF\* ≈0.60**. Shortcut audit is **dataset-level**. ⚠ ">0.95 Align ceiling" and "240 QA pairs" **unverified**. |
