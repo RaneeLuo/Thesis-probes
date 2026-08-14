@@ -791,3 +791,95 @@ seed{42,43,44}.jsonl + signal_meta + summary + stats;
 results/analysis/probe2_g6_diagnosis.json, probe2_pool_duplicates.json,
 probe2_pool_neighbours.json. REMAINING in Probe 2: floor negative
 control (P2-4) and the TRACE runner (P2-9 + profile) — NEXT CHAT.
+
+--------------------------------------------------------------------
+2026-08-14 — PROBE-2 FLOOR ARM (P2-4) EXECUTED AND SCORED: CONFIRMED
+
+Runner models/openai_embed/run_probe2.py built to the CLaSP-runner
+pattern (M1–M3 identical; arms 42/43/44 are permutation-draw labels
+through the M3 hash — NOTE: the hash depends only on
+sample_id|pert|seed, so the SAME draws hit every model; OW_5's arm-43
+masking no-op replicated CLaSP's seed-43 finding exactly). G6
+substitute: digit-exact $0 reproduction of baseline_openai_embed.json
+from cache (G6-pre requires full cache coverage). GF = G4's sibling
+inverted (floor gaining >0.05 MRR on an n>=100 cell = broken pipeline,
+hard stop).
+
+DRY-RUN PREDICTION LEDGER (registered pre-run, scored from output):
+tie-affected queries 24 — HIT (point prediction). Cluster STRUCTURE —
+MISSED: two groups of four ({58,86,249,362},{87,165,326,360});
+quantisation merges beyond the one-ulp pairs; membership union as
+predicted; serialization-level duplicate family is LARGER than the
+float-level one (data-quality note). G8-targets-empty — MISSED with
+mechanism: serialize() casts float64 before znorm, restoring the
+sd<1e-8 zeros branch that the CLaSP loader's dtype defeated; the floor
+therefore HAS a genuine all-zeros identity control (no-op in all 12
+conditions; G2's SUSHI z-zeros 2048 = exactly that signal). Cost $0.75
+vs registered ~$0.76.
+
+TIE UNDERCOUNT INVESTIGATED TO MECHANISM before any spend: D2 float-
+equality counted 22 tied queries where 24 are forced by identical
+cached vectors. scripts/diagnose_floor_ties.py (registered: loop 24 /
+matmul 22 — HIT exactly): BLAS computes different output columns of
+C @ S.T through different float paths and splits bitwise-identical
+pool vectors at ~1e-7. D2-F AMENDMENT ACCEPTED (scoped D2 extension,
+floor arm; recorded in PROJECT_CONTEXT): ties detected at construction
+level — identity-group similarity COLUMNS equalised before ranking
+(copying vectors would not fix it); float-level count always printed
+alongside. CLaSP's recorded tie counts noted as float-path-dependent
+under D2's existing fragility footnote; scored CLaSP verdicts
+untouched.
+
+FULL RUN (runner v2, arms 42/43/44): ALL GATES PASSED. Identity ties
+24/24/24 unperturbed and under ex_half (float-level 22 and 21);
+sf_all/sf_half/masking dissolve to 0. GF passed everywhere. Drill-down
+of the one surprise (truce/invariant sf_all MRR 0.071 -> 0.144/0.136
+in arms 43/44): first read "one query" (OW_5#1 rank 19->1, 72–82% of
+the delta); full census of the cell REVISED this — the improvement is
+distributed over 4–6 stock-signal queries (AD_99#1, OD_95#1, WD_30,
+DW_22, OW_5#1) jumping into the top 20 in every arm, and OW_5 also
+holds the cell's only rank-1 query (#2: unpert rank 1 = 1/18 of the
+whole cell MRR; slipped to 2 in arm 42, +0.5 rr hit) — thin cells with
+rank-1 queries are hair-trigger in BOTH directions (mirror of CLaSP
+P2-5 seed 42).
+
+STATS (models/openai_embed/analyze_probe2.py; scoring pinned pre-run:
+inference cells = sushi/dep + truce/dep; TOST +/-0.05 abs, 90%
+cluster-bootstrap CI, B=2000, seed 42; thin cells reported-with-n;
+DiD reported, never a verdict input; 30-value cross-computation gate
+vs independently computed references — all reproduced <=5e-7).
+**P2-4 CONFIRMED: 24/24 TOSTs pass; max inference-cell |delta| 0.0105
+(margin 0.05).** Registered leave-out-OW_5 prediction (~+0.01 in arms
+43/44) MISSED: actual +0.0345/+0.0334/+0.0207 — mechanism = the
+distributed improvement above. Wilcoxon report-only; ex_half truce/dep
+p=4.7e-12 identical across arms (deterministic perturbation) — a REAL
+systematic sub-margin drift toward chance (0.0295 -> ~0.020 vs chance
+0.017): shuffling erases the floor's sliver of TRUCE signal; VOID
+reading governs, stated in output.
+
+NAMED FINDING (thesis discussion + defence): the floor's TRUCE DiD is
++0.010/+0.084/+0.072 with 95% CIs excluding 0 in arms 43/44 and
+straddling 0 in arm 42 — the same sign, similar magnitude, and the
+IDENTICAL arm pattern as CLaSP's confirmed P2-2 (+0.002/+0.076/+0.073,
+CIs excluding 0 in 43/44). A model with no capability reproduces the
+surface signature of the diagnostic. The discriminator is the
+DECOMPOSITION the binding rules force into every report: CLaSP's DiD
+is dependent-driven (dep delta ~0.07, p<=4e-16, invariant flat); the
+floor's is invariant-driven (dep delta ~0.01 sub-margin, invariant
+"improves" via the thin-cell queries above). The negative control
+earned its keep: the DiD number alone does not certify a shortcut —
+decomposition + per-group baselines do. Shared permutation draws
+across models (M3) make the arm-pattern parallel partly structural,
+not coincidental; state this when writing it up.
+
+Claude-environment disclosure: the scorer was smoke-tested (B=50) and
+the reference deltas/leave-out values computed on the uploaded record
+copies in Claude's environment before delivery; the canonical numbers
+are the local run's, verified to match.
+
+Artifacts: models/openai_embed/{run_probe2.py (v2, D2-F),
+analyze_probe2.py}; scripts/diagnose_floor_ties.py;
+results/experiments/probe2_openai_{per_query_seed42/43/44.jsonl,
+signal_meta_seed42/43/44.json, summary.json, stats.json}.
+REMAINING in Probe 2: TRACE runner (P2-9 + shuffle-vs-mask profile) —
+NEXT CHAT.
