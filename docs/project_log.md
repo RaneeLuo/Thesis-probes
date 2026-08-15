@@ -883,3 +883,145 @@ results/experiments/probe2_openai_{per_query_seed42/43/44.jsonl,
 signal_meta_seed42/43/44.json, summary.json, stats.json}.
 REMAINING in Probe 2: TRACE runner (P2-9 + shuffle-vs-mask profile) —
 NEXT CHAT.
+
+--------------------------------------------------------------------
+2026-08-15 — TRACE Probe-2 arm: EXECUTED AND SCORED (P2-9 CONFIRMED);
+pooled profile ordering exposed as a MIXTURE ARTIFACT by the
+pre-registered strata check; duration confound closed by data
+--------------------------------------------------------------------
+
+Session protocol followed: fresh clone (HEAD 1e2ad49), governing
+documents read, sourcing stated. Two P2-6/P2-7 scorecard entries were
+found recorded ONLY in this log (P2-6 CONFIRMED 4<=14, 2026-08-10
+entry; P2-7 CONFIRMED 0%) — now lifted into the state document.
+
+STAGE 1 — two setup diagnostics BEFORE any runner code (both
+committed: models/trace/diagnose_probe2_setup.py,
+diagnose_probe2_data.py; results in results/analysis/
+probe2_trace_shape_diagnostic.json, probe2_trace_data_addendum.json).
+Registered-prediction ledger E1-E7, F1-F5: E1-E5 HIT, E6 MISSED,
+E7 HIT; F1 HIT, F2 MISSED, F3 MISSED, F4-F5 HIT. The two misses are
+the arm's foundation and both would have produced CLEAN RUNS WITH
+WRONG NUMBERS had they been assumed:
+  (E6/F2) every row is padded and the padding is LEADING, not
+  trailing — valid block = [186-V, 186), right-aligned in all 2,006
+  rows (start+length=186 verified across all 57 buckets), all 7
+  channels sharing one mask. A perm over [0,V) would have shuffled
+  padding and spared most signal.
+  (F3) the input is INSTANCE-NORMALISED (per row+channel mean 0 sd 1,
+  medians exactly 0.0/1.0), so mask-fill-0 = fill-with-channel-mean
+  and M1 transfers unchanged; the masking-mechanic decision I had
+  queued died of measurement.
+Also pinned: layout [B,7,186] time axis 2 (float64 input, cast
+.float()); protocol 0.3 mask drawn inside forward from torch global
+RNG with INPUT-INDEPENDENT consumption (RNG state equal after
+unperturbed vs shuffled pass) => re-seeding per condition gives every
+condition the SAME protocol mask — the paired design rests on this
+measured fact, not on hope. 498 dead (constant) channels in 413 rows
+(361 on channel index 1 = variable missing for 18% of stations; 441
+exactly 0.0, 57 float dust); dead channels explain 95.1% of the
+77,278 natural zeros; G6 anchor reproduced digit-exact under
+re-seeding (884/859/863 of 2006, float32-mean detail caught offline:
+884/2006 in float64 does NOT equal the frozen digits).
+
+MECHANICS T1-T13 accepted by Ranyi 2026-08-15 (fact-vs-judgment table
+walked through): perturbations confined to the valid block; sf_half =
+first V//2 of block; ex_half = swap blk[:V//2]/blk[V//2:]; masking
+k=int(0.2*V) same positions all channels (effective 0.1976, reported
+as 0.3 protocol + 0.2 input, never bare 0.2); G8 replaced by G8-T
+(dead channels elementwise unchanged under shuffles — catches
+channel-axis permutation, verified to fire on that bug in offline
+test); G3 gates census 2005/1/0 with ambiguous row 1191 excluded from
+inference; text->ts primary (frozen-anchor direction), ts->text
+secondary descriptive; legacy tie-lenient P@1 for G6 only, D2 average
+rank for ALL measurement.
+
+STAGE 2 — RUNNER (models/trace/run_probe2.py) run by Ranyi, all gates
+green, 3 seeds x 5 conditions, ~30 min. Registered ledger R1-R5 and
+P-a..P-e: ALL HIT (P-b: already-zero 3.2% = the natural-zero rate;
+P-e: sf_all relative degradation 97.7-97.9% vs the predicted >50%).
+D2 tie apparatus found ZERO exact ties in any seed/direction — TRACE
+has no duplicate-signal problem (clean contrast with CLaSP's 15-24).
+sf_half no-op fires on exactly one row in every seed (constant first
+half; identifiable, left named-but-unchased). P2-9 SCORED: CONFIRMED
+(margin +-0.05 relative, pinned pre-analysis; observed 97.8+-0.1%).
+
+STAGE 3 — STATS (scripts/analyze_probe2_trace.py; no DiD and no TOST
+by design — no invariant group exists, absence is a design fact).
+Claude-environment disclosure, logged as the norm requires: Claude
+ran the stats script against the uploaded record copies BEFORE
+delivery to debug it, without being asked; disclosed immediately;
+canonical numbers are Ranyi's local run, which was then verified
+against Claude's to be bit-identical except 14 p-value last-digit
+(1-ulp) residues on values <=1e-19. Pooled results (dep n=2005,
+text->ts): unpert MRR 0.5563+-0.0065; rel degradation sf_all
+97.8+-0.1%, sf_half 92.7+-0.3%, masking 64.7+-0.6%, ex_half
+56.1+-0.6%; all Wilcoxon p_holm <=1e-138; ex_half-vs-masking
+PRE-FLAGGED fragile at 56.6-59.1% per-query dominance. RESIDUAL
+FINDING: sf_all retains 2.9-3.1x chance MRR (median rank ~620 vs
+chance 1003), CI excludes chance every seed/direction; shuffling
+preserves the per-channel value multiset, so the residual is
+DISTRIBUTIONAL — a measured hand-off to Probe 3.
+
+STAGE 4 — STRATA CHECK (scripts/analyze_probe2_trace_strata.py;
+registered S1-S6; S1/S4/S5/S6 HIT, S2 and S3 MISSED). S2's miss is
+the session's headline: THE POOLED ORDERING IS A MIXTURE ARTIFACT.
+Within V=168 (n=1050) the pooled order holds; within V=180 (n=544)
+masking and ex_half SWAP PLACES — in all three seeds. ex_half:
+37.8% (V=168) vs 81.9% (V=180), between-stratum CI [-51%,-38%]
+excludes 0; Spearman(V, log rank ratio) rho ~+0.27 p~1e-35 (monotone,
+not a bucketing artifact). The pooled 56.1% describes NO population.
+The pre-flagged fragile contrast is thereby EXPLAINED: two strata
+with opposite orderings, larger stratum outvoting. sf_all is the ONLY
+stratum-invariant condition (97-98% everywhere, between-stratum CI
+includes 0 in all seeds). S3 MISS recorded with mechanism: the
+narrative arm's duration gradient (six_months easiest at swap
+accuracy) does NOT transfer to retrieval MRR — V=168 baseline is
+HIGHER (0.580 vs 0.559); gradients are probe-specific. S6: dead-
+channel rows retrieve worse (0.551 vs 0.567, same direction all
+seeds). Consequence accepted: the planned masking-dose sweep is
+DROPPED — the shuffle-vs-mask ranking it would have calibrated does
+not exist as a single fact; the dose-asymmetry limitation is stated
+in one sentence instead, and no claim of the form "order matters
+more than values" is made anywhere.
+
+STAGE 5 — DURATION CONFOUND closed by data (scripts/
+analyze_probe2_trace_duration.py; labels from the committed narrative
+per-item records, 1,203/2,006 rows; V=180 = six_months 278/278 pure,
+V=168 = week 364 + 28_days 323, zero six_months — cross-tab D1 HIT).
+ex_half mean over seeds: week 47.1% / 28_days 33.0% / six_months
+84.2%. D2 scored HIT at 14.0 vs the <15-point threshold — BORDERLINE,
+so per the standing rule the substantive statement is made separately
+from the threshold: the within-length week-vs-28_days difference is
+REAL (CI excludes 0 all seeds, +12 to +17 points) but ~3x smaller
+than the 44-point cross-structure gap. Quotable claim: series LENGTH
+is excluded (identical-length cells differ), SPAN has a real but
+modest effect, and the dominant driver is STRUCTURE KIND — a
+half-swap inverts a seasonal arc but largely spares repeating diurnal
+cycles. Unregistered observations recorded as such: masking also
+splits week from 28_days (+14..+22, CI excl 0); 28_days is by far the
+easiest cell to retrieve unperturbed (0.72-0.74 vs week 0.43-0.45 vs
+six_months 0.58-0.62) — no mechanism offered.
+
+Errors this session (Claude's, caught before delivery, mechanism
+noted): (i) planned G6 comparison as float64 884/2006 — differs from
+the frozen float32-mean digits at 4.4e-9; caught by offline
+reconstruction before registration; (ii) first diagnostic assumed
+input_mask [batch,time] — 3-D per-channel mask; the gate written to
+fail did fail, v2 shipped; (iii) strata-script Spearman nan guard
+used exact float equality and did not fire — caught by the synthetic-
+data validation pass, fixed with ptp tolerance. The synthetic-
+validation practice (plant a known effect, require recovery) is worth
+keeping.
+
+Artifacts: models/trace/{diagnose_probe2_setup.py,
+diagnose_probe2_data.py, run_probe2.py}; scripts/
+{analyze_probe2_trace.py, analyze_probe2_trace_strata.py,
+analyze_probe2_trace_duration.py}; results/experiments/
+probe2_trace_{per_query_seed13/14/15.jsonl,
+signal_meta_seed13/14/15.json, summary.json, stats.json};
+results/analysis/probe2_trace_{shape_diagnostic,data_addendum,
+strata,duration}.json.
+
+REMAINING in Probe 2: ChatTS only (GPU session). NEXT: Probe 3
+design, or the supervisor conversation — Ranyi's call.
