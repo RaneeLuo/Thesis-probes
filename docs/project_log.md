@@ -1025,3 +1025,37 @@ strata,duration}.json.
 
 REMAINING in Probe 2: ChatTS only (GPU session). NEXT: Probe 3
 design, or the supervisor conversation — Ranyi's call.
+
+
+2026-08-15 (second entry): PROBE 3 DESIGNED AND CLaSP ARM COMPLETE.
+Design arc Q1–Q5 accepted in one session (ladder conditions; raw-level
+construction; whole-pool replacement; metric extension; amendment:
+gaussian = the length-only floor after P3-1's miss; P3-5 pin 60-vs-39
+with label-blind noise floor ±0.08). Predictions P3-1…P3-7 registered
+pre-code. Execution: v1 G8 HARD STOP → diagnostics v1/v2 → mechanism:
+znorm's float32 constant guard (std 2.384e-7 > 1e-8) — committed
+baselines embed the constant as a ±1 row; v1's float64 cast (Claude
+script error #14) flipped the branch; v2 (native float32, ptp==0
+guard) all gates green ×3 seeds, G6 the committed digits exactly.
+Stats (analyze_probe3.py; JG join digit-exact vs committed Probe-2):
+P3-4 CONFIRMED (resample 2.2–2.3× chance); P3-1 MISSED with the
+length-floor mechanism QUANTITATIVELY confirmed on TRUCE (0.93–0.95
+in-block, median 122/117 vs 123.5, MRR ≈ 0.0247 ref) and OPEN on
+SUSHI; P3-2b MISSED heterogeneously (42/43 CI-width — noise-floor
+oversight, Claude's; 44 significant reversal — flagged anomaly, TRACE
+arbitrates); P3-2c MISSED with the pre-named 12-point coarseness
+mechanism (G12: mean 9.63 unique values); P3-5 MISSED under the pinned
+rule (seed-42 mean reversal; medians favor spikes all seeds —
+unregistered footnote; step retention high — unregistered). HEADLINE:
+Comparison B by substrate — SUSHI +0.062/+0.052/+0.095 (CIs>0):
+distribution shape carries 4–7× chance; TRUCE ≈ length floor (CIs
+include 0). Pooled 2.2× is a verified mixture — never quote pooled.
+Five-way cross-verification passed (mixture exact; committed
+digit-exact; coherence; TOST arithmetic; length-floor fit). Claude
+environment disclosure: verification computations ran on the uploaded
+stats JSON + committed records (reads of returned results, per the
+division of labour); no project analyses ran Claude-side otherwise.
+Artifacts: models/clasp/{run_probe3.py, diagnose_probe3_g8.py,
+diagnose_probe3_g8_v2.py, analyze_probe3.py};
+results/experiments/probe3_clasp_*. NEXT: floor arm, then TRACE, in a
+fresh chat.
