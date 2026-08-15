@@ -1127,3 +1127,74 @@ signal_meta_seed42/43/44.json, summary.json, stats.json}. Docs:
 state doc → rev. 15; handoff header (xii) + §2b rows 14–15 (row 14
 backfilled, stated) + §4.8; this entry. NEXT: TRACE Probe-3 arm
 (P3-2a/P3-3/P3-6), fresh chat per the one-stage-per-chat rhythm.
+
+## 2026-08-16 — Probe 3, TRACE arm: designed (mechanics), diagnosed, run, scored, closed
+
+Session arc (fresh clone at 9fae436; sourcing stated per protocol).
+MECHANICS FRAME accepted in-chat before any code: renorm-always
+construction — surrogates on the valid block then per-channel renorm
+(ddof=0, float64 stats, float32 tensor) — accepted after the collapse
+argument: resample and matched-gaussian draws commute with per-channel
+affine maps once renormalised, so raw-level construction is exactly
+reconstructed wherever the pipeline normalises. Joint-channel index draw
+(joint-shuffle precedent); per-channel matched gaussian (provably ≡
+standard post-renorm, B11 measured 2.4e-7); dead ptp==0 pass-through;
+row-level joint redraw rule pinned BEFORE the collapse census was known.
+IN-CHAT CORRECTION (Claude's, recorded): two of three chance references
+quoted from mental arithmetic were wrong (0.007133 → 0.0071755-at-n1050,
+0.012740 → 0.0126417) — caught by the disclosed pre-delivery computation
+before anything was pinned; final references computed from MEASURED
+sizes (V=168 stratum is n=1,051 incl. row 1191 → 0.0071695).
+
+DIAGNOSTIC (diagnose_probe3_setup.py; $0; 114 s): Part A preview-safe
+from committed records — A1/A2 JG pre-verification digit-exact; A3 all
+HIT (57 distinct V; dep 1,050/544/411; row 1191 V=168 read); A5 stratum
+map: sf_all residual sits 1.05–1.44× the within-stratum ceilings in the
+main strata BUT rare-length rows show NO elevation (a length oracle
+would score them near 1.0) — length-mechanism doubt registered before
+any run. Part B: locus = LOADER-side StandardScaler (weak prediction
+baked-in MISSED; source scan decisive; ddof=0 confirmed independently by
+data, max|sd−1| 5.2e-8); dead split 441/57 HIT; drift 0.0768 HIT;
+commutation 9.5e-7; B10 MISSED 10×: redraw census 41/25/42 (108 total)
+vs predicted 0–10 — mechanism: near-dead channels (2–4 distinct values,
+one dominant) collapse at ~e^-2 per draw; the dominant value need not be
+zero. Deterministic census became a runner HARD gate.
+
+RUNNER (run_probe3.py; ~25 min CPU): all hard gates green ×3 seeds. G6
+884/859/863 digit-exact; R-JG: unperturbed D2 ranks identical to the
+committed Probe-2 records (0.0e+00, both directions, all seeds) —
+pairing proven in-runner; R-census exact (rows and counts); G8-T 498
+dead pass-throughs per condition-seed; G12 0.3666/0.3673/0.3665 HIT.
+Registered misses: R11 (nonzero-count metric wrong, mechanism CONFIRMED
+via companion unique-value counts 2–4 — prediction fixated on zeros);
+R8 by one (a single gaussian text2ts exact tie, seed 15). Flagged
+pre-stats: row 1191 rank 1 under resample ×3 seeds text→ts; gaussian
+stratum pattern left to the pre-drawn map.
+
+STATS (analyze_probe3_trace.py; P3-6 formalisation DISCLOSED pre-run
+with veto offered: S2 machinery on resample rel-deg; gaussian
+between-stratum unregistered; parents read in full first; synthetic
+end-to-end exercised Claude-side pre-delivery, disclosed; two dead-code
+drafting leftovers removed pre-delivery, disclosed). P3-2a CONFIRMED
+(TOST 90% CIs ±0.005–0.010 vs ±0.05; dominance 48–50%). P3-3 CONFIRMED
+(2.52/2.58/3.04×; ratio CIs exclude 1; band IN). P3-6 MISSED (seed 14
+primary +1.73% CI [+0.48,+3.28] excludes 0; secondary all seeds;
+percent-scale at a 98% ceiling; NOT a mixture — ladder ordering holds in
+every stratum/seed/direction). Seed-44 ARBITRATED: no significant
+direction, any seed, at n=2,005 — CLaSP P3-2b reversal reads thin-n
+(135), flag retained there. ANCHOR INVESTIGATION: gaussian position
+chance→ceiling ≈0 in both main strata; frac(rank≤544) 0.276–0.292 vs
+uniform 0.271; rare-length position +0.01..+0.04 vs composite ceiling
+0.2658 — TRACE does not exploit length; the CLaSP-TRUCE length-floor
+does not transfer. Unregistered mechanism hypothesis for gaussian's
+small >1× residual: dead-channel fingerprints (survive both surrogates
+by design) — checkable, not claimed. Row 1191 closed as footnote:
+census hits are zero dependent / eight variability-stability words; a
+pure-variability caption survives pool-wide structure destruction
+(hypothesis; n=1). HEADLINE: the Probe-2 residual bridge is closed —
+TRACE's order-free residual is value-distribution shape:
+multiset→same-distribution draw changes nothing (TOST-equivalent),
+distribution→matched noise kills it to 1.36× with two of three CIs
+touching chance. Docs: state doc rev. 16; handoff (xiii) + §4.8 + §3;
+this entry. NEXT: ChatTS (GPU) — the last arm of Probes 1–3 — or the
+supervisor update; new chat per the one-stage-per-chat rhythm.
