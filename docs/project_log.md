@@ -1059,3 +1059,71 @@ Artifacts: models/clasp/{run_probe3.py, diagnose_probe3_g8.py,
 diagnose_probe3_g8_v2.py, analyze_probe3.py};
 results/experiments/probe3_clasp_*. NEXT: floor arm, then TRACE, in a
 fresh chat.
+
+
+2026-08-15 (third entry): FLOOR Probe-3 arm EXECUTED AND SCORED —
+P3-7 CONFIRMED. Session per protocol (fresh clone 1e55e0e; handoff,
+state doc rev. 14, PROJECT_CONTEXT read in full; both parent scripts —
+models/openai_embed/run_probe2.py v2 and models/clasp/run_probe3.py v2
+— read end-to-end before any code). Runner design calls, stated up
+front: SC-1 RETIRED (Probe 3 perturbs raw and feeds serialize()
+directly — one path, nothing to cross-check); raw cast to float64 BY
+DESIGN (the floor-native path — serialize() casts itself and its znorm
+takes the zeros branch on the constant; deliberately opposite the
+CLaSP-v2 native-float32 rule, documented against error-#14 confusion).
+DRY RUN: all point predictions HIT — counts 878/386 with certified
+groups; degenerates exactly the registered constant; no-ops 1 × 6
+sets; duplicate groups {58,86,249,362}/{87,165,326,360}, ties 24/0,
+float-level 22; NEW strings 2,310 EXACTLY (6×386 − 6 constant
+no-ops); cost $0.45 vs two independent pre-estimates ($0.449 token
+arithmetic; $0.450 Probe-2 empirical rate); G6 zero deviation. Two
+expectation-LABEL misses, closed by arithmetic on returned numbers:
+(i) TRUCE unique quantised tokens 6.54/12 printed against the
+CLaSP-arm 9.63 — apples to oranges (9.63 = raw-series uniques;
+9.63 × 0.704 survival = 6.78, minus quantisation merges ≈ 6.54 —
+sharpens the P3-2c coarseness base: floor TRUCE surrogates carry
+~6.5 distinct tokens); (ii) frac-unique-missing 0.2959 printed
+against 0.35–0.37 — that band belongs to positions-never-drawn;
+0.2959 IS the CLaSP-arm mechanism-corrected ~0.29. FIRST --yes:
+G8-rank HARD STOP = ERROR #15 (Claude's, delivered script; §2b): v1
+gated the constant-GT query's RANK as unchanged — false inference
+under whole-pool replacement (vector identical, 385 pool signals
+moved; 298→273 legitimate); the Probe-2 correction "G8 is
+embedding-identity only" (2026-08-13) was on record and not carried
+into the adapted gate. Spend unharmed: all 2,310 vectors cached
+before the stop; no result files written. A SECOND latent bug caught
+by prediction, not crash: G-cost as written would hard-refuse the $0
+rerun as "below the band". v2 (six anchored edits, disclosed): G8 →
+bitwise vector identity + rank-movement REPORT; G-cost zero-spend
+branch; docstring corrections + V2 note. RERUN: $0; every pre-spend
+line byte-identical; determinism PROVEN — arm-42 resample query 739
+reproduced 298.0→273.0 exactly; five sibling moves first-observed
+(285/266/275/273/273), all floor-scale; G8-vec bitwise 6/6; G4 gaps
+0.0040/0.0004/0.0006 (< the registered 0.01); GF green. STATS:
+P3-7 scoring PINNED PRE-RUN (P2-4 pattern: 12 TOSTs = 2 inference
+cells × 2 conditions × 3 arms, ±0.05 ABSOLUTE MRR, 90%
+cluster-bootstrap CI, B=2000, rng 42, signals; CONFIRMED iff 12/12
+AND max point |Δ| < 0.05). Claude-side verification, disclosed (the
+accepted P2-4 REF pattern): REF delta table computed independently
+from the uploaded per-query records; uploaded summary reproduced from
+records to 1e-12; JG pre-verified 0.0 vs the committed Probe-2 files.
+RESULT: REF 4/4 × 3 arms; JG 0.0 × 3; 12/12 TOSTs PASS; max
+inference-cell |Δ| 0.0067 (truce_dep/resample arm 42 — the registered
+value exactly); P3-7 CONFIRMED — the ladder machinery does not
+manufacture degradation on a no-capability model. Report-only
+observations: THIN-CELL DEFLATION (truce/invariant n=18: 0.071 →
+0.015–0.028 under resample, all arms; ambiguous n=5: 0.206 →
+0.007–0.106) — P2-4's mimicry finding showed thin-cell INFLATION;
+both directions now demonstrated in data; and a floor-scale LADDER
+GLIMPSE: on those thin TRUCE cells sf_all (an anagram of the same
+tokens) roughly preserves the lucky MRR while resample/gaussian
+(different tokens) destroy it — consistent with accidental
+token-overlap matching; descriptive only, n=5/18. Wilcoxon p<0.05 in
+several inference cells = sub-margin drift at large n, expected per
+the pinned P2-4 language, not meaningful. Artifacts:
+models/openai_embed/{run_probe3.py (v2), analyze_probe3.py};
+results/experiments/probe3_openai_{per_query_seed42/43/44.jsonl,
+signal_meta_seed42/43/44.json, summary.json, stats.json}. Docs:
+state doc → rev. 15; handoff header (xii) + §2b rows 14–15 (row 14
+backfilled, stated) + §4.8; this entry. NEXT: TRACE Probe-3 arm
+(P3-2a/P3-3/P3-6), fresh chat per the one-stage-per-chat rhythm.
