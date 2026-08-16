@@ -1198,3 +1198,78 @@ distribution→matched noise kills it to 1.36× with two of three CIs
 touching chance. Docs: state doc rev. 16; handoff (xiii) + §4.8 + §3;
 this entry. NEXT: ChatTS (GPU) — the last arm of Probes 1–3 — or the
 supervisor update; new chat per the one-stage-per-chat rhythm.
+
+
+## 2026-08-15/16 — ChatTS local preparation: task zero, design Q1–Q5, all CPU artifacts built and gated
+
+Session arc (fresh clone at e18f064; sourcing stated per protocol; all
+Claude-side reads and runs disclosed in-chat: the authors' repo
+NetManAIOps/ChatTS cloned and read; HF checkpoint small files fetched at
+two revisions; compile checks and synthetic toy exercises of every
+delivered script; no model ran anywhere).
+
+TASK ZERO. The paper-era checkpoint revision PINNED (Ranyi's decision on
+the laid-out facts): bytedance-research/ChatTS-14B @
+1e661101dcfff86dc66f3397336b85f2f1cc5e89 (2025-07-24) — HF main was
+REPLACED IN PLACE 2025-08-01 by ChatTS-14B-0801. Era diffs read from
+source: prefix 2-field [Value Offset|Value Scaling] vs 7-field incl.
+order-sensitive left/right endpoints; patch 16 vs 8; ts max_length 2048
+vs 32768; fp16 both (state-doc §7 "bf16" corrected). The prefix is
+INJECTED BY THE PROCESSOR from the raw series — sub-probes A/B need a
+manual path by construction. CPU verifier (v2 after a Windows symlink
+crash — delivery friction, loud, pre-gate, $0) ran ALL GREEN on Ranyi's
+machine: config block, token ids 151665/151666, revision canary, prefix
+digit-exact ("[Value Offset: -3.5000|Value Scaling: 1.1667]"), tensor
+(1,16,1) fp16, MCQ skeleton 95 text tokens at L=2048. transformers
+5.14.1 compat risk did not fire on CPU (twice); era-pinned stack ordered
+for the pod anyway.
+
+DESIGN (each block accepted by Ranyi; three "is it reasonable"
+challenges each produced a real repair — recorded): logit readout with
+greedy agreement 200/probe ≥0.95 and the pre-named fallback; both answer
+orders; template sha 4029f94e2f6d across probes; M1-C masking (fill =
+survivors' mean = exact model-level fill-0; the offset-identity and
+scaling-touch claims corrected in-chat before pinning); the 1e-3 drift
+threshold WITHDRAWN under challenge → PJ prefix-jitter control
+(measured per-row jitter, TOST ±0.05, load-bearing for TRUCE); A/B/C
+sharpened under challenge (A≈C recognised as near-degenerate on the
+2-field paper prefix → registered near-construction expectation;
+cond_B → donor prefix; cond_C → manual-path anchor vs stock gaussian);
+five-number rung built (4a4b3475f9e7, no <ts> placeholder — legal per
+source); two-level shuffle SUSHI-only (patch 16 > 12).
+
+BUILDS, all gates green on Ranyi's machine, every registered expectation
+scored: Probe-1 manifest 11,080 rows (5,540 items exact; C4 990/990 —
+the "495 swap" reading corrected; components C1 205/C2 410/C3 280/C5
+885 first-recorded; lengths delta ≤0.12 words). Probe-2 manifest 1,756
+rows (ERROR #16 caught by the population gate on v1: dataset ==
+'truce' assumed, truce_synth/truce_stock real; v2 maps by prefix and
+gates the 570/168 sub-split; '{}' junk measured ABSENT from test;
+670 unique test texts first-recorded). Perturbation self-test on all
+386 signals: zero applied failures; M1-C identity 386/386; determinism
+digest-proven; SUSHI constant a full identity control in all 8
+conditions; 1 TRUCE sf_half no-op observed; DRIFT CENSUS = the session's
+registered MISS with mechanism (≈100% prefixes drift at 4-decimal
+printing; sane units: SUSHI offset median 0.96% of std, TRUCE 10.2%
+median/30% max, scale to 72%). Manual path PROVEN: 1,756/1,756 bitwise
+(ids+mask+tensor) vs the stock processor; GE4 20/20 localized; GE5
+20/20 (skip-count print omitted — instrumentation note). Probe-3
+manifest 3,912 rows (878 donors, 0 self; five-number recompute
+1,756/1,756; PJ 400 rows, 0 identical prefixes — consistent with the
+census). GPU runner + docs/chatts_gpu_runbook.md delivered
+(compile-checked + routing-coverage-checked; honestly untestable
+without the model — the smoke stage is the defence: weight bytes
+29,749,997,568; splice arithmetic SUSHI +126/TRUCE −1 derived from the
+modeling source; GPU-env manual-path recheck; letter-token pin;
+letter-level determinism; projected-time print scored against the
+registered 1–3 h band). Total plan: 31,356 questions, ~3–5 h, ~€15–40.
+
+Predictions registered pre-GPU: PC1-1 (viability ≥0.90 / VOID rule),
+PC1-2 (position ±0.15), PC1-3 (agreement ≥0.95), explicit
+NON-prediction on component ordering/C4 (the arm's open question),
+A≈C, PJ-flat (load-bearing TRUCE), ⟦E-splice⟧, ⟦E-bytes⟧, ⟦E-time⟧.
+
+Docs: handoff header (xiv) + §2b row 16 + §3 commands + §4.9 + §5;
+state doc → rev. 17 (incl. the fp16 correction); PROJECT_CONTEXT ChatTS
+block; this entry. NEXT: the GPU session — fresh chat, opened with
+docs/chatts_gpu_runbook.md; STOP-AND-PASTE on any gate failure.
