@@ -1273,3 +1273,110 @@ Docs: handoff header (xiv) + §2b row 16 + §3 commands + §4.9 + §5;
 state doc → rev. 17 (incl. the fp16 correction); PROJECT_CONTEXT ChatTS
 block; this entry. NEXT: the GPU session — fresh chat, opened with
 docs/chatts_gpu_runbook.md; STOP-AND-PASTE on any gate failure.
+
+
+## 2026-08-16 — ChatTS arm: GPU session + analysis, scored and closed — THE MATRIX IS COMPLETE
+
+GPU SESSION (rented A100, run by Ranyi per docs/chatts_gpu_runbook.md):
+31,356 responses in one sitting; smoke stage green, then all three probes.
+Pod gates: GR0 weights (after #17, below), GR1/GR2 manifests, GR3 letter
+tokens {A:[32,362], B:[33,425]}, GR4 splice ⟦SUSHI +126 / TRUCE −1⟧ HIT
+in every smoke block, GR5 letter-level determinism, GR6 manual path 50/50
+in the GPU env, GR8 logit-vs-greedy agreement 200/200 per probe, zero
+unparseable (600/600 total = PC1-3 HIT). Throughput 16.6–24 q/s; probe
+runtimes 11.1 / 7.1 / 8.2 min ⇒ ⟦E-time⟧ MISS: ≈0.44 h inference vs the
+registered 1–3 h band (mechanism: overpadded per-forward estimate; the
+smoke stage's own 0.4 h projection was right). ERROR #17 (§2b): the GR0
+constant was TENSOR bytes (29,749,997,568); the gate sums shard FILE
+sizes (29,750,198,302) — gate fired on first load, fixed on the pod, $0.
+Second catch, analysis session: the fix commit's MESSAGE claimed the
+constant change but HEAD still carried the old value — found by reading
+HEAD against the pod logs; a commit message is not a diff; constant
+corrected in this close-out commit.
+
+ANALYSIS SESSION (this chat). Startup: fresh clone read (commit 55f6220);
+handoff (xiv)/§4.9, PROJECT_CONTEXT, state-doc header, pod logs, response
+schemas read from source; Claude-side structural census run and DISCLOSED
+(splice/drift/duplicate counts only — the correct field untouched; no
+accuracy number seen before scoring). Design arc Q1–Q4 accepted; Ranyi's
+is-it-reasonable challenge produced FOUR repairs before delivery:
+(1) order-collapse rule — per-item order-mean (0/0.5/1) + Wilcoxon
+primary, strict both-orders-correct McNemar secondary; the naive 2N-row
+McNemar rejected (correlated orders inflate n); (2) TOST ±0.05 on
+accuracy flagged as a NEW APPLICATION of the pinned MRR margin;
+(3) signal-cluster bootstrap everywhere incl. the DiD (TRUCE captions
+share signals); (4) TRUCE masking cells MECHANICALLY stamped by the PJ
+verdict in the output JSON (banners are not checks, error #9). PJ pairing
+verified from the builder source before asserting (pj rows = p2 rows with
+prefix jittered; join by id rewrite).
+
+Scripts scripts/analyze_chatts_probes.py + analyze_chatts_probe3_contrasts.py,
+both exercised end-to-end on FULL-SIZE SYNTHETIC fixtures pre-delivery
+(disclosed; synthetic so no real accuracy was seen). Pre-delivery catches,
+log-level (caught before delivery, not §2b): GA8 census counted rows where
+the registered numbers are items (synthetic run caught it); a dead
+viability pre-block that would have KeyError'd; DiD bootstrap vectorised;
+dead pre-seed loop removed. Real run: ALL structural gates GA1–GA9 green
+against the values registered in-chat before the run (counts, shas,
+lossless joins, splice census, drift flags 1748/1736, group censuses
+715/18/5 + 135/4/1-degenerate + 570/168, pairing 2770×4, JG rungs
+1756/1756, PJ 400/400).
+
+SCORECARD (verdicts pinned): PC1-1 MISS — SUSHI random 0.726 [0.695,
+0.755] vs ≥0.90; NOT VOID; mechanism: calibrated on paper-reported
+capability; stratum heterogeneity real (C3 random 0.570 → C3 VOID).
+PC1-2 HIT — pooled P(A) 0.442; per-probe 0.556/0.398/0.363; probe-1
+order-flip rates 0.28/0.23. PC1-3 HIT. PJ HIT — flat BOTH substrates by
+narrow CI (TRUCE +0.000 ci90 [−0.025, +0.021]; SUSHI −0.005 [−0.015, 0]);
+TRUCE masking quotable, frozen-prefix rerun NOT fired; the pre-named
+width-vs-shift distinction did not have to be invoked here. A≈C HIT
+(0.982/0.974 agreement, flat). Anchor cond_C = stock gaussian EXACT
+(diff +0.0000, agreement 1.0000 both substrates) — manual path proven at
+results level. ⟦E-splice⟧ HIT; ⟦E-bytes⟧ = #17; ⟦E-time⟧ MISS.
+
+DECISION (Ranyi, pinned): TRUCE viability = WEAK-VIABLE. 0.622 [0.591,
+0.654]; the 0.60 convention line missed by 0.009 while chance is
+decisively excluded — argued per the never-threshold-alone rule; every
+TRUCE cell carries the 12-point caveat and the limited-headroom note.
+
+NON-PREDICTION ANSWERED (the arm's open question): C2 trend-family
+COLLAPSES TO CHANCE (swap 0.527 [0.471, 0.576] vs random 0.852; gap
++0.326; Holm 5.6e-30; McNemar 179/22) while C4 fluctuation degrades only
+PARTIALLY (0.658 vs 0.755, +0.097, Holm 1.3e-9) — the CLaSP-collapse and
+TRACE-partial outcomes describe different components of one model.
+C1/C5 no significant gap; C3 VOID.
+
+PROBE 2: SUSHI dep sf_all −0.267 [−0.348, −0.182] to below chance;
+TWO-LEVEL SHUFFLE FINDING — within-patch −0.019 TOST-flat vs across-patch
+−0.219 [−0.296, −0.141]: order is read at the patch-arrangement level
+(patch-16 architecture visible in behaviour). TRUCE dep: ex_half worst
+−0.174, sf_all −0.113, masking −0.018 flat (PJ-defended, stamped OK).
+DiD with mandatory decomposition: TRUCE sf_all +0.335 [0.143, 0.550],
+>half carried by the thin invariant leg improving (+0.222, n=18) — dep
+drop −0.113 is the load-bearing number (floor-mimicry lesson); SUSHI
+sf_all +0.267 [0.186, 0.351] cleanly dependent-driven. Degenerate
+constant letter-perfect in all 8 conditions (identity + determinism).
+
+PROBE 3: rung 1 stands alone (0.743/0.622); EVERY sub-order rung's CI
+contains chance on both substrates; five-number inert (−0.261/−0.103 vs
+rung 1); cond_B ≈ rung 1 flat — prefix content inert with the series
+present (coherent with A≈C and the 2-field-prefix limitation). Rung-pair
+contrasts (follow-up script; no outcome expectations registered — point
+estimates already seen, structural only): TRUCE 4/4 equivalences certify
+at ±0.05; SUSHI rung2↔resample and resample↔gaussian certify;
+rung2↔gaussian (ci90 [−0.014, +0.057]) and fivenum↔rung2 (ci90 [−0.064,
++0.054]) INCONCLUSIVE-BY-WIDTH at n=140 — CIs include 0; TOST
+non-transitivity stated. JG coherence closed in-chat (disclosed
+arithmetic): rung 2 = group-weighted Probe-2 sf_all digit-exact
+(0.4857/0.5163); rung 1 TRUCE = the viability number.
+
+THESIS SENTENCE (pinned): ChatTS's matching is carried entirely by
+ordered structure — the first model in the matrix with NO Probe-3
+shortcut — alongside a component-specific Probe-1 blind spot (trend
+family) and a patch-level order-reading signature.
+
+Canonical: results/experiments/chatts_probe{1,2,3}_responses.jsonl,
+chatts_analysis.json, chatts_probe3_contrasts.json;
+results/logs/chatts_gpu_session/. Docs: handoff header (xv) + §2b row 17
++ §4.9 results record + §5; state doc → rev. 18; this entry. NEXT:
+supervisor update + thesis writing — the probe × model matrix is full.

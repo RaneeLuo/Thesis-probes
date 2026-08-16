@@ -43,7 +43,8 @@ from models.chatts import perturbations as P
 from models.chatts.manual_encoding import (load_checkpoint_sp_encoding,
                                            manual_encode, prefix_text_of)
 
-EXPECTED_WEIGHT_BYTES = 29_749_997_568
+EXPECTED_WEIGHT_BYTES = 29_750_198_302  # FILE bytes (#17; the pod ran with this value)                                           
+# EXPECTED_WEIGHT_BYTES = 29_749_997_568  
 MCQ_SHA = "4029f94e2f6d"
 FN_SHA = "4a4b3475f9e7"
 BASE_SEED = 42
