@@ -1380,3 +1380,62 @@ chatts_analysis.json, chatts_probe3_contrasts.json;
 results/logs/chatts_gpu_session/. Docs: handoff header (xv) + §2b row 17
 + §4.9 results record + §5; state doc → rev. 18; this entry. NEXT:
 supervisor update + thesis writing — the probe × model matrix is full.
+
+## 2026-08-18 — Thesis writing stage: all chapters content-drafted; W-1 closed; BEDTime correction
+
+Session protocol: fresh clone at 47f18e5; handoff (i–xv), state doc rev. 18 (full),
+PROJECT_CONTEXT, FW/scope doc, log tail read before proposing. Read in full during the
+stage, before the chapters that use them: phase1a_report, probe1_findings_clasp,
+probe1_per_pair_cross_analysis, probe1_manual_validation_findings,
+clasp_reimplementation_validation, finding_metric_saturation, REIMPLEMENTATION_SPEC.
+(probe1_findings_embedding_floor NOT re-read — carried via state doc; flagged in the
+floor draft header.)
+
+DELIVERED (all under docs/thesis_drafts/): background_intro (B.1–B.5),
+models_reproduction (MR.1–MR.7), methodology_chapter (M.1–M.8), results_clasp (R1),
+results_trace (R2), results_chatts (R3), results_floor (R4),
+synthesis_chapter_draft_complete (S.1–S.6; graded matrix; 25-prediction ledger 15/10;
+⟦E-bytes⟧ deliberately excluded as error-ledger not prediction-ledger),
+discussion_limitations_fw (D.1–D.3; FW-1 pending-supervisor marker intact; FW-3 one
+sentence per its pinned treatment). Every quoted number re-verified digit-level against
+the canonical results JSONs in-session before entering a draft (probe1_statistics,
+probe2_{clasp,trace,openai}_stats, probe3_{clasp,trace,openai}_stats,
+c4_census_reanalysis, trace_narrative_statistics_certified, n3_census_verdict,
+probe2_trace_{strata,duration,order_census}, trace_downsample_survival,
+chatts_analysis, chatts_probe3_contrasts, probe2_{sushi,truce}_groups*,
+baseline_openai_embed). One rounding footnote added: TRACE order-free residual
+2.90/3.11/3.14× — "2.9–3.1×" holds only at 1 dp.
+
+TERMINOLOGY (binding, 2026-08-17): thesis prose "diagnostic", repo artifacts keep
+"probe" names; PROJECT_CONTEXT row added this commit; mapping note goes in the thesis.
+
+W-1 QUEUE CLOSED (alphaXiv, Claude-side, disclosed; record:
+docs/w1_verification_record.md): MMTS-Bench "240" = the Align subset (benchmark 2,424)
+and Align ceiling = 0.94–0.99 (Table 17); prefix ablation ON 0.59/OFF 0.24/OFF* 0.60
+digit-exact = Table 7 Sem→TS row; Qwen2.5-3B-Instruct confirmed. TS-Haystack: authors
+confirmed; "ICLR 2026 workshop" DROPPED (no venue stated; cite arXiv; now v6, 4
+datasets/4 modalities hold). ChatTS: RQ5 inversion verified in the paper's own words —
+values are in a bar figure, quote qualitatively only; Dataset A 0.889/0.788 digit-exact;
+2-field prefix §3.4.2; VLDB venue confirmed. BEDTime: full author list exact.
+Addendum: the two citations embedded in finding_metric_saturation.md §4 verified
+(Reimers&Gurevych: raw-BERT mean pooling below GloVe on STS, Table 1; Ethayarajh:
+narrow-cone anisotropy near-verbatim; cite as a PAIR — Ethayarajh is word-level, the
+sentence-level mechanism is carried jointly; both arXiv v1s predate venues, cite arXiv
+IDs alongside EMNLP-IJCNLP 2019).
+
+§6.1 CORRECTION WITH SIGN-OFF: BEDTime v3 (2026-04-10) has FIVE datasets incl. NICU-HR
+(abstract + comparison table; 46,843 pairs) — the pinned "NICU-HR is fabricated" note
+applied to an earlier paper version. Conflict flagged explicitly against the
+do-not-fix-back instruction; Ranyi approved 2026-08-18. Zero impact audit: no
+experiment used BEDTime; SUSHI-Tiny precedent survives (v3 still cites the Tiny Zenodo
+record); TaxoSynth survives ("one of the datasets", not "the fourth"); the Sen-et-al.
+author correction survives. Meta-note for the methodology's validation discussion: a
+fact correctly verified in June was invalidated by a paper revision two months later —
+the live argument for verifying at citation time.
+
+Supervisor: reply not required for now (Ranyi); FW-1 stays pending. OPEN: S.5 tally
+framing (25 named vs grand total) — undecided, carried in handoff (xvi).
+
+Environment note: drafts were written in Claude's environment from the clone + returned
+records (writing, not analysis); the alphaXiv verification calls ran Claude-side and are
+so disclosed in the record. State doc → rev. 19; handoff → (xvi).

@@ -22,6 +22,7 @@ Master's thesis (TU/e DS&AI): a **diagnostic evaluation framework for time-serie
 **Read `docs/SESSION_HANDOFF.md` first**, then `docs/thesis_state_document_final3.md`. The handoff gives the start-up protocol, the command list that reproduces every result, and the open design questions for the next task; the state document carries status, results and corrected facts. Do not rely on *this* file for status.
 
 ## Binding decisions (do not reopen without explicit discussion)
+- **Thesis prose says "diagnostic", never "probe"** (decided 2026-08-17, supervisor-flagged: "probe" collides with the established probing-classifier meaning in ML/NLP, which names a different method — training a classifier on frozen representations; this project perturbs inputs and measures behaviour). Scope: prose only. Repository artifact names (`probe1/2/3`, scripts, JSON keys, prediction IDs P2-1/P3-4/PC1-1 …) are **unchanged** — do not rename files or keys. The thesis carries a one-line mapping note ("the diagnostics are named probe1–3 in the repository"). Chapter drafts under `docs/thesis_drafts/` already follow this.
 - **Probe-facing metric is strict pair-level retrieval** (Recall@k, MRR against the ground-truth pairing). The paper's soft judge-based mAP@10 is used **only** for reproduction comparison — it saturates (one published configuration accepts 99.7% of candidate pairs; a random-init model scores 0.999 under it) and therefore cannot register degradation.
 - **Primary metrics are MRR and Recall@10.** Seed noise floor: R@10 3.5%, MRR 5.6%, R@1 11.6% overall and **32% on SUSHI alone**. Recall@1 is reported but no conclusion rests on it.
 - **Every probe runs against all three checkpoints** (seeds 42/43/44). Significance comes from *paired* tests within each seed; cross-seed agreement is reported as replication. The seed noise floor is a conservative outer bound, not the significance test.
@@ -54,7 +55,7 @@ Master's thesis (TU/e DS&AI): a **diagnostic evaluation framework for time-serie
 - Tan et al. has **three** shuffle strategies (sf-all, sf-half, ex-half) plus a **separate** masking perturbation — not four shuffles.
 - CLaSP has **no official code release**; `models/clasp/` is our reimplementation from the paper spec.
 - CLaSP's published 0.458 / 0.982 are **soft** mAP@10 from **one joint model**; Table III rows are query sources, and its combined row is *not* a query-weighted mean (excluded from comparison).
-- BEDTime authors are **Sen et al.**; its fourth dataset is **TaxoSynth**.
+- BEDTime authors are **Sen et al.** Per the current paper version (v3, 2026-04) it has **five** datasets incl. **TaxoSynth** and **NICU-HR** — say "one of its datasets", not "the fourth". *(Corrected 2026-08-18 with sign-off; the earlier "NICU-HR is fabricated" note applied to an earlier paper version — see docs/w1_verification_record.md. Cite v3.)*
 - SUSHI's public release is the **Tiny** version (1,400 signals); Base is not publicly downloadable.
 - Fons et al. Table 1 has **seven** univariate categories (stationarity is first-class).
 - SUSHI labels are `<fluctuation>; <shape>` — 7 × 20 = 140 classes, a complete product.
