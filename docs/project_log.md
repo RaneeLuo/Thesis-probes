@@ -1439,3 +1439,107 @@ framing (25 named vs grand total) — undecided, carried in handoff (xvi).
 Environment note: drafts were written in Claude's environment from the clone + returned
 records (writing, not analysis); the alphaXiv verification calls ran Claude-side and are
 so disclosed in the record. State doc → rev. 19; handoff → (xvi).
+
+
+---
+
+## 2026-08-21 — Thesis prose conversion: all chapters, one session
+
+**Context.** Fresh clone at 6668b7c; protocol reads: handoff header (xvi) + §1–3, state
+doc rev. 19 header + §0–2, PROJECT_CONTEXT binding rows, log tail, thesis_drafts README.
+Ranyi opened with two facts that reframed the stage: NO TU/e CS thesis template exists,
+and the targets are the official writing guideline (standard structure; 40–60 pages;
+QANU criteria) plus the CS assessment form (uploaded). She writes in the university
+Overleaf template herself.
+
+**Decisions (all Ranyi's, in order):**
+1. Conversion target = guideline structure inside her Overleaf style; plan written
+   (one-to-one chapter mapping, 47–54 pp budget, appendix policy A–F).
+2. Delivery format: plain readable prose per chapter, NOT LaTeX — a LaTeX skeleton was
+   built, compile-tested, and retired the same session when Ranyi chose prose
+   (references_skeleton.bib survives: verified fields only, TODO elsewhere, no invented
+   bibliographic data).
+3. Continue past the one-stage default in the same chat (her explicit choice, twice).
+4. Standard provenance sentence in every results section (replaces inline file cites).
+5. **S.5 framing: 25 named outcome predictions (15/10) as the tally, boundary sentence
+   stated, validation-stage + per-command layers reported separately.** Closes the
+   (xvi) open question. Corollary suggestion recorded: ⟦E-bytes⟧ needs no exclusion
+   note under this boundary (Ranyi to confirm).
+
+**Produced (delivered as session outputs; suggest committing under docs/thesis_prose/):**
+thesis_conversion_plan.md; chapter1…chapter6 prose files (ch4 as four section files);
+each with conversion notes separating register from substance.
+
+**Substantive events beyond register conversion:**
+- **Floor C1 correction.** The results_floor_draft compression "at or below chance on
+  every component" is wrong for C1 (swap 0.576 [0.512, 0.644], significantly above
+  chance; VOID by argument, threshold missed by 0.005) and elides the two significantly
+  below-chance random cells (C3 0.221, C5 0.405). Found by reading
+  probe1_findings_embedding_floor.md IN FULL — the draft's own header flagged it as
+  not-re-read; the flag worked. Prose 4.4.1 states the accurate version. The draft file
+  itself is left unedited (drafts are superseded by prose).
+- **TRACE census shorthand defused.** Handoff (vi) "2,005/1/0" read in the TRUCE
+  dep/inv/amb convention would mean 1 invariant; source re-verified this session:
+  results/analysis/probe2_trace_order_census.json buckets = {dependent: 2005,
+  ambiguous: 1}, ZERO invariant. Drafts and prose correct; shorthand order differs.
+- **New section 6.4 Conclusions** (no draft existed): assembled strictly from S.6 scope
+  statements + Ch.1 contributions; zero new numbers; flagged as proposal.
+- FW treatments verified against future_work_and_remaining_scope.md read fresh (FW-1
+  pending marker preserved in brackets; FW-2 never-negative-control respected
+  throughout; FW-3 one droppable sentence; FW-4 absent).
+
+**Verification log (what was actually checked vs carried):**
+- Read fresh from clone: all nine drafts in full; phase1a_report.md line 78
+  (noise-floor 3.5/5.6/11.6/32 — digit-exact vs prose); w1_verification_record.md
+  (resolved the apparent 0.94-vs-0.96 Align discrepancy — the record itself pins the
+  0.96–0.99 quotable form; NOT an error); future_work_and_remaining_scope.md;
+  probe1_findings_embedding_floor.md; probe2_trace_order_census.json (buckets).
+- Re-derived: 5,700+1,680+1,400=8,780; 878×386=338,908; ln(4)=1.3863; 0.997^10≈0.97;
+  738+125=863 (85.5%); 400→389→344 (45/389=11.6%); TRACE ladder ×-chance column from
+  pool-2,006 expected-MRR chance ≈0.00408 (136/3.04/2.72/1.35 vs stated
+  136/3.05/2.71/1.36); chance median (2,006+1)/2=1,003; ChatTS gap arithmetic and the
+  0.726/0.733/0.743 three-distinct-cells check; 4/139=2.9%, 245/7,334=3.3%.
+- Carried on the 2026-08-18 digit verification (stated per file in conversion notes):
+  finer cells not present in state doc/handoff (census-invalid 0.531, gaussian ratios
+  0.89/1.01/1.14, Spearman ρ=0.273, SUSHI sf-half CI, remaining ChatTS differentials).
+
+**Environment disclosure.** Everything ran Claude-side and is writing/reading only:
+repo clone + doc reads, one JSON census read, arithmetic re-derivations, one LaTeX
+compile test of the (retired) skeleton. No project analysis was run.
+
+**Open at close:** Ranyi's correction pass (8 files); contribution list vs proposal;
+three-signature-table option (5.1); Fons/Tan sentence placement (6.1/6.2); FW-1
+supervisor line; ChatTS no-transfer placement implemented (2.5 full + 4.3.4 + 6.2),
+confirm at correction; then front matter, appendices A–F, numbering, length check.
+State doc → rev. 20; handoff → (xvii).
+
+
+### 2026-08-21 addendum (same session, after close-out delivery)
+
+**Authorship decision (Ranyi):** the converted prose files serve as REFERENCE
+MATERIAL — a verified, complete rendering of the project for her understanding —
+and **Ranyi writes the thesis herself in Overleaf** based on the project. The
+"correction pass" as a gating step dissolves; the reference set was instead
+completed per the decisions below. This directly serves the assessment form's
+"independence in writing the report" criterion.
+
+**All four flagged decisions closed (Ranyi, accepting the advised positions):**
+1. Contribution-list vs proposal: reconciliation stands as a check Ranyi performs
+   while writing Ch. 1 (reference prose carries the marker).
+2. Three-signature table: ADDED to reference ch5 §5.1 Rule 2, from
+   probe1_findings_embedding_floor.md §6 re-read at source; one disclosed
+   extension — "ChatTS C2" added beside "CLaSP C4" as a second certified instance
+   of the shortcut signature (source doc predates the ChatTS arm).
+3. Fons/Tan consistency note: PLACED in reference ch6 §6.1 as its own short
+   paragraph, wording from the source doc's limitation entry.
+4. ⟦E-bytes⟧: NO exclusion note — per-command-layer by the S.5 boundary. Closed.
+
+**Supervisor confirmation (via Ranyi):** supervisor agrees with all decisions —
+**FW-1 stays future work; scope is closed for good.** The last external
+dependency on thesis content is resolved. FW-1's pending marker in the reference
+ch6 §6.3 is superseded by this record (the bracketed marker can simply be
+deleted when writing).
+
+Remaining: Ranyi writes the thesis in Overleaf from the reference set; assembly
+(front matter, appendices A–F, numbering, length) happens there; Claude assists
+on request (appendix source-material packs, checks, defense prep).
