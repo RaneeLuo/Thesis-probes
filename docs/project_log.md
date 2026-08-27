@@ -1543,3 +1543,23 @@ deleted when writing).
 Remaining: Ranyi writes the thesis in Overleaf from the reference set; assembly
 (front matter, appendices A–F, numbering, length) happens there; Claude assists
 on request (appendix source-material packs, checks, defense prep).
+
+
+## 2026-08-23 — Template stage closed; writing template v2 final
+
+Session inputs: TU/e guideline text + CS assessment form (read first-hand for the
+first time), two external structure suggestions (reviewed; 12-chapter version
+rejected as fragmented; detailed version merged after four fixes).
+Output: `docs/thesis_prose/thesis_final_template.md` (v2) — final structure,
+per-section binding content specs, prose-reference mapping table, final-pass
+checklist. Ranyi's decisions: sub-question device adopted (RQ1/RQ2/RQ3);
+appendices A–D packaging; negative-control naming in headings; metric saturation
+standalone (2.3); 5.6 answers + 5.7 scope of claims; conclusion from 1.5+5.6+5.7
+only. Guideline-alignment note recorded: the TU/e suggested structure itself puts
+state of the art inside the introduction, so the integrated related-work choice
+matches the guideline. New standing rule: history-recall (docs first, then
+automatic past-chat search, attributed and repo-verified).
+
+Remaining: Ranyi writes the thesis in Overleaf chapter by chapter from the
+template + prose reference set; Claude assists on request. Open placement item
+carried: 46/50-vs-48/50 disclosure → 4.1.2 or Appendix A, decide while writing.
