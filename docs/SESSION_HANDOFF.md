@@ -30,6 +30,47 @@ These are not stylistic preferences. Every one of them caught a real error.
 - **Division of labour (set 2026-08-05):** Claude writes and sends scripts; Ranyi runs them locally and returns the outputs; Claude interprets from the returned results. Claude does not run project analyses in its own environment unless explicitly asked, and states plainly whenever anything did run on its side. Claude has read access to the public repository (clone; a snapshot, re-pulled and said so at task start).
 - Do not add "Co-Authored-By" trailers to commits.
 
+### 2a. Writing-stage anti-fabrication rules (set 2026-09-04, writing session 2)
+
+Context: the writing stage moves the fabrication risk from scripts to prose. A
+fluent, wrong sentence looks identical to a fluent, right one from the inside;
+two such sentences were caught in the Chapter-1 check ("several shuffles",
+"restored in an alternative form"). These rules make every claim traceable so a
+wrong one is caught rather than trusted. They bind Claude; Ranyi enforces them.
+
+1. **No source row, no sentence.** Every number and every claim about a paper in
+   a delivered draft carries a ledger row: claim -> repo file (path + lines) or
+   W-1 record entry or alphaXiv read -> verified this session (yes/no). A draft
+   without its ledger is not accepted.
+2. **Read, don't recall.** Before drafting a section, Claude reads the matching
+   prose-file section and the relevant finding document fresh in the current
+   session. Paper facts come from `docs/w1_verification_record.md` or a fresh
+   alphaXiv read, never from memory. Anything that could not be read is written
+   without the number and marked **[UNVERIFIED - from memory]**.
+3. **Label provenance per paragraph:** carried / compressed / fresh. A framing
+   or interpretation not found in any project document is marked **[fresh]** so
+   it reads as Claude's proposal, not the project's record.
+4. **Literal answers to literal questions.** "Did you read X this session?" is
+   answered with "yes, lines a-b" or "no"; reassurance in place of an answer is
+   itself a warning sign and Ranyi pushes back.
+5. **One section per draft.** Short drafts with ledgers are checkable; whole
+   chapters are not.
+6. **Fluency is a red flag, not a green one.** A sentence that reads unusually
+   well and rests on a fact Ranyi does not remember is the case to stop and
+   verify. Ranyi's memory of what was actually run is a check Claude does not have.
+7. **Unannounced spot-checks.** Ranyi picks one claim per section at random and
+   asks for on-the-spot verification from source; a failed check re-opens the
+   whole draft.
+8. **Forbidden sources for facts:** the archival files (`论文解读.*`,
+   `history_conversation_with_claude4_7.docx`, the proposal-formulation notes)
+   and both proposal `.docx` files. They contain known drift and predate W-1.
+   If a draft cites them for a fact, stop.
+9. **Labels stay visible in Overleaf** (as LaTeX comments) until resolved, then
+   are deleted. Any label still present at chapter close means the claim was
+   never checked.
+10. **Asking Claude to "be careful" changes nothing.** The errors are not
+    carelessness. What changes the outcome is sources in, checks after.
+
 ## 2b. The nine errors — why the scripts are written the way they are
 
 Building Probe 1 produced nine errors. **Exactly one raised an exception.** The other eight ran cleanly and printed plausible-looking numbers. This section exists because the *rule* "check your output" transfers poorly; the concrete cases transfer better.
