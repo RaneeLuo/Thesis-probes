@@ -22,7 +22,8 @@ one of these cases.
 This is not a hypothetical concern, and this thesis did not need to assume it. It was
 encountered concretely in the first system reproduced, before any diagnostic existed.
 One of the four published evaluation configurations of CLaSP (Ito et al., 2025) uses
-a judge that accepts 99.7% of all query–candidate pairs; under that configuration, a
+a judge that, measured on the candidate pool used in this study, accepts 99.7% of all
+query–candidate pairs; under that configuration, a
 randomly initialised model scores 0.999 — marginally above the trained model. The
 published perfect score in that column therefore certifies nothing. The full analysis
 appears in the Models and Reproduction chapter; the finding was possible only because
