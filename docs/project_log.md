@@ -1563,3 +1563,69 @@ automatic past-chat search, attributed and repo-verified).
 Remaining: Ranyi writes the thesis in Overleaf chapter by chapter from the
 template + prose reference set; Claude assists on request. Open placement item
 carried: 46/50-vs-48/50 disclosure → 4.1.2 or Appendix A, decide while writing.
+
+## 2026-09-01 — Chapter 1 written and checked (writing session 1)
+
+Session mode per the (xix) plan: Ranyi writes in Overleaf, Claude assists
+section by section. Rhythm that emerged and worked: Claude drafts reference
+text for a section (labelled carried/compressed/fresh, zero new numbers) →
+Ranyi rewrites in her own words → Claude verifies the rewrite against binding
+content and, where a new number or reframed claim appears, against the source
+document. All six sections of Chapter 1 completed this way.
+
+Section outcomes and catches:
+- 1.1: Ranyi's rewrite introduced 0.997 (trained model) — verified against
+  finding_metric_saturation.md (trained 0.997 / untrained 0.999, DistilBERT
+  ts=0.5). Her "measured on the candidate pool used in this study" framing
+  COMPLIES with the finding doc's reporting rule; the ch1 prose reference file
+  does NOT (frames 99.7% as a property of the published configuration) —
+  one-line prose-file fix carried as a to-do so 2.3 doesn't inherit it.
+  Main RQ verbatim; footnote #1 in place; RQ1–3 written fresh (prose file
+  predates the sub-question adoption).
+- 1.2: two must-fixes caught in round 1 (Tan et al. "several shuffles" → the
+  pinned "three + separate masking"; MMTS-Bench "restored in an alternative
+  form" → the W-1 form "supplied at inference time (their Table 7)").
+  Discovery: the "alternative form" wording traces to the PROPOSAL's
+  Paper-native-precedent paragraph — the proposal predates W-1 and is not a
+  source for verified claims. Gap paragraph restored to full strength
+  (own baseline, paired stats, certified items, negative control, matrix
+  punchline). Scope-caveat echo between 1.1/1.2 resolved (kept in 1.1).
+- 1.3: written fresh; Ranyi's compression kept; two term repairs (validation
+  is BY HUMAN JUDGMENT — required by the 1.2 promise and contribution 5;
+  "diagnostic profile" → "shortcut profile" for cross-chapter consistency).
+- 1.4: Ranyi moved ALL dataset counts and the defect list to Chapter 2 —
+  more template-compliant than the reference draft; consequence recorded:
+  2.1 MUST carry the counts (1,400 Tiny; 2,460 = 1,900 + 560; Base
+  unavailable + BEDTime precedent). Her closing "own unperturbed baseline OR
+  matched control condition, as appropriate" is more accurate than the
+  draft's baseline-only phrasing (Diagnostic 1 scores against the
+  random-distractor control). TRACE remedy framing restored; negative
+  control moved to expectation language.
+- 1.5: CONTRIBUTION RECONCILIATION (the standing open item) — both proposal
+  §8 lists read in full; identical except revised drops "state-of-the-art"
+  (thesis follows revised). P1↔T1; P2+P4(a) promised-delivered-unclaimed →
+  closed via the item-construction clause in contribution 1; P3↔T2 with
+  "first" deliberately reserved for the reimplementation only; P4(b) covered
+  by 1.2's prompt-level→data-level framing; P4(c) NOT delivered anywhere
+  (grep-verified across the prose set) → Ranyi adopted the fix: one
+  definitional sentence in 2.4. T3/T4/T5 exceed the proposal — the proposal
+  planned "Clone CLaSP repositories"; the reimplementation was unplanned.
+  Ranyi's "scarcity of order-invariant descriptions" verified against ch5
+  prose (the three-substrate saturation finding). US-spelling stray
+  ("initialized") caught here for the second time.
+- 1.6: passed round 1. Minor unification flagged: "diagnostic × model
+  matrix" (1.2/1.6) vs "cross-model diagnostic matrix" (1.5) — one name at
+  the polish pass.
+
+Standing decisions made: UK spelling throughout the thesis.
+
+Carried to the Chapter-2 session: (1) 2.4 hard-negative sentence [P4(c)];
+(2) bib: MMTS-Bench 2602.08588 / TS-Haystack 2602.14200 preprint-marked;
+(3) 2.1 dataset counts; (4) ch1-prose-file 99.7% framing fix; (5) Ranyi's
+assembled-chapter checklist pass in Overleaf (-ize search, cross-ref
+numbering, internal-label sweep).
+
+Claude environment disclosure: fresh depth-1 clone at session start; reads
+only (sed/grep over repo docs and project files, incl. both proposal .docx
+project copies, which are plain text in the project mount); no project
+analyses run in Claude's environment.
