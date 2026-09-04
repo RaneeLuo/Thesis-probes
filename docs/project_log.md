@@ -1629,3 +1629,67 @@ Claude environment disclosure: fresh depth-1 clone at session start; reads
 only (sed/grep over repo docs and project files, incl. both proposal .docx
 project copies, which are plain text in the project mount); no project
 analyses run in Claude's environment.
+
+## 2026-09-04 — Chapter 2 written and checked (writing session 2)
+
+Startup: fresh depth-1 clone (e35072e; second clone at 4e7d700 after the bib push);
+handoff (xx) + state doc rev. 23 header/§0–2 + template v2 Ch.2 spec + PROJECT_CONTEXT
+binding decisions read from the clone; results carried from memory only until
+re-read per section. Five to-dos listed back before starting.
+
+PROCESS. Ranyi asked how writing can be kept factual; answer given honestly (zero
+hallucination cannot be promised; traceability can) and formalised at her request
+as handoff §2a — ten writing-stage anti-fabrication rules — before any drafting.
+Every reference draft this session carried per-paragraph provenance labels and a
+source ledger (claim → file + lines → verified yes/no) plus an explicit unverified
+list. Ranyi rewrote each section in Overleaf with a written rationale; Claude
+verified each rewrite against the ledger and sources.
+
+SECTIONS. 2.1 Datasets and frozen corpus — counts moved in from Ch.1; three of
+Ranyi's corrections to the draft confirmed from code (pairs.jsonl is TRUCE/SUSHI
+only; 878 queries vs 386 candidates; '{}' is a literal caption); '{}' absent from
+test restored from log L1247. 2.2 CLaSP — all numbers verified against
+clasp_reimplementation_validation.md / REIMPLEMENTATION_SPEC / phase1a / state
+doc; Ranyi's narrowing of "every element as specified" accepted (Informer is
+specified; encoder is deviation #1); Informer deviation completed (ProbSparse +
+distilling); metric first-use definitions added with forward refs to 3.3.
+2.3 Metric saturation — full evidence (1.1 carries only the headline); combined-
+queries column used to match 1.1's 0.997; Reimers claim narrowed to the W-1
+verified form (below averaged GloVe). 2.4 TRACE — five defects, stored args,
+orientation values, substrate, three-mask baseline all verified; P4(c) sentence
+written (to-do 1 closed); inference-score sentence restored (closes the text-
+overlap threat); inclusion sentence matched to 1.4.1's remedy framing.
+2.5 ChatTS — pin, era diffs, execution facts, viability cells verified; viability
+cells pinned from chatts_analysis.json (SUSHI 0.726 = D1 random condition, NOT
+unperturbed; TRUCE 0.622 = unperturbed). 2.6 Floor — Ranyi's narrowing of
+"never trained on time series" and of the causal paired-data attribution accepted;
+SUSHI below-chance footnoted per the 2026-08-09 decision. 2.7 — two tables; no
+formal viability label for TRACE; answer order = control.
+
+SOURCE READS. TRUCE 2110.01839v1 (crowd-authored VERIFIED; 1,900 = stock; synth
+"720 paired"); SUSHI README (no standalone paper; template captions; naming rule
+bare SUSHI = Base; 140 = 7 × 20 confirmed); CLaSP 2411.08397v3 (does not release
+SUSHI; never names the version; Table III matches); TACO 2409.16647v1 (cites SUSHI
+as GitHub; misstates 1.4M); ChatTS 2412.03104v3 (lengths 64–1024; min-max norm).
+arXiv export API + Crossref for 11 bib entries after alphaXiv rate-limited.
+Code read from clone: dataset.py, models/clasp/{evaluate,train}.py,
+models/trace/run_authors_demo_eval.py (P@k = top-k hit rate).
+
+CATCH (Claude, writing stage — recorded in the spirit of §2b): the 2.5 reference
+draft said the ChatTS series is "z-normalised". The word was Claude's; no project
+record says it; the paper says min-max. Ranyi carried it into her rewrite; caught
+only because the "64" caveat forced a paper read. Fix: "subtracts an offset and
+divides by a scale". Lesson: a paragraph labelled "carried" can still contain one
+fresh word; the ledger must be per claim, not per paragraph.
+
+DELIVERED (complete replacement files): SESSION_HANDOFF.md (§2a, then (xxi));
+chapter1_introduction_prose.md (99.7% framing, one line); references_skeleton.bib
+(14/14 filled; pushed by Ranyi at 4e7d700); thesis_state_document_final3.md
+rev. 24; this log entry.
+
+TO-DOS CLOSED: 1–4. OPEN: (5) Ranyi's Ch.1 checklist + four new Ch.1 edits;
+Ch.2 cross-reference pass (placeholders, six table numbers, forward refs, -ize).
+CARRY TO CHAPTER 3: P@k definition; ChatTS normalisation formula (read source if
+the masking argument needs it); TS-Haystack cite decision; Tan et al. id confirm.
+
+Environment: two fresh clones; reads only; no project analyses run.
