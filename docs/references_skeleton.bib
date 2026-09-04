@@ -1,0 +1,123 @@
+% ============================================================
+% references_skeleton.bib — 2026-08-21
+% RULE: fields below marked TODO were NOT verified and must not be guessed.
+% Verified facts come from docs/w1_verification_record.md and the state
+% document's verified-facts table. Venue facts pinned there:
+%   - TS-Haystack: arXiv ONLY, no venue (W-1: venue claim DROPPED)
+%   - MMTS-Bench: arXiv 2602.08588, Yin, Xiao, et al.
+%   - ChatTS: VLDB (venue confirmed in W-1)
+%   - CLaSP: EUSIPCO 2025; TRACE: NeurIPS 2025; TRUCE: EMNLP 2021 (state doc)
+% Author lists shown only where verified; complete them from the papers.
+% ============================================================
+
+@inproceedings{ito2025clasp,
+  author    = {Ito, Aoi and Dohi, Kota and Kawaguchi, Yohei},
+  title     = {{CLaSP}: Learning Concepts for Time-Series Signals from Natural Language Supervision},
+  booktitle = {Proceedings of the 33rd European Signal Processing Conference (EUSIPCO)},
+  year      = {2025},
+  note      = {arXiv:2411.08397 (v3, August 2025)},
+}
+
+@inproceedings{chen2025trace,
+  author    = {Chen, {TODO: full author list from paper}},
+  title     = {{TODO: exact TRACE title from paper}},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2025},
+}
+
+@article{xie2025chatts,
+  author  = {Xie, {TODO: full author list from paper}},
+  title   = {{TODO: exact ChatTS title from paper}},
+  journal = {Proceedings of the VLDB Endowment},
+  year    = {2025},
+  note    = {TODO: volume/number/pages},
+}
+
+@inproceedings{jhamtani2021truce,
+  author    = {Jhamtani, Harsh and Berg-Kirkpatrick, Taylor},
+  title     = {Truth-Conditional Captioning of Time Series Data},
+  booktitle = {Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing (EMNLP)},
+  year      = {2021},
+  pages     = {719--733},
+  note      = {arXiv:2110.01839},
+}
+
+@misc{kawaguchi2024sushi,
+  author       = {Kawaguchi, Yohei and Dohi, Kota and Ito, Aoi},
+  title        = {{SUSHI}: A Dataset of Synthetic Unichannel Signals Based on Heuristic Implementation},
+  year         = {2024},
+  howpublished = {Dataset. GitHub repository and Zenodo record 13882998},
+  url          = {https://github.com/y-kawagu/SUSHI},
+  note         = {No standalone paper; cited as a dataset release, as in the CLaSP and TACO papers. The Tiny release (1.4K signals, CC BY 4.0) is the artifact used in this thesis. Zenodo: https://zenodo.org/records/13882998},
+}
+
+@inproceedings{yuksekgonul2023aro,
+  author    = {Yuksekgonul, Mert and {TODO: remaining authors}},
+  title     = {{TODO: exact ARO title (When and why vision-language models behave like bags-of-words...) — verify exact wording}},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2023},
+}
+
+@misc{tan2024order,
+  author = {Tan, {TODO: full author list from paper}},
+  title  = {{TODO: exact title of the Tan et al. shuffle/masking paper}},
+  year   = {TODO},
+  note   = {TODO: venue/arXiv id — this is the Diagnostic-2 parent; mechanics pinned from paper + code},
+}
+
+@article{geirhos2020shortcut,
+  author  = {Geirhos, Robert and {TODO: remaining authors}},
+  title   = {Shortcut learning in deep neural networks},
+  journal = {Nature Machine Intelligence},
+  year    = {2020},
+  note    = {TODO: volume/pages — verify},
+}
+
+@inproceedings{fons2024features,
+  author    = {Fons, {TODO: full author list from paper}},
+  title     = {{TODO: exact title from paper}},
+  booktitle = {Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing (EMNLP)},
+  year      = {2024},
+}
+
+@misc{sen2026bedtime,
+  author        = {Sen, Medhasweta and Gottesman, Zachary and Qiu, Jiaxing and Bruss, C. Bayan and Nguyen, Nam and Hartvigsen, Tom},
+  title         = {{TODO: exact BEDTime title from paper}},
+  year          = {2026},
+  note          = {arXiv preprint; TODO: arXiv id; cite v3 (five datasets incl. NICU-HR per the corrected fact)},
+}
+
+@misc{yin2026mmtsbench,
+  author        = {Yin, {TODO} and Xiao, {TODO} and others},
+  title         = {{TODO: exact MMTS-Bench title from paper}},
+  year          = {2026},
+  eprint        = {2602.08588},
+  archivePrefix = {arXiv},
+}
+
+@misc{zumarraga2026tshaystack,
+  author        = {Zumarraga, {TODO: full author list from paper}},
+  title         = {{TODO: exact TS-Haystack title from paper}},
+  year          = {2026},
+  eprint        = {2602.14200},
+  archivePrefix = {arXiv},
+  note          = {No venue — the workshop claim was dropped in W-1; cite as arXiv preprint (v6)},
+}
+
+% --- For the metric-saturation section (Ch. 2), cite as a PAIR per W-1: ---
+
+@inproceedings{reimers2019sbert,
+  author        = {Reimers, Nils and Gurevych, Iryna},
+  title         = {{Sentence-BERT}: Sentence Embeddings using Siamese {BERT}-Networks},
+  booktitle     = {Proceedings of EMNLP-IJCNLP 2019},
+  year          = {2019},
+  note          = {arXiv:1908.10084 — cite arXiv id alongside venue per W-1},
+}
+
+@inproceedings{ethayarajh2019contextual,
+  author        = {Ethayarajh, Kawin},
+  title         = {{TODO: exact title (How contextual are contextualized word representations...) — verify exact wording}},
+  booktitle     = {Proceedings of EMNLP-IJCNLP 2019},
+  year          = {2019},
+  note          = {arXiv:1909.00512 — cite arXiv id alongside venue per W-1; word-level; cite jointly with Reimers \& Gurevych},
+}
