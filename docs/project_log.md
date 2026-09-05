@@ -1693,3 +1693,78 @@ CARRY TO CHAPTER 3: P@k definition; ChatTS normalisation formula (read source if
 the masking argument needs it); TS-Haystack cite decision; Tan et al. id confirm.
 
 Environment: two fresh clones; reads only; no project analyses run.
+
+## 2026-09-05 — Chapter 3 §3.1–3.5 written and checked (writing session 3)
+
+Same rhythm as sessions 1–2: fresh clone; SESSION_HANDOFF (xxi) and state doc
+rev. 24 read; Claude drafts reference text per section with per-paragraph
+provenance and a per-CLAIM source ledger; Ranyi rewrites in Overleaf for a
+reader new to the project; Claude verifies against sources read this session.
+Five sections closed: 3.1 design problem, 3.2 measurement principle, 3.3 metric
+decision and model interfaces, 3.4 Diagnostic 1, 3.5 Diagnostic 2.
+
+WHAT THE PROTOCOL CAUGHT (both directions):
+- Ranyi's rewrites removed three overclaims carried from the prose files into
+  Claude's drafts: a Chapter-4 TRACE result in a result-free chapter (3.1);
+  "every model sees exactly the same data" (false since TRACE runs on NOAA;
+  3.2); "shortcut positively demonstrated" (now operational wording; 3.1).
+- Claude's checks caught, in Ranyi's rewrites: the logic direction of the
+  swap gap reversed (3.4 opening); a census question that does not exist
+  ("contradiction elsewhere"; 3.4); "preliminary design checks" for what is
+  CLaSP's own Probe-1 random-condition ceiling (3.3); TRACE order grouping
+  described as a human census (it is a rule census + 17-row sample; 3.5);
+  the 15% invariant expectation generalised beyond TRUCE (3.5); "unrelated
+  alternative" for the random distractor (3.1).
+- Ranyi's own correction of Claude: D1's primary control is swap-vs-random
+  per item, which Claude had omitted; Claude's reply restored the across-
+  component pattern as the SECOND layer (state doc L153) — both now in 3.2.
+
+VERIFIED FROM SOURCE THIS SESSION: noise-floor statistic = sd/mean, ddof=1,
+from baseline_clasp.json (reconstruction of the three seed values matches
+stored sd to 6 dp; ci95/sd = t(.975,2)/sqrt(3)); TRACE P@k = mean(rank<=k)
+(runner L304-306); retrieval direction caption->signal for CLaSP/floor
+(evaluate.py, run_probe2.py avg_ranks) and text->ts primary for TRACE probes
+(docstrings); forced choice by cos(signal,correct) > cos(signal,distractor)
+in all three embedding Probe-1 runners; ChatTS two-level shuffle definitions
+(perturbations.py L100-118); ChatTS normalisation from the pinned
+processing_qwen2_ts.py (Ranyi's copy, hash-identical to HF rev 1e661101):
+mean subtraction + conditional cap of the largest |deviation| at 3 — NOT
+z-norm, NOT min-max (paper 3.4.2 discrepancy noted). Consequence: prose
+L214 is wrong for ChatTS; 3.6 must scope the chance-by-construction anchor.
+
+C2 CENSUS GAP AND DECISION: writing 3.4's "headline gets a census" rule
+exposed that ChatTS's headline component C2 was never censused (census
+predates the ChatTS arm). Ranyi chose option (a): no census; limitation in
+3.4/4.3/Ch.6. Checking the related clause exposed a second gap: ChatTS's C4
+had been scored on all 990 items, not the 738 certified ones CLaSP's headline
+uses. Claude recommended and Ranyi accepted a re-grade (analysis-only).
+
+RE-GRADE (scripts/regrade_chatts_c4_census.py; Ranyi's run): certified C4
+swap 0.690 [0.653,0.727] vs random 0.764 [0.729,0.796], gap +0.075
+[0.034,0.116], Wilcoxon 2.2e-5, McNemar 205/112, 738 items / 237 signals.
+Verdict unchanged (partial, no collapse). P-R1 MISS (+0.032 vs +/-0.03;
+mechanism: the 127 never-censused items sat below the certified level,
+unlike CLaSP's), P-R2 HIT (invalid 0.636 < certified), P-R3 HIT. Cross-slot
+(n=20) 0.175 [0.05,0.325] recorded as an observation. Count chain 990 -> 863
+-> 738 now applies to ChatTS C4 too.
+
+ERROR #18 (Claude, delivered script, gate-caught, zero cost): v1 re-
+implemented the explicit-pile rule and applied the cross-slot test outside
+the pile (22/105 vs expected 20/107); the record's 22-total was right; fixed
+by importing pins/JUMPY from census_c4_reanalysis.py and gating the total.
+
+DELIVERED (complete replacement files): SESSION_HANDOFF.md ((xxii) + #18);
+thesis_state_document_final3.md rev. 25; PROJECT_CONTEXT.md (one wording
+fix, L32); this log entry. Plus the re-grade script and its JSON (Ranyi
+commits from her run).
+
+OPEN (Ranyi): align Ch.1 shortcut wording; check 2.5 ChatTS normalisation
+wording; VOID case convention; commit script + JSON; TS-Haystack cite
+decision; Tan et al. id confirm.
+CARRY TO 3.6-3.8: Gaussian-anchor scoping per model; cond_A/B/C placement;
+ddof=1 note; three-vocabulary split; 3.8 ledger paragraph at principle level.
+
+Environment: one fresh clone; reads; Claude-side runs disclosed in chat:
+ddof arithmetic on committed JSON, --gates-only smoke test of the re-grade
+script, HF fetch of the pinned processor for the hash check. The re-grade
+itself ran on Ranyi's laptop.
