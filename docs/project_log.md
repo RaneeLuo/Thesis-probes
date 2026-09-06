@@ -1836,3 +1836,61 @@ Environment: one fresh depth-1 clone (338c2be); reads of docs, runner and
 analysis sources; two Claude-side reads of committed records disclosed in
 chat (baseline_clasp.json + per-seed evals for ddof; probe1_statistics.json
 for equivalence flags); no project analyses run; no scripts delivered.
+
+## 2026-09-06 — Chapter 4 §4.1 (CLaSP) written and checked (writing session 5)
+
+Mode unchanged: Claude reference draft (per-paragraph carried/compressed/fresh
+labels, per-CLAIM source ledger: claim → file + JSON key → verified this session)
+→ Ranyi rewrite in Overleaf → Claude verification against binding content and
+committed files. Handoff §2a rules applied; Chapter-4 tightening: every number
+from a committed `results/` file read this session; prose files, state doc,
+handoff and old chats never a source for numbers.
+
+Sections closed: 4.1.1 (conditions/baseline), 4.1.2 (component results),
+4.1.3 (order results), 4.1.4 (statistical-information results), 4.1.5 (profile).
+
+Decisions taken (Ranyi, on Claude's recommendation):
+- 4.1.1 carries the capability label (viable, by ratio to pool chance); D1
+  random-condition accuracies live in 4.1.2 with the no-VOID statement.
+- 46/50 vs 48/50 convention disclosure: one sentence in 4.1.2, detail in App. A.
+- 3.7 equivalence outcomes made a partition (equivalent = inside margin;
+  shifted = excludes 0 AND beyond margin; inconclusive = includes 0 AND beyond).
+- SUSHI DiD (n=4) kept in text as non-load-bearing, tagged P2-6 confirmed;
+  P2-8 outcome stated once in 4.1.3 (3.5 carries the census fact as design).
+- TRUCE D3 verdict: shortcut present (length matching); no additional
+  distribution-shape shortcut detected beyond the length floor under the
+  tested reductions. Open items (seed-44 reversal, P3-5 medians, SUSHI
+  anchor) stay in 4.1.4 with numbers; 6.2 lists them without digits.
+- TRACE arbitration of the seed-44 anomaly moved from 4.1.4 to Chapter 5.
+
+Caught this session:
+- State doc §5 CLaSP cell was seed 42 alone (0.043/0.133) — corrected.
+- Prose-file overclaims not carried: five (not six) C1 pairs at 1.000;
+  random-margin range 0.35–0.52 (not 0.41–0.52); prose C4 CI [0.556, 0.647]
+  matches no seed; D3 ratios are to global chance, not the split reference;
+  "two groups of four" duplicates is the floor's structure, not CLaSP's.
+- Rewrite-stage fixes: '386 unique signals' (pool has duplicates); 'Recall@1
+  alone' vs binding 'rests on'; P2-2 confirmation implied CI criterion (rule
+  is positive point estimate in all seeds, analyze_probe2.py L195); 863 rule
+  incomplete (883 pinned − 20 cross-slot); recorded convention rationale.
+- Draft-side error (Claude): 'feature control 0.929 on the same 237 signals'
+  — file gives c4_mean_full 0.929 / c4_mean_279 0.931; only the random
+  control 0.969 is on the 237 certified signals. Fixed in 4.1.2 and 4.1.5.
+
+Verified from source this session (new): tie bound 6e-3 hard-coded in both
+runners; probe3 G6 identical to probe2; mean-pool in REIMPLEMENTATION_SPEC
+L29; 883 = share_pinning×990, 863 = 883−20 cross-slot; census CSV tallies
+738/125, q1 fails 10, q3 fails 115; sf_half = first half, whole pool
+perturbed (run_probe2.py); 'The majority is flat.' = caption #2 of
+truce_synth:pilot13/126.png, rank 1→259, 0.871 of the invariant drop;
+TRUCE anchor seeds 42/44 reproduced from per-query records, seed 43
+computed (median 132, block fraction 0.936) — anchor block absent from
+probe3_clasp_stats.json for seed 43 (rerun declined by Ranyi for time; the value rests on the committed per-query record — Appendix D note).
+
+NEXT: §4.2 TRACE from template (new chat, fresh clone).
+
+Environment: one fresh depth-1 clone (19aa3e2); reads of docs, results
+JSON/JSONL/CSV, grep-level reads of run_probe2.py / run_probe3.py /
+analyze_probe2.py and REIMPLEMENTATION_SPEC.md; Claude-side arithmetic on
+committed values disclosed in chat; no project analyses run; no scripts
+delivered.
