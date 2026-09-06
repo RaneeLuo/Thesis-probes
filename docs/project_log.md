@@ -1768,3 +1768,71 @@ Environment: one fresh clone; reads; Claude-side runs disclosed in chat:
 ddof arithmetic on committed JSON, --gates-only smoke test of the re-grade
 script, HF fetch of the pinned processor for the hash check. The re-grade
 itself ran on Ranyi's laptop.
+
+2026-09-06: CHAPTER 3 COMPLETE — §3.6–3.8 WRITTEN AND CHECKED (writing
+session 4). Mode unchanged: reference draft with per-claim ledger -> Ranyi
+rewrite -> verification against binding content and sources; Chapter 3 kept
+result-free; §2a rules applied.
+
+3.6 (statistical-information sufficiency): rungs written per what each
+preserves/destroys; Gaussian anchor scoped per model (CLaSP z-norm, TRACE
+per-channel StandardScaler -> length-only floor, TRACE also keeps the
+dead-channel pattern; ChatTS mean-centring + conditional cap -> not a floor
+by construction, measured via cond_A/B/C). A/B/C placement: one sentence in
+3.6, mechanics Appendix C. Anchor amendment history read from this log
+(2026-08-15 second entry): amendment AFTER the CLaSP P3-1 miss, prospective
+for floor/TRACE/ChatTS; stated so in 3.6, miss stands. Thesis term
+"five-field statistical summary" adopted (repo `five_number` unchanged).
+Ranyi confirmed the z-norm choice lives in her 2.1; 2.1 re-verified against
+dataset.py + dataset_validation.md, passes.
+
+3.7 (statistics and vocabulary): noise floor ddof=1 re-confirmed from the
+three per-seed eval files (stored sd == sample sd; ci95 = sd*4.303/sqrt(3),
+aggregate_seeds.py L27). Machinery written from the eight analysis scripts:
+signal-cluster bootstrap (TRACE rows = signals; pool-side dependence a stated
+limitation), 95%/90% percentile CIs, B 2,000 or 10,000, Wilcoxon input and
+sidedness differ by arm (CLaSP reciprocal ranks one-sided; TRACE ranks
+two-sided; floor two-sided report-only) -> Appendix B lists tested quantity /
+sidedness / Holm family / B / seed per analysis; margin +-0.05 reused on
+three scales (abs MRR; relative degradation for TRACE P2-9 and P3-2; ChatTS
+accuracy points), all flagged; TOST three outcomes; VOID rule implemented two
+ways (D1 both conditions; ChatTS reference only) -> Appendix A note.
+Three vocabularies fixed (confirmed/missed; viable/weakly viable/VOID defined
+once in 3.7; D1 collapse-partial, D3 shortcut present-no shortcut detected,
+D2 descriptive). NEW DEFINITIONAL DECISION: collapse = significant replicated
+degradation AND swap CI lower bound < 0.60; partial = same with lower bound
+>= 0.60 — checked against every D1 cell, no label changes (recorded in
+PROJECT_CONTEXT + state doc §4). Hairline labels behind the
+never-threshold-alone norm traced: seed-42 C5 gap ci90 lower -0.0505; floor
+C1 random lower 0.595. A rewrite extending "collapse" to Diagnostic 3 was
+caught and reverted (opposite valence across columns).
+
+3.8 (validation as methodology): error count 17 -> 18; the "exactly one
+exception" claim is scoped in handoff §2b to the nine Probe-1 errors — for
+all 18 the surfacing accounting is 9 checks-written-to-fail / 3
+contradictions / 3 human reading / 1 absurd number / 1 crash / 1 decode
+failure during verification, stated as such; result leakage removed (36/36,
+census direction, mixture count -> Ch.4); prediction layers per template
+(5.5 tally of 25 / Appendix B full ledger); new paragraphs: corrected-
+analyses-rerun protocol and citation verification stated once. PC1-1..3
+confirmed inside the 25 (ch5 prose L551-553).
+
+OPEN (Ranyi): P9 AI-assistance disclosure placement (3.8 vs front-matter
+declaration; supervisor); RQ3 sentence in 3.6 == 1.1; "five-field"
+propagation + mapping footnote; 2.7 forward refs; template edits L15-16,
+L124, L135, L242; Appendix A/B build lists; 5.1 inherits 3.7 definitions;
+carried: TS-Haystack cite, Tan et al. id, Ch.1 shortcut wording, 2.5 ChatTS
+wording, N5 wording into Ch.4.
+
+DELIVERED (complete replacement files): SESSION_HANDOFF.md ((xxiii));
+thesis_state_document_final3.md rev. 26 (header; §4 L166 gaussian sentence
+corrected; verdict-vocabulary block added); PROJECT_CONTEXT.md (verdict
+vocabulary + five-field row); this log entry. Reference drafts 3.6/3.7/3.8
+delivered via chat outputs (not repo files).
+
+NEXT: Chapter 4 from template §4.1 (new chat).
+
+Environment: one fresh depth-1 clone (338c2be); reads of docs, runner and
+analysis sources; two Claude-side reads of committed records disclosed in
+chat (baseline_clasp.json + per-seed evals for ddof; probe1_statistics.json
+for equivalence flags); no project analyses run; no scripts delivered.
