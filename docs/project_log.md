@@ -1894,3 +1894,119 @@ JSON/JSONL/CSV, grep-level reads of run_probe2.py / run_probe3.py /
 analyze_probe2.py and REIMPLEMENTATION_SPEC.md; Claude-side arithmetic on
 committed values disclosed in chat; no project analyses run; no scripts
 delivered.
+
+## 2026-09-07 — Chapter 4 §4.2 (TRACE) written and checked (writing session 6)
+
+Mode unchanged from 2026-09-06: Claude reference draft (per-paragraph
+carried/compressed/fresh labels, per-CLAIM source ledger: claim → committed
+file + JSON key → verified this session) → Ranyi rewrite in Overleaf → Claude
+verification against binding content and committed files. Chapter-4 sourcing
+rule held: every number from a committed results/ file read this session.
+Ranyi's thesis text (Ch.1–3, 4.1; 27 .docx) is now in the repo under
+WRITING_THESIS/ and was read via pandoc.
+
+Sections closed: 4.2.1 (conditions/baseline/substrate restrictions),
+4.2.2.1 (N1–N3), 4.2.2.2 (N5 location finding), 4.2.3 (order profile by
+stratum), 4.2.4 (information ladder), 4.2.5 (profile).
+
+§4.2 writing contract agreed before drafting (binding for the rest of Ch.4;
+handoff (xxv) carries the full text): result files determine what happened,
+governing docs (state doc, then newest addendum) determine how it may be
+reported, the template organises, old prose has no authority when they
+disagree; one model per section — no cross-model interpretation in Ch.4
+(bare pointers only when necessary); N5 introduced by its registered
+expectation, never called a negative control after the miss; D2 residual
+reported by stratum, pooled 2.9–3.1× not quoted, sf_all "essentially
+stable" not "invariant"; template's "2.2×" is CLaSP's and never appears in
+§4.2. The "latest template wins" argument was rejected: state doc and
+newest addendum outrank the template; the strata file settled the residual
+question on data (relative degradation stable across strata, residual MRR
+not).
+
+New committed record: results/analysis/n5_investigation.json from
+models/trace/verify_n5_investigation_v2.py (rules IMPORTED from v1 — no
+re-implementation; path flags; JSON output; closure vs the summary). Ranyi's
+local run: 20/20 registered expectation lines OK (400 items; 0 mismatches;
+336 vocab-changed; 40 frame-identical; 0.900 ×3 = 36/40; margin +0.2004;
+changed slice 0.928/0.939/0.919; closure 370/374/367). Unpredicted: the 40
+skew SHORT (week 20 / 28_days 12 / six_months 8) — composition works
+against the 0.900, not for it. Reproduced Claude-side from the committed
+per-item records via the 40 ids (36/36/36; margins 0.2041/0.2035/0.1935).
+COMMIT PENDING at session close (JSON + v2 script).
+
+Verified from source this session (new): D1 statistics = scipy wilcoxon
+default two-sided on per-signal accuracy differences, Holm across
+components within seed; bootstrap p = 2·min(frac≤0, frac≥0), resolution
+2e-4 at B=10,000 (analyze_probe1_stats.py L100/L161); D2 = paired two-sided
+Wilcoxon on per-query ranks, Holm over 4 (analyze_probe2_trace.py L273–285);
+registered S1–S6 / D1–D4 / P3-2a/3/6 wordings read from the scripts; the
+"structure kind" mechanism was PRE-REGISTERED (S5, D2 docstrings); N3
+certification arc re-tallied from the three judged CSVs (86/100, 84/100,
+union 17 differing on 4 rows; 261y/28n; 45 = 16/261, 15/105, 14/23; Wilson
+[0.109, 0.256]); N3 CI lower bounds 0.654/0.666/0.663 → partial by the 3.7
+rule; masked positions 472,983 = 7·Σint(0.2V), effective 0.1976, 3.2%
+already zero; zero exact ties (ntied_unperturbed = 0 for all 4,012 ×3);
+valid_len range 102–180; R-JG: D3 rank_unperturbed identical to D2 for all
+4,012 records ×3 seeds (max |diff| 0.0); renorm calibration
+commutation_max_diff 9.5e-7, b11 2.4e-7, ddof=0 measured (sd dev 5e-8 vs
+0.005 for ddof=1).
+
+Record overclaims corrected from the files (not carried):
+- N5 duration "week 0.850 → 28d 0.978" is not a gradient: six-month 0.948
+  < 0.978. Written as "short windows are harder".
+- Gaussian anchor "≈0 in both main strata": 5 of 6 cells; seed 15 V=168 is
+  +0.63 of chance→ceiling (0.0060 vs 0.0041 / 0.0072); no per-stratum CI.
+- Ladder "holds in every stratum, seed and direction": fails in composite
+  "other" (seed 14 gaussian 0.0134 ≥ resample 0.0127; gaussian 2–3× chance
+  there). Reported as unexplained; dead-channel hypothesis untested.
+- "sf-all the only pooled-quotable; 2.9–3.1×": residual MRR differs by
+  stratum with no test; ratio not quoted.
+- "structure kind, not length or span": span is real and modest (+0.12 to
+  +0.18, CIs exclude 0).
+- "global-shape components stay at 0.93–0.99" read as unchanged: native C3
+  0.919.
+- "location is signal-inferable" → "discriminable from the time series
+  under the tested setup"; "test stations likely in training" is an
+  unverified premise (overlap check declined as not load-bearing).
+
+Draft-side errors caught (Claude), fixed before closure:
+- P-cen3 written as "allowed a decrease of up to 0.03" in my draft AND in
+  Ranyi's first rewrite; the log (L352) registers "DECREASES or holds
+  within 0.03" — tolerance on the no-change side. Fixed.
+- Bootstrap resolution written as 1e-4; it is 2e-4 (two-sided). Fixed.
+- A CLaSP pointer in my 4.2.1 P3 — cut under the contract.
+- Ranyi's first 4.2.1 rewrite attributed the 0.564/0.552/0.554 baseline to
+  the full split; it is the 2,005-query dependent group (population
+  attribution). Fixed.
+
+Borderline results stated rather than smoothed: seed 14 primary-direction
+resample-vs-sf_all rank p=0.044 with the TOST leg passing; secondary seed 14
+[+0.0006, +0.0067]; P3-6 missed on seed 14 alone; D2 week−28d 0.1405 vs the
+0.15 threshold stated on the numbers; sf_all between-stratum seed-13 lower
+bound −0.0009 printed.
+
+Decisions (Ranyi): viable label applied to TRACE in 4.2.1 via 3.7 (2.7 gave
+none); N5 omitted from the 4.2.2.1 table (own subsection); predictions named
+by content in Ch.4, IDs in Appendix B; pooled D3 ratios kept only as the
+registered scoring quantities, moved out of the ladder table; length claim
+in the narrower form; row 1191 observation and the 43%-of-random-margin
+ratio dropped from prose; station-overlap check not run.
+
+Open: commit n5_investigation.json + v2 script; 6.3 must name the
+discriminating N5 experiment; Appendix-B registrant column (the ≤0.75 frame
+prediction was Claude's); Ch.5 flag — N5 prediction appears both in the
+25-tally misses and the validation-stage set (double count to resolve at
+5.5); P9 unchanged; optional polish: "exact set" → "exact multiset" (4.2.4),
+"uses" → "supported by" (4.2.5), two-results signpost after the 4.2.3
+baseline table.
+
+NEXT: §4.3 ChatTS from template (new chat, fresh clone). Carry items in
+handoff (xxv).
+
+Environment: two fresh depth-1 clones (7ca7853; e5c615d after the
+WRITING_THESIS push); reads of docs, results JSON/JSONL/CSV, analysis-script
+headers/lines cited above, verify_n5_investigation.py; pandoc on 27 .docx;
+Claude-side computations on committed values disclosed in chat; ONE script
+delivered (verify_n5_investigation_v2.py), smoke-tested Claude-side on
+SYNTHETIC items only (disclosed; canonical run = Ranyi's); no other project
+analyses run.
