@@ -1,0 +1,4 @@
+make it easy to understand for people that don't have prior knowledge and not familiar with this thesis project:
+
+
+“Assume the numbers in the supplied draft have been source-verified unless the attached feedback explicitly corrects them; focus your independent work on scientific wording, logical structure, readability, and claim boundaries.”

@@ -1,0 +1,13 @@
+### 1.5 Contributions
+
+This thesis makes five contributions.
+
+1. **A diagnostic framework for time-series–text alignment.** The framework combines three controlled diagnostics with shared statistical principles, graded verdicts, and a negative control. It also provides reusable procedures for constructing diagnostic items, including a component grammar for controlled description changes and an order-dependence split for temporal evaluation. The framework is designed for time-series–text models that can be evaluated through retrieval or controlled forced-choice comparisons.
+
+2. **A cross-model diagnostic matrix.** The three diagnostics are applied, with model-specific adaptations where required, to four models representing different time-series–text alignment paradigms. The resulting matrix identifies model-specific patterns in the tested information dependencies and supports cross-model findings that are not visible from aggregate performance alone. These include different component-level blind spots, different sources of performance that remain after temporal order is removed, and the scarcity of order-invariant descriptions in the evaluated benchmarks.
+
+3. **A validated public reimplementation of CLaSP.** Because no public code or checkpoint is available, this thesis reconstructs CLaSP from the published specification and validates its behaviour against the original study across four reported evaluation configurations. The resulting implementation provides a reproducible representative of the published model design for the diagnostic experiments in this thesis.
+
+4. **A metric-saturation finding from model reproduction.** Reproducing one published CLaSP evaluation configuration showed that the metric could not distinguish the trained model from a randomly initialized control under the evaluated setting. This finding provides a concrete example of how an aggregate evaluation score can be uninformative about learned alignment behaviour and directly motivates the strict evaluation protocol used in this thesis.
+
+5. **A validation and error-audit methodology for diagnostic evaluation.** The experimental procedure combines human certification of constructed items, registered predictions, explicit validation gates, and systematic recording of analysis errors and corrections. These practices are documented so that the diagnostic results can be traced to validated inputs and reproducible analysis decisions, and so that the same principles can be reused in future evaluation studies.

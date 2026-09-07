@@ -1,0 +1,37 @@
+### 1.4 Study scope and diagnostic framework
+
+#### 1.4.1 Models
+
+The models considered in this thesis differ in architecture, training objective, and interaction format. Evaluating several paradigms therefore allows the diagnostic framework to be examined across different forms of time-series–text alignment rather than within a single model family. The four selected models represent a plain dual encoder, a hard-negative-trained retriever, a generative time-series multimodal LLM, and a negative control. Their implementation and verification are described in Chapter 2.
+
+**CLaSP** (Ito et al., 2025) represents the plain dual-encoder setting. It uses separate time-series and text encoders trained contrastively to map both modalities into a shared embedding space for retrieval. Because no public code or checkpoint is available, this thesis evaluates a validated reimplementation and treats it as representative of this model design rather than as the original authors' artifact.
+
+**TRACE** (Chen et al., 2025) represents a multivariate retrieval model trained with hard-negative mining. The released checkpoint confirms that hard-negative training was active. Hard negatives are a standard training strategy for reducing reliance on easy or superficial distinctions, making TRACE a natural case for testing whether this remedy changes the diagnostic profile observed under the three evaluations.
+
+**ChatTS** (Xie et al., 2025) represents the generative time-series multimodal LLM setting. It is a 14B Qwen2.5-based model that accepts time series as an input modality and produces language-model outputs rather than rankings over a retrieval pool. The diagnostics are therefore adapted to a two-choice format for this model. Cross-model comparisons consequently focus on relative changes from each model's own baseline rather than on raw metric values.
+
+**text-embedding-3-large** serves as the negative control. The model receives serialised time-series values as text, although it was not trained specifically for time-series–text alignment. It is included as a system expected to have little task-specific alignment capability, so that apparent effects produced by the evaluation pipeline itself can be identified rather than interpreted as evidence about model behaviour.
+
+#### 1.4.2 Datasets
+
+The study uses three main data substrates selected for the forms of time-series–text information they provide. Together they cover structured and free-form descriptions, as well as univariate and multivariate time series.
+
+**SUSHI** (Kawaguchi et al.) contains synthetic univariate signals with structured compositional labels. Its label space combines fluctuation and shape information in a complete 7 × 20 product. This structure provides a controlled basis for constructing component-level diagnostic items.
+
+**TRUCE** (Jhamtani & Berg-Kirkpatrick, 2021) contains stock and synthetic univariate time series paired with crowd-authored natural-language descriptions. It provides a less structured language setting than SUSHI and is used to examine whether findings depend on the form of the textual descriptions.
+
+**The NOAA weather corpus released with TRACE** provides the multivariate setting required for evaluating TRACE. Its signal structure and associated descriptions differ substantially from the short SUSHI and TRUCE captions, so TRACE-specific adaptations are required. Cross-model conclusions therefore compare patterns of diagnostic response rather than assuming that all models are evaluated on identical items.
+
+Detailed dataset composition, release constraints, preprocessing decisions, and documented data defects are reported in Chapter 2.
+
+#### 1.4.3 The three diagnostics
+
+Chapter 3 specifies the construction, statistical analysis, and validation of the diagnostics. At the conceptual level, each diagnostic tests a different information requirement.
+
+**Diagnostic 1 — component sensitivity.** One semantic component of a correct description is replaced by a plausible alternative while the remaining description is preserved. The diagnostic tests whether the model distinguishes the original description from the controlled alternative. A large loss relative to a control condition with unrelated alternatives indicates limited sensitivity to the tested component under that condition.
+
+**Diagnostic 2 — temporal-order sensitivity.** The temporal structure of the signal is disrupted and the effect is examined separately for descriptions that depend on temporal order and descriptions that do not. The comparison between these groups distinguishes general sensitivity to perturbation from sensitivity that is specifically associated with order-dependent language.
+
+**Diagnostic 3 — statistical-information sufficiency.** The original signal is replaced by progressively reduced representations that retain decreasing amounts of information about its values. The diagnostic measures how much of the original performance remains at each level. Performance that survives a reduction provides evidence that the information removed by that reduction was not necessary for the retained performance under the tested condition.
+
+Across all three diagnostics, results are interpreted relative to each model's own unperturbed baseline or matched control condition, as appropriate to the diagnostic. This common principle allows the framework to compare patterns of response across models even when their architectures, datasets, and evaluation metrics differ.

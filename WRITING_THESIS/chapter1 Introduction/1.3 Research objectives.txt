@@ -1,0 +1,12 @@
+### 1.3 Research objectives
+
+To answer the research questions, this thesis pursues six objectives.
+
+1. **Develop three controlled diagnostics**, each corresponding to one research sub-question and targeting component sensitivity, temporal-order sensitivity, or statistical-information sufficiency.
+2. **Reproduce or verify the models under study** so that each diagnostic is applied to a clearly identified and validated model instance.
+3. **Establish an unperturbed baseline for each model and evaluation setting** so that diagnostic effects can be interpreted relative to the model's own performance.
+4. **Include a negative control** to identify apparent effects that may arise from the evaluation procedure rather than from model capability.
+5. **Validate automatically constructed diagnostic items through human judgment** so that conclusions do not depend on malformed, ambiguous, or otherwise invalid test cases.
+6. **Construct a shortcut profile for each model** that summarises how its measured alignment performance depends on the tested information sources.
+
+The methodology used to meet these objectives is described in Chapter 3, and the resulting model-level and cross-model findings are presented in Chapters 4 and 5.
