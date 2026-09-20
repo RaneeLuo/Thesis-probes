@@ -1,4 +1,6 @@
-# Thesis Final Template (v2 — FINAL)
+# Thesis Final Template (v2 — HISTORICAL LAYOUT)
+
+> **Superseded for writing layout on 2026-09-21.** Ranee accepted [v3-merged](thesis_skeleton_v3_merged.md) and the [readable outline](thesis_skeleton_v3_merged_readable_zh.md). Follow [SECTION_WORKFLOW.md](SECTION_WORKFLOW.md). The text below is preserved as a historical record, not the current chapter map. Scientific facts still require their canonical sources; do not interpret old authorship/workflow notes as overriding later explicit user requests.
 
 *2026-08-23. Supersedes v1. Structure agreed by Ranyi after two review rounds
 against the TU/e guideline (verified first-hand), the CS assessment form, the
