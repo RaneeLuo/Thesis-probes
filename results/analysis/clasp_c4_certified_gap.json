@@ -1,0 +1,166 @@
+{
+  "script": "scripts/clasp_c4_certified_gap.py",
+  "population": {
+    "component": "C4_fluctuation_type",
+    "n_items_per_condition": 738,
+    "n_signals": 237,
+    "swap": "census-valid swaps (pinning_spotcheck_sequential.csv)",
+    "random": "the random control sharing each certified swap's pair_key; random distractors were never human-validated"
+  },
+  "gates_passed": [
+    "G1",
+    "G2",
+    "G3"
+  ],
+  "bootstrap": {
+    "n_boot": 10000,
+    "rng": "fresh default_rng(0) per cell",
+    "unit": "signal",
+    "functions": "analyze_probe1_stats.bootstrap"
+  },
+  "holm_family": "per seed: C1, C2, C3, C5 p_gap from probe1_statistics.json + certified C4 p_gap",
+  "per_checkpoint": {
+    "seed42": {
+      "n_signals": 237,
+      "acc_swap": 0.6002710027100271,
+      "acc_swap_ci95": [
+        0.5511042297867284,
+        0.6495971744585928
+      ],
+      "acc_random": 0.9701897018970189,
+      "acc_random_ci95": [
+        0.953360768175583,
+        0.9847222222222223
+      ],
+      "gap": 0.36991869918699183,
+      "gap_ci95": [
+        0.3194626211782252,
+        0.42090802024615437
+      ],
+      "gap_ci90": [
+        0.327247191011236,
+        0.41234221598877974
+      ],
+      "p_gap": 0.0,
+      "p_swap_vs_chance": 0.0002,
+      "acc_swap_above_chance": true,
+      "n_items_per_condition": 738,
+      "equivalence_margin": 0.05,
+      "equivalent_to_zero": false,
+      "mean_signal_level_gap": 0.3774261603375528,
+      "wilcoxon_p": 4.1152961232975265e-25,
+      "p_gap_holm": 0.0,
+      "significant": true
+    },
+    "seed43": {
+      "n_signals": 237,
+      "acc_swap": 0.592140921409214,
+      "acc_swap_ci95": [
+        0.5447260303711181,
+        0.6404505989414059
+      ],
+      "acc_random": 0.9701897018970189,
+      "acc_random_ci95": [
+        0.9541160593792173,
+        0.983696205238629
+      ],
+      "gap": 0.3780487804878049,
+      "gap_ci95": [
+        0.32897955032976045,
+        0.4273975390791993
+      ],
+      "gap_ci90": [
+        0.33652400848635816,
+        0.41965713394734155
+      ],
+      "p_gap": 0.0,
+      "p_swap_vs_chance": 0.0002,
+      "acc_swap_above_chance": true,
+      "n_items_per_condition": 738,
+      "equivalence_margin": 0.05,
+      "equivalent_to_zero": false,
+      "mean_signal_level_gap": 0.40140646976090016,
+      "wilcoxon_p": 1.5582470625884987e-25,
+      "p_gap_holm": 0.0,
+      "significant": true
+    },
+    "seed44": {
+      "n_signals": 237,
+      "acc_swap": 0.6178861788617886,
+      "acc_swap_ci95": [
+        0.5697364489410779,
+        0.6666666666666666
+      ],
+      "acc_random": 0.9728997289972899,
+      "acc_random_ci95": [
+        0.9596228213558674,
+        0.9848281086729362
+      ],
+      "gap": 0.3550135501355013,
+      "gap_ci95": [
+        0.30406133682830927,
+        0.40536727903537706
+      ],
+      "gap_ci90": [
+        0.3125863517856174,
+        0.397122957883693
+      ],
+      "p_gap": 0.0,
+      "p_swap_vs_chance": 0.0,
+      "acc_swap_above_chance": true,
+      "n_items_per_condition": 738,
+      "equivalence_margin": 0.05,
+      "equivalent_to_zero": false,
+      "mean_signal_level_gap": 0.35421940928270035,
+      "wilcoxon_p": 8.597261054791107e-23,
+      "p_gap_holm": 0.0,
+      "significant": true
+    }
+  },
+  "pooled_three_checkpoints": {
+    "n_signals": 237,
+    "acc_swap": 0.6034327009936766,
+    "acc_swap_ci95": [
+      0.567037908278361,
+      0.6408200521876413
+    ],
+    "acc_random": 0.971093044263776,
+    "acc_random_ci95": [
+      0.9595827590931438,
+      0.9813372644525921
+    ],
+    "gap": 0.36766034327009933,
+    "gap_ci95": [
+      0.328834450625208,
+      0.40567863729170783
+    ],
+    "gap_ci90": [
+      0.33513270355375613,
+      0.39953719667943816
+    ],
+    "p_gap": 0.0,
+    "p_swap_vs_chance": 0.0,
+    "acc_swap_above_chance": true,
+    "n_items_per_condition": 738,
+    "equivalence_margin": 0.05,
+    "equivalent_to_zero": false,
+    "mean_signal_level_gap": 0.377684013127051,
+    "n_records_per_condition": 2214,
+    "ci_vs_census_reanalysis_swap_ci95": {
+      "census_c4_reanalysis": [
+        0.567037908278361,
+        0.6408200521876412
+      ],
+      "max_abs_dev": 1.1102230246251565e-16
+    }
+  },
+  "gap_across_checkpoints": {
+    "mean": 0.36766034327009933,
+    "sd": 0.01168249065616766
+  },
+  "unmatched_random_context": {
+    "acc": 0.9694811800610377,
+    "n_records": 2949,
+    "note": "all C4 random items on the certified signals, as in c4_census_reanalysis.json; not the matched controls"
+  }
+}
