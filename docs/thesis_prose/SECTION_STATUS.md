@@ -40,3 +40,9 @@
 - 统计区间与标签规则的核对：按易读版第 6.7 部分处理，不擅自重新判定结果。
 - 每节开始时核对旧稿编号和新位置，检查引用、图表与相邻章节。
 - 当前尚未登记任何新聊天、新版 section 的认可或 Overleaf 迁移。用户之后指定哪一节，就从该节开始记录。
+- **第 3 章 3.4.2 补一句（2026-10-13 记录；由用户在 Overleaf 中加入，加入后更新本条）。** 第 3 章已定稿，这是定稿后的补充。
+  - 位置：3.4.2 中 “Uncertainty is shown with 95% bootstrap confidence intervals.” 之后。
+  - 补句：“The bootstrap resamples signals rather than individual questions or descriptions, because several questions or descriptions can share one signal and are therefore not independent.”
+  - 原因：3.4.2 目前没写抽样单位和原因，而 §4.2 表注已写 “95% signal-bootstrap confidence intervals (Section 3.4)”。补在 3.4.2，§4.2、§4.3、§4.4 都引用这一处。
+  - 依据：[PROJECT_CONTEXT](../PROJECT_CONTEXT.md) binding 条目 “Bootstrap resamples SIGNALS, not items”；`models/clasp/analyze_probe2.py` 第 23 行；`models/openai_embed/analyze_probe2.py` 的 `cluster_boot_did`（按 `gt` 信号分组后重抽信号）；`results/experiments/chatts_analysis.json` → `conventions.bootstrap`（“cluster on sample_id (signals)”）；D1 的 `scripts/analyze_probe1_stats.py`（`bootstrap()` 按 `sample_id` 重抽信号，输出 `"unit_of_resampling": "signal"`）。
+  - 相关决定：3.3.3 没写“检索时候选池里每条信号都同样被改动”，这一点按用户决定放在 4.3.1 最后一段说明，第 3 章不补。
