@@ -46,3 +46,4 @@
   - 原因：3.4.2 目前没写抽样单位和原因，而 §4.2 表注已写 “95% signal-bootstrap confidence intervals (Section 3.4)”。补在 3.4.2，§4.2、§4.3、§4.4 都引用这一处。
   - 依据：[PROJECT_CONTEXT](../PROJECT_CONTEXT.md) binding 条目 “Bootstrap resamples SIGNALS, not items”；`models/clasp/analyze_probe2.py` 第 23 行；`models/openai_embed/analyze_probe2.py` 的 `cluster_boot_did`（按 `gt` 信号分组后重抽信号）；`results/experiments/chatts_analysis.json` → `conventions.bootstrap`（“cluster on sample_id (signals)”）；D1 的 `scripts/analyze_probe1_stats.py`（`bootstrap()` 按 `sample_id` 重抽信号，输出 `"unit_of_resampling": "signal"`）。
   - 相关决定：3.3.3 没写“检索时候选池里每条信号都同样被改动”，这一点按用户决定放在 4.3.1 最后一段说明，第 3 章不补。
+- **§4.3.2 表格三项建议待用户决定（2026-10-14 记录）：** 表 4.3.1 A 部分加 "MRR after full shuffle" 一列；表注写随机水平；表注恢复 † 的“几次中几次”说明。正文里表外数字的出处和这三项的详情见 [APPENDIX_NOTES.md](APPENDIX_NOTES.md)。
