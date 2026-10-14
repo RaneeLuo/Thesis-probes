@@ -61,3 +61,14 @@
 ### 下一步（记录时的计划）
 
 用户决定上面三项后，更新表格文件和表注，然后继续 **ChatTS on SUSHI**。
+
+### 附录 B 必须收录（待办，2026-10-14 记录）
+
+表注里指向附录 B 的那句话要有着落，附录 B 必须收录下面四项。字段位置是 2026-10-14 在仓库里查到的；没有逐个复核正文数字。
+
+1. **CLaSP 和 TRACE 剩余 MRR（全打乱后）的 95% 区间。**
+   - CLaSP：`results/experiments/probe3_clasp_stats.json` → `seeds.{42,43,44}.cells.{sushi_dep,truce_dep}.sf_all.mrr_ci95`（n = 135 / 715；B = 10,000，bootstrap seed 20260815，按信号抽样）。点估计与 `probe2_clasp_summary.json` 的 `sushi/dependent` → `sf_all` 一致（seed 42 都是 0.07162）。同一文件里也有全部查询的格子（`sushi`、`truce`），附录 B 要写明用的是依赖组。
+   - TRACE：`results/experiments/probe2_trace_stats.json` → `seeds.{13,14,15}.text2ts.sf_all.mrr_ci`。**这是全部描述合并的区间**；`probe2_trace_strata.json` 里各长度组只有 `mrr` 和 `rel_degradation`，没有 MRR 区间。⚠ 待用户确认：如果正文或表格按长度组报告 TRACE 的剩余 MRR（例如 168 点 0.009–0.010），配的却是合并区间（下端 0.0093、0.0098、0.0100），就成了借用另一个分析范围的区间。可以在附录 B 标明“合并”，也可以补算各长度组的区间。
+2. **CLaSP 的逐 checkpoint 数值。** `results/experiments/probe2_clasp_summary.json` → `seeds.{42,43,44}.tables.<substrate>/<group>.<condition>`（n、MRR、Recall@10）；DiD 及区间在 `results/experiments/probe2_clasp_stats.json`（由 `models/clasp/analyze_probe2.py` 写出，B = 2,000，seed 42，按信号抽样）。
+3. **TRACE 全部描述合并后的四个相对损失。** `results/experiments/probe2_trace_stats.json` → `seeds.{13,14,15}.text2ts.{sf_all,sf_half,ex_half,masking}.rel_degradation` 和 `rel_ci`。三次抽取的范围：sf_all 0.977–0.979，sf_half 0.924–0.930，ex_half 0.557–0.568，masking 0.641–0.653（与正文 56–57%、64–65% 一致）。⚠ 待用户确认：合并大纲第 150、235 行和易读版第 400 行写的是 4.3 只按长度组报告、不引用合并比值。正文现在引用了 56–57%、64–65%。如果这是为了说明合并会掩盖长度组之间的反转，请确认这算例外。
+4. **TRACE 的 `between_stratum` 差值及区间。** `results/analysis/probe2_trace_strata.json` → `seeds.{13,14,15}.between_stratum.{sf_all,sf_half,ex_half,masking}.{diff,ci,ci_excludes_zero}`。差值方向是 **V=168 减 V=180 的相对损失**（`scripts/analyze_probe2_trace_strata.py` 第 243–256 行），B = 2,000，bootstrap seed 20260815。附录 B 要保留文件里的限定：V 是有效时间步数，同时混入了时间跨度和采样率，不能写成时长结论。
