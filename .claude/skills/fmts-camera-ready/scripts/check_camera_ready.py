@@ -24,7 +24,8 @@ PLACEHOLDERS = re.compile(
     re.IGNORECASE,
 )
 ANON = re.compile(r"Anonymous|Anonymi[sz]ed|anonymous\.4open", re.IGNORECASE)
-REF_HEADINGS = re.compile(r"^\s*(References|Bibliography)\s*$", re.MULTILINE)
+# Submission PDFs carry line numbers, e.g. "142   References".
+REF_HEADINGS = re.compile(r"^\s*(?:\d+\s+)?(References|Bibliography)\s*$", re.MULTILINE)
 
 
 def strip_comments(text: str) -> str:
