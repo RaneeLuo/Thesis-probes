@@ -26,3 +26,7 @@ CLAUDE.md
 # results/experiments/probe1_clasp_per_item.jsonl
 
 .cache/
+
+# Personal AI prompt notes (keep local, never commit)
+*prompt*.txt
+*Prompt*.txt
